@@ -138,7 +138,7 @@ const en:Record<string,string>={
  'Tầng thứ nhất · Cạnh trắng':'First layer · White edges','Tầng thứ nhất · Góc trắng':'First layer · White corners',
  'Tầng thứ hai · Cạnh không vàng':'Middle layer · Non-yellow edges','Tầng cuối · Định hướng cạnh':'Last layer · Edge orientation',
  'Tầng cuối · Định hướng góc':'Last layer · Corner orientation','Tầng cuối · Hoán vị góc':'Last layer · Corner permutation',
- 'Tầng cuối · Hoán vị cạnh':'Last layer · Edge permutation'
+ 'Tầng cuối · Hoán vị cạnh':'Last layer · Edge permutation',
 
   // Scan, guide and lesson labels — translate user-facing messages rather than only tab headings.
   'Trang chủ':'Home',
