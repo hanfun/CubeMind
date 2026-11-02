@@ -1,4 +1,4 @@
-import {LEARN_LESSONS,type LearnLesson} from './learn';
+import {LEARN_LESSONS,type LearnLesson} from './learn.ts';
 
 // English curriculum follows the same immutable ids and algorithms as the Vietnamese source.
 // The cases are illustrative examples, not automatic pattern matching from a physical cube.

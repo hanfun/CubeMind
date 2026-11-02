@@ -27,7 +27,7 @@ export default function LearnPage({onBack,onStartSolve}:Props){
    </div>
    {tab==='notation'?<div className="learning-notation">
      <div className="learning-section-heading"><h2>Sáu mặt của Rubik</h2><p>Chữ cái chỉ mặt cần xoay, không phải màu cố định. Đặt khối đúng tư thế trước khi làm theo công thức.</p></div>
-     <div className="learning-notation-grid">{NOTATION.map(item=><div key={item.face} className="learning-notation-card"><strong>{item.face}</strong><div><b>{item.vi}</b><span>{item.description}</span></div></div>)}</div>
+     <div className="learning-notation-grid">{NOTATION.map(item=><div key={item.face} className="learning-notation-card"><strong>{item.face}</strong><div><b>{language==='en'?({U:'Top face',D:'Bottom face',L:'Left face',R:'Right face',F:'Front face',B:'Back face'} as Record<string,string>)[item.face]:item.vi}</b><span>{language==='en'?({U:'Up — the face above',D:'Down — the face below',L:'Left — the face on your left',R:'Right — the face on your right',F:'Front — facing you',B:'Back — opposite the front'} as Record<string,string>)[item.face]:item.description}</span></div></div>)}</div>
      <div className="learning-symbol-card"><h3>Cách đọc dấu và số</h3><div className="learning-suffix-examples"><div><b>R</b><span>90° cùng chiều kim đồng hồ</span></div><div><b>R'</b><span>90° ngược chiều kim đồng hồ</span></div><div><b>R2</b><span>180° (nửa vòng)</span></div></div><p><strong>Rất quan trọng:</strong> chiều kim đồng hồ được tính khi bạn <strong>nhìn thẳng vào mặt đang xoay</strong>, không tính từ góc bạn đang nhìn tổng thể cả khối.</p></div>
      <div className="learning-notice"><Lightbulb size={20}/><div><b>Cách cầm khi học phương pháp cơ bản</b><p>Giữ <b>trắng ở dưới</b>, <b>vàng ở trên</b>. Công thức trong phần học là ví dụ cho từng trường hợp, không phải một chuỗi tự động giải mọi khối Rubik. Màu trên dưới của màn hình học có thể khác hướng mặc định trong màn hình quét.</p></div></div>
      <div className="learning-symbol-demo"><div className="learning-section-heading"><h2>Xoay thử từng ký hiệu</h2><p>Chọn mặt và cách xoay, sau đó nhấn Xem toàn bộ hoặc Xoay 1 bước để xem minh họa.</p></div><NotationPractice/></div>
@@ -38,7 +38,7 @@ export default function LearnPage({onBack,onStartSolve}:Props){
        <div className="learning-lesson-title"><span className="eyebrow">GIAI ĐOẠN {lessonIndex+1} / {lessons.length} · {lesson.subtitle.toUpperCase()}</span><h2>{lesson.title}</h2><p>{lesson.goal}</p></div>
        <div className="learning-instructions"><h3>Thực hiện như thế nào?</h3><ol>{lesson.instructions.map(s=><li key={s}>{s}</li>)}</ol><div className="learning-check"><CheckCircle2 size={19}/><span><b>Đạt khi:</b> {lesson.check}</span></div></div>
        <div className="learning-case-header"><div><span className="eyebrow">TRƯỜNG HỢP MINH HỌA</span><h3>Chọn công thức để xem</h3></div><span className="learning-counter">{caseIndex+1}/{lesson.cases.length}</span></div>
-       <div className="learning-case-picker">{lesson.cases.map((c,i)=><button key={c.id} className={i===caseIndex?'active':''} onClick={()=>setCaseIndex(i)}>{c.title}</button>)}</div>
+       <div className="learning-case-picker">{lesson.cases.map((c,i)=><button key={c.id} className={i===caseIndex?'active':''} onClick={()=>setCaseIndex(i)}><strong>{c.title}</strong><code>{c.algorithm}</code></button>)}</div>
        <div className="learning-case-description"><h3>{sample.title}</h3><p><b>Khi nào dùng:</b> {sample.when}</p><p><b>Cách hoạt động:</b> {sample.explanation}</p></div>
        <LearningCube key={sample.id} sample={sample}/>
        {sample.caution&&<div className="learning-notice warning"><ShieldAlert size={20}/><p>{sample.caution}</p></div>}
@@ -49,9 +49,10 @@ export default function LearnPage({onBack,onStartSolve}:Props){
 }
 
 function NotationPractice(){
+ const {language}=useI18n();
  const [face,setFace]=useState('R');const [suffix,setSuffix]=useState('');
  const algorithm=`${face}${suffix}`;
- const sample={id:`notation-${algorithm}`,title:`Ký hiệu ${algorithm}`,when:'Bài thực hành xem hướng xoay từ đúng mặt.',algorithm,explanation:notationDescription(algorithm)};
+ const sample={id:`notation-${algorithm}`,title:language==='en'?`Notation ${algorithm}`:`Ký hiệu ${algorithm}`,when:language==='en'?'Practice a face turn from the correct viewing direction.':'Bài thực hành xem hướng xoay từ đúng mặt.',algorithm,explanation:notationDescription(algorithm)};
  return <>
    <div className="learning-practice-controls"><div><b>Chọn mặt</b><div className="learning-chip-row">{NOTATION.map(item=><button key={item.face} className={face===item.face?'active':''} onClick={()=>setFace(item.face)}>{item.face}</button>)}</div></div>
    <div><b>Chọn hướng</b><div className="learning-chip-row">{[{label:'90° thuận',value:''},{label:'90° ngược',value:"'"},{label:'180°',value:'2'}].map(it=><button key={it.label} className={suffix===it.value?'active':''} onClick={()=>setSuffix(it.value)}>{it.label}</button>)}</div></div></div>

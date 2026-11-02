@@ -69,3 +69,7 @@ The beta two-photo scanner does not yet automatically recognize arbitrary three-
 ## 10. Privacy
 
 Process photos locally by default. Do not upload camera or cube data without explicit consent. Local storage contains session and language preferences; no account is needed for the MVP.
+
+## Supplement — Formula steps and illustrations
+
+For every case in the seven beginner stages, show the complete algorithm, numbered and highlighted moves, an explicit face-oriented viewing instruction, and before/after diagrams of that face. Display the reference panel to the right of the 3D cube on desktop and beneath it on mobile. Animation must be user-initiated. The real-cube solving screen uses the same panel with verified solver snapshots and moves; watching a demo never commits physical progress. See [FORMULAS.en.md](FORMULAS.en.md) and [FORMULAS.md](FORMULAS.md).
