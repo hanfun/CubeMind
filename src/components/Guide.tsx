@@ -3,10 +3,12 @@ import {ArrowLeft,Check,CheckCircle2,ChevronRight,Eye,HelpCircle,Pause,Play,Rota
 import {FACE_COLORS,moveInfo,inverseMove} from '../lib/cube';
 import {guideReducer,saveSession,type SolveSession} from '../lib/guide';
 import TwistyCube from './TwistyCube';
+import FormulaSteps from './FormulaSteps';
 
 type Props={session:SolveSession;mode:'manual'|'auto';onModeChange:(mode:'manual'|'auto')=>void;onExit:()=>void;onRestart:()=>void;onSession:(s:SolveSession)=>void;};
 export default function Guide({session:initial,mode,onModeChange,onExit,onRestart,onSession}:Props){
  const [session,dispatch]=useReducer(guideReducer,initial);
+ const [autoViewedStep,setAutoViewedStep]=useState(0);
  const [speed,setSpeed]=useState(0.5),[paused,setPaused]=useState(false),[autoPlaying,setAutoPlaying]=useState(false),[dialog,setDialog]=useState<'none'|'recovery'|'undo'|'reset'|'resume'>('none');
  const [reviewIndex,setReviewIndex]=useState<number|null>(null),timer=useRef<number|null>(null),timeRemaining=useRef(0),startedAt=useRef(0);
  const k=session.confirmedCount,total=session.solution.length,move=session.solution[k],info=move?moveInfo(move):null;
@@ -34,7 +36,10 @@ export default function Guide({session:initial,mode,onModeChange,onExit,onRestar
  if(session.status==='COMPLETED'&&mode==='manual')return <div className="guide-screen">
    <div className="section-header"><button className="circle-btn" onClick={onExit}><ArrowLeft size={18}/></button><div className="eyebrow">HOÀN THÀNH THEO XÁC NHẬN</div></div>
    <div className="finish-icon"><CheckCircle2 size={58}/></div><h1 className="center-text">Tuyệt vời!</h1><p className="center-text muted">Bạn đã xác nhận thực hiện đầy đủ {total} bước. Mô hình 3D đã được giải xong.</p>
-   <TwistyCube solution={session.solution} confirmedCount={total} mode="manual" demo={false} speed={speed}/>
+   <div className="guide-visual-layout">
+     <TwistyCube solution={session.solution} confirmedCount={total} mode="manual" demo={false} speed={speed}/>
+     <FormulaSteps moves={session.solution} snapshots={session.snapshots} activeIndex={Math.max(0,total-1)} completedCount={total} variant="solve"/>
+   </div>
    <div className="alert info"><HelpCircle size={18}/>Đây là hoàn thành theo xác nhận của bạn; chưa có camera xác minh Rubik thật.</div>
    <button className="btn btn-primary btn-wide" onClick={onRestart}>Giải một khối Rubik khác</button>
    <button className="btn btn-ghost btn-wide" onClick={()=>onModeChange('auto')}>Xem lại toàn bộ mô phỏng</button>
@@ -42,7 +47,14 @@ export default function Guide({session:initial,mode,onModeChange,onExit,onRestar
  return <div className="guide-screen">
   <div className="guide-top"><button className="circle-btn" onClick={onExit} aria-label="Quay lại"><ArrowLeft size={20}/></button><div className="guide-title"><div className="eyebrow">RUBIK 3×3 · {mode==='auto'?'MÔ PHỎNG':'TỰ GIẢI'}</div><strong>{mode==='auto'?'Xem Rubik tự giải':`Bước ${Math.min(k+1,total)} / ${total}`}</strong></div><button className="circle-btn" onClick={()=>setDialog('recovery')} aria-label="Trợ giúp"><HelpCircle size={20}/></button></div>
   <div className="progress-summary"><span><b>{k}</b> / {total} bước đã xác nhận</span><span>{progress}%</span></div><div className="progress"><div style={{width:`${progress}%`}}/></div>
-  <TwistyCube solution={session.solution} confirmedCount={reviewIndex??k} mode={mode} demo={mode==='auto'?autoPlaying:isDemo} paused={mode==='auto'?!autoPlaying:paused} speed={speed}/>
+  <div className="guide-visual-layout">
+    <TwistyCube solution={session.solution} confirmedCount={reviewIndex??k} mode={mode}
+      demo={mode==='auto'?autoPlaying:isDemo} paused={mode==='auto'?!autoPlaying:paused}
+      speed={speed} onAutoStepChange={setAutoViewedStep}/>
+    <FormulaSteps moves={session.solution} snapshots={session.snapshots}
+      activeIndex={mode==='auto'?autoViewedStep:(reviewIndex??k)}
+      completedCount={mode==='auto'?autoViewedStep:k} variant="solve"/>
+  </div>
   <div className="guide-reference"><span><i style={{background:FACE_COLORS.U.hex}}/> Trên: <b>Trắng</b></span><span><i style={{background:FACE_COLORS.F.hex}}/> Trước: <b>Xanh lá</b></span><span><i style={{background:FACE_COLORS.R.hex}}/> Phải: <b>Đỏ</b></span></div>
   {mode==='auto'?<div className="guide-auto">
     <div className="eyebrow">CHẾ ĐỘ TỰ ĐỘNG</div><h2>Quan sát từng thao tác 3D</h2>

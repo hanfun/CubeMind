@@ -131,3 +131,9 @@ src/
 - Cài thêm `three` và `@types/three` qua `npm install`.
 
 **Kiểm thử giới hạn:** Các unit test kiểm tra ánh xạ hướng xoay, vuốt chuyển thành move, chuỗi trộn và dữ liệu lưu. Cần chạy `npm install && npm run build` và kiểm tra thực tế render WebGL, raycasting, pointer drag và pinch zoom trên Chrome Android/Safari iOS. Môi trường tạo source không kết nối npm registry nên chưa xác nhận build giao diện ở đây.
+
+## Minh họa công thức và bước xoay (VI/EN)
+
+Tất cả 7 bài học đều hiển thị công thức đầy đủ, trình tự bước xoay, hình trước/sau và hướng nhìn đối với mỗi mặt. Giao diện PC đặt bảng bên phải mô hình 3D; trên mobile bảng nằm bên dưới. Mô phỏng chỉ chạy khi bấm nút. Trong chế độ giải Rubik thật, bảng hiển thị chuỗi lời giải tính từ trạng thái quét và **không tự xác nhận thao tác thật**.
+
+Xem [Sổ tay công thức tiếng Việt](FORMULAS.md) hoặc [English algorithm reference](FORMULAS.en.md).

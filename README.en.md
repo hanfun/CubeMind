@@ -106,3 +106,9 @@ See [English specification](SPEC.en.md) and [Vietnamese specification](SPEC.md).
 ## License and libraries
 
 React, Vite, Three.js, cubing.js and cubejs. Font families are available through Google Fonts under the appropriate open-font licenses. The actual license of the CubeMind project is determined by its repository owner.
+
+## Visual move formulas
+
+Each of the seven lessons shows its full algorithm, a highlighted move list, before/after face diagrams and a clear viewing direction. The reference panel is **right of the 3D cube on desktop** and **below it on mobile**. Animation starts only on a user action. Real-cube guidance shows the actual solver-generated move sequence, without counting visual previews as physical confirmations.
+
+See the [English algorithm reference](FORMULAS.en.md) or [Vietnamese reference](FORMULAS.md).

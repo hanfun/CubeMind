@@ -279,3 +279,7 @@ function confirmMove(s: SolveSession, moveIndex: number): SolveSession {
 **Undo:** animate nghịch đảo bước cuối và xóa đúng bước cuối trong lịch sử; khác với nối thêm move đảo chiều. Đóng màn hình/tải lại thì phát lại lịch sử lên 3D từ solved, không dựa trên video/matrix camera đã render trước đó.
 
 **Nghiệm thu bổ sung:** So sánh `faceFromDrag` với hệ URFDLB, test quay R sau R' trả về ban đầu, nhiều lượt quay không trôi tọa độ cubies, kiểm tra viewport orientation/Pointer Events iOS Safari/Chrome Android, kiểm tra solver từ trạng thái game độc lập và sau dùng Undo, kiểm tra race khi đang AI giải, mất WebGL context.
+
+## Bổ sung — công thức và hình minh họa theo bước
+
+Mỗi trường hợp trong 7 bài học cần hiển thị công thức đầy đủ, danh sách các lượt xoay có đánh số, bước đang chạy được tô sáng, chú thích mặt nhìn trực diện và hình màu của mặt đó trước/sau lượt xoay. PC: bên phải mô hình 3D; mobile: dưới mô hình. Chỉ phát chuyển động khi người dùng bấm nút. Màn hình hướng dẫn giải Rubik thật sử dụng cùng bảng này nhưng lấy dữ liệu từ lời giải Solver và các snapshot đã xác minh; demo không cập nhật tiến độ thật. Xem [FORMULAS.md](FORMULAS.md) hoặc [FORMULAS.en.md](FORMULAS.en.md).

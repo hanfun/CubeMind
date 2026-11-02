@@ -38,7 +38,7 @@ export default function LearnPage({onBack,onStartSolve}:Props){
        <div className="learning-lesson-title"><span className="eyebrow">GIAI ĐOẠN {lessonIndex+1} / {lessons.length} · {lesson.subtitle.toUpperCase()}</span><h2>{lesson.title}</h2><p>{lesson.goal}</p></div>
        <div className="learning-instructions"><h3>Thực hiện như thế nào?</h3><ol>{lesson.instructions.map(s=><li key={s}>{s}</li>)}</ol><div className="learning-check"><CheckCircle2 size={19}/><span><b>Đạt khi:</b> {lesson.check}</span></div></div>
        <div className="learning-case-header"><div><span className="eyebrow">TRƯỜNG HỢP MINH HỌA</span><h3>Chọn công thức để xem</h3></div><span className="learning-counter">{caseIndex+1}/{lesson.cases.length}</span></div>
-       <div className="learning-case-picker">{lesson.cases.map((c,i)=><button key={c.id} className={i===caseIndex?'active':''} onClick={()=>setCaseIndex(i)}>{c.title}</button>)}</div>
+       <div className="learning-case-picker">{lesson.cases.map((c,i)=><button key={c.id} className={i===caseIndex?'active':''} onClick={()=>setCaseIndex(i)}><strong>{c.title}</strong><code>{c.algorithm}</code></button>)}</div>
        <div className="learning-case-description"><h3>{sample.title}</h3><p><b>Khi nào dùng:</b> {sample.when}</p><p><b>Cách hoạt động:</b> {sample.explanation}</p></div>
        <LearningCube key={sample.id} sample={sample}/>
        {sample.caution&&<div className="learning-notice warning"><ShieldAlert size={20}/><p>{sample.caution}</p></div>}

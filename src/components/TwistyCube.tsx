@@ -4,7 +4,7 @@ import {viewerSetupMoves} from '../lib/guideViewer';
 
 type Props={
  solution:string[];confirmedCount:number;mode:'manual'|'auto';
- demo:boolean;paused?:boolean;speed:number;
+ demo:boolean;paused?:boolean;speed:number;onAutoStepChange?:(step:number)=>void;
 };
 
 /**
@@ -12,7 +12,7 @@ type Props={
  * It does not depend on cubing.js asset loading or its experimental setup API.
  * In particular, neither preview nor automatic playback can confirm a real turn.
  */
-export default function TwistyCube({solution,confirmedCount,mode,demo,paused=false,speed}:Props){
+export default function TwistyCube({solution,confirmedCount,mode,demo,paused=false,speed,onAutoStepChange}:Props){
  const cube=useRef<PlayableCubeHandle>(null);
  const [ready,setReady]=useState(false),[autoStep,setAutoStep]=useState(0),[error,setError]=useState('');
  const autoBusy=useRef(false),epoch=useRef(0),lastPreview=useRef(false);
@@ -32,6 +32,7 @@ export default function TwistyCube({solution,confirmedCount,mode,demo,paused=fal
  },[identity]);
 
  useEffect(()=>{cube.current?.setPlaybackPaused(paused);},[ready,paused]);
+ useEffect(()=>{if(mode==='auto')onAutoStepChange?.(autoStep);},[autoStep,mode,onAutoStepChange]);
 
  useEffect(()=>{
   if(mode!=='manual'||!ready)return;

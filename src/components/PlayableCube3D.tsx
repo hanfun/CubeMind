@@ -5,7 +5,7 @@ import {FACE_COLORS} from '../lib/cube';
 import {faceFromDrag,moveToTurn,type Axis} from '../lib/play';
 
 export interface PlayableCubeHandle {turn(move:string,duration?:number):Promise<void>;preview(move:string):Promise<void>;resetView():void;setPlaybackPaused(paused:boolean):void;}
-type Props={initialMoves:string[];onUserMove:(move:string)=>void;onBusyChange?:(busy:boolean)=>void;onReadyChange?:(ready:boolean)=>void;orbitOnly?:boolean};
+type Props={initialMoves:string[];onUserMove:(move:string)=>void;onBusyChange?:(busy:boolean)=>void;onReadyChange?:(ready:boolean)=>void;orbitOnly?:boolean;teachingOrientation?:boolean};
 const SPACE=1.05;
 const AXES:Axis[]=['x','y','z'];
 const smooth=(x:number)=>1-Math.pow(1-x,3);
@@ -14,7 +14,7 @@ const smooth=(x:number)=>1-Math.pow(1-x,3);
  * a swipe outside the cube (or View mode) orbits the camera. All face turns use
  * the same URFDLB coordinate system as cubejs, and notify the game only after
  * their 3D animation actually finishes. */
-const PlayableCube3D=forwardRef<PlayableCubeHandle,Props>(function PlayableCube3D({initialMoves,onUserMove,onBusyChange,onReadyChange,orbitOnly=false},ref){
+const PlayableCube3D=forwardRef<PlayableCubeHandle,Props>(function PlayableCube3D({initialMoves,onUserMove,onBusyChange,onReadyChange,orbitOnly=false,teachingOrientation=false},ref){
  const host=useRef<HTMLDivElement>(null);
  const api=useRef<PlayableCubeHandle|null>(null);
  const onUserMoveRef=useRef(onUserMove);const onBusyRef=useRef(onBusyChange);const onReadyRef=useRef(onReadyChange);const orbitRef=useRef(orbitOnly);
@@ -41,7 +41,12 @@ const PlayableCube3D=forwardRef<PlayableCubeHandle,Props>(function PlayableCube3
   scene.add(new THREE.AmbientLight(0xffffff,2.35));
   const key=new THREE.DirectionalLight(0xffffff,2.8);key.position.set(4,8,9);scene.add(key);
   const dim=new THREE.DirectionalLight(0x7aafff,1.25);dim.position.set(-6,-2,-5);scene.add(dim);
-  const black='#0a1020';const palette=FACE_COLORS;
+  const black='#0a1020';
+  // Beginner tutorial holds white down / yellow up. Swap fixed colours in the
+  // illustration only; move axes and the solver's physical state stay unchanged.
+  const palette=teachingOrientation?{
+   ...FACE_COLORS,U:FACE_COLORS.D,D:FACE_COLORS.U,F:FACE_COLORS.B,B:FACE_COLORS.F
+  }:FACE_COLORS;
   const mats:(THREE.MeshStandardMaterial)[]=[];
   const makeMat=(c:string)=>{const m=new THREE.MeshStandardMaterial({color:c,roughness:0.41,metalness:0.025});mats.push(m);return m;};
   const dark=makeMat(black);const colors={R:makeMat(palette.R.hex),L:makeMat(palette.L.hex),U:makeMat(palette.U.hex),D:makeMat(palette.D.hex),F:makeMat(palette.F.hex),B:makeMat(palette.B.hex)};
