@@ -139,6 +139,112 @@ const en:Record<string,string>={
  'Tầng thứ hai · Cạnh không vàng':'Middle layer · Non-yellow edges','Tầng cuối · Định hướng cạnh':'Last layer · Edge orientation',
  'Tầng cuối · Định hướng góc':'Last layer · Corner orientation','Tầng cuối · Hoán vị góc':'Last layer · Corner permutation',
  'Tầng cuối · Hoán vị cạnh':'Last layer · Edge permutation'
+
+  // Scan, guide and lesson labels — translate user-facing messages rather than only tab headings.
+  'Trang chủ':'Home',
+  'Trợ giúp':'Help',
+  'Nội dung bài học':'Lesson content',
+  'Chọn giai đoạn giải':'Choose solving stage',
+  'Tốc độ hoạt ảnh 3D':'3D animation speed',
+  'Bài thực hành xem hướng xoay từ đúng mặt.':'Practice the turn while looking directly at the moving face.',
+  'Bắt đầu hướng dẫn giải':'Start guided solving',
+  'Không thể giải Rubik.':'Unable to solve the cube.',
+  'Quét hai góc: hãy đối chiếu 54 ô màu và hướng với khối thật trước khi bấm giải.':'Two-angle scan: compare all 54 stickers and orientation against your real cube before solving.',
+  'Ảnh thẳng mặt 3×3, đủ 9 sticker, không bị che khuất.':'Take a straight-on photo showing all nine stickers without obstruction.',
+  'Đảm bảo đúng hệ trục U/R/F/D/L/B trên toàn bộ 6 ảnh, không xoay từng tầng giữa các lần.':'Keep the U/R/F/D/L/B orientation consistent across all six photos; do not turn any layers between shots.',
+  'Mặt trên: giữ mặt trước (F) hướng xuống dưới khung hình.':'Top face: point the front face (F) toward the bottom of the frame.',
+  'Mặt phải: giữ mặt trên (U) phía trên, mặt trước (F) về bên trái.':'Right face: keep the top face (U) up and the front face (F) to the left.',
+  'Mặt trước: giữ mặt trên (U) phía trên, mặt phải (R) bên phải.':'Front face: keep the top face (U) up and the right face (R) on the right.',
+  'Mặt dưới: giữ mặt trước (F) phía trên khung hình.':'Bottom face: point the front face (F) toward the top of the frame.',
+  'Mặt trái: giữ mặt trên (U) phía trên, mặt trước (F) về bên phải.':'Left face: keep the top face (U) up and the front face (F) to the right.',
+  'Mặt sau: giữ mặt trên (U) phía trên, mặt phải (R) về bên trái.':'Back face: keep the top face (U) up and the right face (R) to the left.',
+  'Camera không khả dụng hoặc cần HTTPS. Bạn có thể tải ảnh từ thư viện.':'Camera is unavailable or HTTPS is required. You can upload a photo instead.',
+  'Trình duyệt không hỗ trợ camera hoặc trang chưa mở bằng HTTPS. Bạn có thể tải ảnh từ thư viện điện thoại.':'Camera is unsupported or HTTPS is unavailable. You can upload a photo from your phone.',
+  'Không đọc được ảnh tải lên.':'Unable to read the uploaded photo.',
+  'Không đọc được ảnh camera.':'Unable to capture a camera image.',
+  'Không đọc được ảnh.':'Unable to read the image.',
+  'Không lấy được ảnh.':'Unable to capture an image.',
+  'Không thể ghép hai ảnh.':'Unable to combine the two photos.',
+  'Không có quyền truy cập.':'Camera access was denied.',
+  'Thiếu quyền truy cập':'Access was denied',
+  'Cần ảnh hợp lệ và khung đúng 4 góc của mặt Rubik.':'Provide a valid image and align all four corners of the cube face.',
+  'Vui lòng căn đủ bốn góc của mỗi mặt.':'Align all four corners of each face.',
+  'Ứng dụng sẽ kiểm tra số màu, tâm, cạnh, góc, parity và xác minh lời giải. Nếu không hợp lệ, bạn có thể sửa màu hoặc quét lại.':'The app validates colour counts, centres, edges, corners, parity and the solution. If invalid, correct the stickers or rescan.',
+  'Chỉ chụp cùng một trạng thái, không xoay các tầng giữa hai lần.':'Photograph the same cube state; do not turn any layers between the two photos.',
+  'Giữ khối Rubik như hình phủ lên camera: nhìn thấy đồng thời ba mặt U, F, R. Không xoay các tầng.':'Align the cube with the overlay, showing U, F and R at once. Do not turn its layers.',
+  'Xoay CẢ KHỐI Rubik để thấy ba mặt đối diện D, L, B. Không xoay riêng tầng nào; đặt mặt vàng lên trên, cam bên trái, xanh dương bên phải.':'Rotate the ENTIRE cube to show D, L and B. Do not turn individual layers; keep yellow on top, orange left and blue right.',
+  'TRÊN · trắng':'TOP · white',
+  'TRÁI · xanh lá':'LEFT · green',
+  'PHẢI · đỏ':'RIGHT · red',
+  'TRÊN · vàng':'TOP · yellow',
+  'TRÁI · cam':'LEFT · orange',
+  'PHẢI · xanh dương':'RIGHT · blue',
+  'Chất lượng ảnh cơ bản đạt. Cần tiếp tục kiểm tra màu Rubik.':'Basic photo quality is acceptable. Review cube colours before solving.',
+  'Đang đọc & kiểm tra ảnh…':'Reading and checking the photo…',
+  'Đang kiểm tra ảnh…':'Checking the photo…',
+  'Chọn ảnh đã chụp':'Select a photo',
+  'Camera chưa sẵn sàng':'Camera not ready',
+  'Ảnh camera':'Camera photo',
+  'Không mở được camera:':'Unable to open camera:',
+  'Chọn ảnh mặt':'Choose face photo',
+  'Ảnh Rubik góc':'Cube angle photo',
+  'Xác nhận mặt':'Confirm face',
+  'Chụp ảnh':'Take photo',
+  'Tải ảnh mặt':'Upload face photo',
+  'Tải ảnh':'Upload photo',
+  'từ điện thoại':'from your phone',
+  'bước đã xác nhận':'confirmed moves',
+  'Cần kiểm tra lại':'Review required',
+  'Bắt đầu mô phỏng 3D':'Start 3D animation',
+  'Xem Rubik tự giải':'Watch the cube solve itself',
+  'Chờ bạn xác nhận':'Awaiting confirmation',
+  'Đang xem mẫu':'Previewing a move',
+  'Đang xoay Rubik…':'Turning the cube…',
+  'Đã xoay':'Turned',
+  'Đang tìm lời giải từ trạng thái hiện tại…':'Finding a solution for the current cube state…',
+  'Rubik đã thay đổi trong khi tính. Hãy thử lại.':'The cube changed during calculation. Please try again.',
+  'Đã hoàn tác bước vừa xoay.':'Undid the last move.',
+  'Đã hoàn thành lời giải được xác minh bởi Solver.':'Completed the solution verified by the solver.',
+  'Hiển thị chính xác mặt và chiều xoay để bạn tự giải. Nút xem mẫu chỉ mô phỏng và tự trở lại vị trí cũ.':'Shows the exact face and direction for a manual turn. Preview restores the previous state.',
+  'Bộ giải Kociemba trên thiết bị tính và thực hiện toàn bộ bước, Rubik 3D sẽ xoay từng mặt cho đến khi hoàn chỉnh.':'The on-device Kociemba solver computes and animates the full solution, rotating one face at a time.',
+  '“AI giải nhanh” là tên tính năng giải tự động bằng thuật toán Kociemba, không gọi dịch vụ AI bên ngoài. Trạng thái luôn được tính lại từ các thao tác của người chơi.':'Fast AI Solve uses the Kociemba algorithm locally, not an external AI service. The state is recalculated from the player moves.',
+  'Còn khoảng':'Approximately',
+  'bước theo lời giải đã tính.':'moves remaining in the computed solution.',
+  'Không thể tạo gợi ý:':'Unable to generate a hint:',
+  'Không thể giải nhanh:':'Unable to auto-solve:',
+  'Đã trộn Rubik bằng':'Scrambled the cube using',
+  'thao tác.':'moves.',
+  'Trộn bị gián đoạn:':'Scramble interrupted:',
+  'Đang giải:':'Solving:',
+  'Gợi ý:':'Hint:',
+  'lượt':'moves',
+  'Đang chơi':'Playing',
+  'Đã hoàn thành':'Completed',
+  'Không thể phát mô phỏng.':'Unable to play the animation.',
+  'Không thể phát bước mô phỏng.':'Unable to animate this step.',
+  'Không thể hoàn thành mô phỏng.':'Unable to complete the animation.',
+  'Khối Rubik 3D mô phỏng lời giải':'3D Rubik solution animation',
+  'Mô phỏng 3D · Kéo để đổi góc nhìn':'3D simulation · Drag to change the view',
+  'Mô phỏng 3D':'3D simulation',
+  'Đang mở mô hình Rubik 3D…':'Loading the 3D cube…',
+  'Không cần thêm bước xoay.':'No more moves are needed.',
+  'Sao chép công thức':'Copy algorithm',
+  'Công thức đầy đủ':'Complete algorithm',
+  'Công thức và hướng dẫn xoay':'Algorithm and move instructions',
+  'Các lượt xoay':'Individual turns',
+  'Các bước giải của bạn':'Your solution moves',
+  'Xem trạng thái trước bước này':'View the state before this move',
+  'Công thức trong bài học minh họa một trường hợp cụ thể, không áp dụng cho mọi trạng thái.':'This lesson algorithm illustrates one case; it does not solve every state.',
+  'Đây là các bước dành cho khối đã quét; xem mô phỏng không xác nhận bạn đã xoay Rubik thật.':'These moves belong to your scanned cube; previews never confirm a physical turn.',
+  'Chỉ đổi góc nhìn để hiểu chiều xoay; giữ nguyên hướng cầm Rubik khi thực hiện công thức.':'Change your viewing angle to understand the turn; keep holding the cube in the same orientation while executing the algorithm.',
+  'Nguyễn Hoàng Phương':'Nguyễn Hoàng Phương',
+  'Không thể truy cập camera':'Unable to access the camera',
+  'Thiết bị hoặc trình duyệt chưa hỗ trợ WebGL. Vui lòng thử Chrome/Safari mới hơn.':'This device or browser does not support WebGL. Try the latest Chrome or Safari.',
+  'Mô hình 3D chưa sẵn sàng.':'3D viewer is not ready.',
+  'Mô hình 3D đã đóng.':'The 3D viewer was closed.',
+  'Đang xoay, vui lòng đợi.':'Turning, please wait.',
+  'Đang có một thao tác khác.':'Another operation is in progress.',
+  'Khối Rubik 3D tương tác: kéo mặt ngoài để xoay, kéo vùng trống để đổi góc nhìn':'Interactive Rubik 3D: drag an outer face to turn it, or drag outside the cube to orbit',
 };
 
 const ui=createContext<{language:Language;setLanguage:(v:Language)=>void}>({language:'vi',setLanguage:()=>{}});
@@ -146,14 +252,43 @@ type Tracked={source:string;translated:string};
 const textCache=new WeakMap<Text,Tracked>();
 const attrCache=new WeakMap<Element,Record<string,Tracked>>();
 const ATTRS=['title','placeholder','alt','aria-label'];
-function translate(v:string):string{
+/**
+ * Compatibility translator for legacy UI nodes. New components should use
+ * explicit locale-keyed messages, as the React learning/guide panels now do.
+ * The English UI must not depend on substring replacement for variable text.
+ */
+export function translateLegacyText(v:string):string{
  const trimmed=v.trim();if(!trimmed)return v;
+ const patterns:Array<[RegExp,(m:RegExpMatchArray)=>string]>=[
+  [/^(\d+)\s*\/\s*(\d+)\s*bước đã xác nhận(?:\s*·\s*Cần xác nhận trạng thái Rubik thật)?$/,m=>`${m[1]} / ${m[2]} confirmed moves`],
+  [/^Bước\s+(\d+)\s*\/\s*(\d+)$/,m=>`Move ${m[1]} / ${m[2]}`],
+  [/^Mặt\s+(\d+)\s*\/\s*6$/,m=>`Face ${m[1]} / 6`],
+  [/^Ảnh\s+(\d+)\s*\/\s*2$/,m=>`Photo ${m[1]} / 2`],
+  [/^Mô phỏng 3D\s*·\s*(\d+)\/(\d+) bước$/,m=>`3D simulation · ${m[1]}/${m[2]} moves`],
+  [/^Đã xem\s+(\d+)\/(\d+)\s+bước\.$/,m=>`Viewed ${m[1]}/${m[2]} moves.`],
+  [/^Đang giải:\s*(\d+)\/(\d+)\s*bước$/,m=>`Solving: ${m[1]}/${m[2]} moves`],
+  [/^Đã trộn Rubik bằng\s+(\d+)\s+thao tác\.$/,m=>`Scrambled the cube using ${m[1]} moves.`],
+  [/^Còn khoảng\s+(\d+)\s+bước theo lời giải đã tính\.$/,m=>`About ${m[1]} moves remaining in the computed solution.`],
+  [/^Đã ghi nhận\s+(\d+)\/6$/,m=>`${m[1]}/6 faces captured`],
+  [/^Đã xoay\s+([URFDLB]['2]?)\.$/,m=>`Turned ${m[1]}.`],
+  [/^Chụp ảnh\s+(\d+)$/,m=>`Take photo ${m[1]}`],
+  [/^Tải ảnh\s+(\d+)\s+từ điện thoại$/,m=>`Upload photo ${m[1]} from your phone`],
+  [/^Chọn ảnh Rubik số\s+(\d+)$/,m=>`Select cube photo ${m[1]}`],
+  [/^Mặt\s+([URFDLB]):\s*(.+)$/,m=>`Face ${m[1]}: ${translateLegacyText(m[2])}`]
+ ];
  let result=en[trimmed];
  if(!result){
-   // Translate compound dynamic text safely using the longest matching catalog phrases.
+   for(const [pattern,render] of patterns){
+     const match=trimmed.match(pattern);
+     if(match){result=render(match);break;}
+   }
+ }
+ if(!result){
    result=trimmed;
+   // The remaining legacy text is translated using full, longest-known phrases.
+   // This is transitional. Named keys are required for all future UI strings.
    for(const [source,target] of Object.entries(en).sort((a,b)=>b[0].length-a[0].length)){
-     if(source.length>=10 && result.includes(source))result=result.split(source).join(target);
+     if(source.length>=7&&result.includes(source))result=result.split(source).join(target);
    }
  }
  return v.slice(0,v.indexOf(trimmed))+result+v.slice(v.indexOf(trimmed)+trimmed.length);
@@ -166,7 +301,7 @@ function localize(root:Element,language:Language){
    if(!p||p.closest('script,style,code,pre,svg,[data-no-i18n]'))continue;
    let cache=textCache.get(t);
    if(!cache||t.data!==cache.translated && t.data!==cache.source){cache={source:t.data,translated:t.data};textCache.set(t,cache);}
-   const target=language==='en'?translate(cache.source):cache.source;
+   const target=language==='en'?translateLegacyText(cache.source):cache.source;
    cache.translated=target;
    if(t.data!==target)t.data=target;
  }
@@ -177,7 +312,7 @@ function localize(root:Element,language:Language){
      const current=el.getAttribute(a);if(current===null)continue;
      let record=cached[a];
      if(!record||current!==record.source&&current!==record.translated){record={source:current,translated:current};cached[a]=record;}
-     const dest=language==='en'?translate(record.source):record.source;
+     const dest=language==='en'?translateLegacyText(record.source):record.source;
      record.translated=dest;
      if(current!==dest)el.setAttribute(a,dest);
    }
