@@ -84,7 +84,7 @@ export function sampleFace(img:PixelSource, quad:Quad):FaceScan {
     const pixelSamples:RGB[]=[];
     for(let dy=-3;dy<=3;dy++)for(let dx=-3;dx<=3;dx++) {
       // +/- 0.12 of one sticker across width/height: sample inside colored square.
-      const p=pointOnFace(quad,(col+0.5 + dx*0.045)/3,(row+0.5 + dy*0.045)/3);
+      const p=pointOnFace(quad,(col+0.5 + dx*0.018)/3,(row+0.5 + dy*0.018)/3);
       pixelSamples.push(pixelAt(img,p.x*(img.width-1),p.y*(img.height-1)));
     }
     const med = ([0,1,2] as const).map(k=>pixelSamples.map(c=>c[k]).sort((a,b)=>a-b)[24]) as RGB;

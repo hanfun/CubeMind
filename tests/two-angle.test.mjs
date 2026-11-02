@@ -43,7 +43,11 @@ test('classification catches a physically wrong sticker despite correct center',
  const changed=SOLVED.split('');changed[0]='R';
  const found=classifyTwoAngles(imagesForCube(changed.join('')));
  assert.equal(found.facelets[0],'R');
- assert.ok(basicFaceletValidation(found.facelets).length);
+ assert.deepEqual(basicFaceletValidation(found.facelets),[]);
+ // Global colour balancing intentionally keeps exactly 9 stickers per colour.
+ // An inconsistent photo must surface clear uncertainty rather than silently passing.
+ assert.ok(found.ambiguous.length>0, 'A forced assignment must be flagged for review');
+ assert.ok(found.warnings.some(w=>w.includes('cân bằng')), 'Explain the colour count conflict to the user');
 });
 test('misaligned quad is rejected rather than silently sampling',()=>{
  const q=initialQuads(0).U;
