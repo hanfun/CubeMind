@@ -4,8 +4,8 @@ import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {FACE_COLORS} from '../lib/cube';
 import {faceFromDrag,moveToTurn,type Axis} from '../lib/play';
 
-export interface PlayableCubeHandle {turn(move:string,duration?:number):Promise<void>;preview(move:string):Promise<void>;resetView():void;}
-type Props={initialMoves:string[];onUserMove:(move:string)=>void;onBusyChange?:(busy:boolean)=>void;orbitOnly?:boolean};
+export interface PlayableCubeHandle {turn(move:string,duration?:number):Promise<void>;preview(move:string):Promise<void>;resetView():void;setPlaybackPaused(paused:boolean):void;}
+type Props={initialMoves:string[];onUserMove:(move:string)=>void;onBusyChange?:(busy:boolean)=>void;onReadyChange?:(ready:boolean)=>void;orbitOnly?:boolean};
 const SPACE=1.05;
 const AXES:Axis[]=['x','y','z'];
 const smooth=(x:number)=>1-Math.pow(1-x,3);
@@ -14,16 +14,17 @@ const smooth=(x:number)=>1-Math.pow(1-x,3);
  * a swipe outside the cube (or View mode) orbits the camera. All face turns use
  * the same URFDLB coordinate system as cubejs, and notify the game only after
  * their 3D animation actually finishes. */
-const PlayableCube3D=forwardRef<PlayableCubeHandle,Props>(function PlayableCube3D({initialMoves,onUserMove,onBusyChange,orbitOnly=false},ref){
+const PlayableCube3D=forwardRef<PlayableCubeHandle,Props>(function PlayableCube3D({initialMoves,onUserMove,onBusyChange,onReadyChange,orbitOnly=false},ref){
  const host=useRef<HTMLDivElement>(null);
  const api=useRef<PlayableCubeHandle|null>(null);
- const onUserMoveRef=useRef(onUserMove);const onBusyRef=useRef(onBusyChange);const orbitRef=useRef(orbitOnly);
+ const onUserMoveRef=useRef(onUserMove);const onBusyRef=useRef(onBusyChange);const onReadyRef=useRef(onReadyChange);const orbitRef=useRef(orbitOnly);
  const [error,setError]=useState('');
- onUserMoveRef.current=onUserMove;onBusyRef.current=onBusyChange;orbitRef.current=orbitOnly;
+ onUserMoveRef.current=onUserMove;onBusyRef.current=onBusyChange;onReadyRef.current=onReadyChange;orbitRef.current=orbitOnly;
  useImperativeHandle(ref,()=>({
   turn:(m,d)=>api.current?api.current.turn(m,d):Promise.reject(new Error('Mô hình 3D chưa sẵn sàng.')),
   preview:m=>api.current?api.current.preview(m):Promise.reject(new Error('Mô hình 3D chưa sẵn sàng.')),
-  resetView:()=>api.current?.resetView()
+  resetView:()=>api.current?.resetView(),
+  setPlaybackPaused:v=>api.current?.setPlaybackPaused(v)
  }),[]);
  useEffect(()=>{
   const el=host.current;if(!el)return;
@@ -53,6 +54,13 @@ const PlayableCube3D=forwardRef<PlayableCubeHandle,Props>(function PlayableCube3
   }
   type Pending={pivot:THREE.Group;pieces:THREE.Mesh[];axis:Axis;angle:number;start:number;duration:number;resolve:()=>void};
   let pending:Pending|null=null,disposed=false,locked=false;
+  let playbackPaused=false,pausedAt=0;
+  const setPlaybackPaused=(value:boolean)=>{
+   if(value===playbackPaused)return;
+   if(value){pausedAt=performance.now();}
+   else if(pending){pending.start+=performance.now()-pausedAt;}
+   playbackPaused=value;
+  };
   const lock=(v:boolean)=>{locked=v;onBusyRef.current?.(v);};
   const syncCoords=(pieces:THREE.Mesh[])=>{
    for(const m of pieces){group.attach(m);
@@ -83,7 +91,8 @@ const PlayableCube3D=forwardRef<PlayableCubeHandle,Props>(function PlayableCube3
   };
   // Initialise saved state without animation or pretending any move occurred.
   for(const move of initialMoves){void rotate(move,0);}
-  api.current={turn:rotate,preview,resetView};
+  api.current={turn:rotate,preview,resetView,setPlaybackPaused};
+  onReadyRef.current?.(true);
   const raycaster=new THREE.Raycaster();const ndc=new THREE.Vector2();
   const rayAt=(clientX:number,clientY:number)=>{
    const r=renderer.domElement.getBoundingClientRect();
@@ -126,7 +135,7 @@ const PlayableCube3D=forwardRef<PlayableCubeHandle,Props>(function PlayableCube3
   let frame=0;
   const tick=(now:number)=>{
    if(disposed)return;
-   if(pending){const p=pending;const ratio=Math.min(1,(now-p.start)/p.duration);
+   if(pending&&!playbackPaused){const p=pending;const ratio=Math.min(1,(now-p.start)/p.duration);
     p.pivot.rotation[p.axis]=p.angle*smooth(ratio);
     if(ratio>=1){syncCoords(p.pieces);group.remove(p.pivot);pending=null;p.resolve();}
    }
@@ -136,7 +145,7 @@ const PlayableCube3D=forwardRef<PlayableCubeHandle,Props>(function PlayableCube3
   };
   frame=requestAnimationFrame(tick);
   return ()=>{
-   disposed=true;cancelAnimationFrame(frame);observer.disconnect();
+   disposed=true;onReadyRef.current?.(false);cancelAnimationFrame(frame);observer.disconnect();
    canvas.removeEventListener('pointerdown',down,true);canvas.removeEventListener('pointerup',up,true);canvas.removeEventListener('pointercancel',up,true);canvas.removeEventListener('contextmenu',onContext);
    // Resolve any pending animation to prevent dangling callers on unmount.
    if(pending){pending.resolve();pending=null;}
