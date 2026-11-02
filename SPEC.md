@@ -1,3 +1,5 @@
+> **Ngôn ngữ / Languages:** [Đặc tả tiếng Việt](SPEC.md) · [English specification](SPEC.en.md)
+
 # RUBIK SOLVER 3×3 — Đặc tả chế độ hướng dẫn xoay Rubik thật từng bước
 
 **Phiên bản:** 1.0  

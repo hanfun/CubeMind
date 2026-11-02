@@ -131,6 +131,8 @@ export function sampleInitialSetup(sample:LearnCase):string{
 export function notationDescription(move:string):string{
   const face=move[0] as Face;
   const suffix=move.slice(1);
-  const direction=suffix==='2'?'180 độ':suffix==="'"?'90 độ ngược chiều kim đồng hồ':'90 độ theo chiều kim đồng hồ';
-  return `${FACE_NAMES[face]} — ${direction}, khi nhìn trực diện mặt đó.`;
+  const english=typeof document!=='undefined'&&document.documentElement.lang==='en';
+  const direction=suffix==='2'?(english?'180°':'180 độ'):suffix==="'"?(english?'90° counterclockwise':'90 độ ngược chiều kim đồng hồ'):(english?'90° clockwise':'90 độ theo chiều kim đồng hồ');
+  const name=english?({U:'Top',D:'Bottom',L:'Left',R:'Right',F:'Front',B:'Back'} as Record<Face,string>)[face]:FACE_NAMES[face];
+  return english?`${name} — ${direction}, looking directly at that face.`:`${name} — ${direction}, khi nhìn trực diện mặt đó.`;
 }

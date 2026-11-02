@@ -1,4 +1,6 @@
-# Rubik Studio — Web App giải và học Rubik 3×3 (MVP 0.3)
+> **Ngôn ngữ / Languages:** [Tiếng Việt](README.md) · [English](README.en.md) · [Đặc tả EN](SPEC.en.md)
+
+# CubeMind — Web App giải và học Rubik 3×3 (MVP 0.4)
 
 Source MVP dựa trên `RUBIK_MANUAL_STEP_GUIDE_SPEC.md`, có quét/tải ảnh 2 góc hoặc 6 mặt (beta) và chế độ chơi Rubik 3D tương tác, và màn hình học giải Rubik tiếng Việt với mô phỏng 3D chạy theo nút bấm.
 

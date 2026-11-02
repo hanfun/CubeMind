@@ -6,6 +6,7 @@
  */
 import { FACES, type Face } from './cube.ts';
 import { lab, type RGB } from './color.ts';
+import { assignBalancedColors } from './scanAccuracy.ts';
 
 export type Point = { x: number; y: number };
 export type Quad = [Point, Point, Point, Point]; // face-local TL, TR, BR, BL
@@ -36,13 +37,22 @@ export function initialQuads(angle: AngleIndex): Record<Face, Quad> {
   return result;
 }
 
-/** Bilinear mapping for 4 face vertices in canonical local TL,TR,BR,BL order. */
+/** Projective homography from unit square to the four face corners, TL/TR/BR/BL.
+ * Unlike bilinear interpolation, perspective-correct mapping aligns interior stickers. */
 export function pointOnFace(quad: Quad, u: number, v: number): Point {
-  const [tl, tr, br, bl] = quad;
-  return {
-    x: (1-u)*(1-v)*tl.x + u*(1-v)*tr.x + u*v*br.x + (1-u)*v*bl.x,
-    y: (1-u)*(1-v)*tl.y + u*(1-v)*tr.y + u*v*br.y + (1-u)*v*bl.y,
-  };
+  const [tl,tr,br,bl]=quad;
+  const sx=tl.x-tr.x+br.x-bl.x,sy=tl.y-tr.y+br.y-bl.y;
+  const dx1=tr.x-br.x,dx2=bl.x-br.x,dy1=tr.y-br.y,dy2=bl.y-br.y;
+  const den=dx1*dy2-dx2*dy1;
+  if(Math.abs(den)<1e-8) {
+    return {x:(1-u)*(1-v)*tl.x+u*(1-v)*tr.x+u*v*br.x+(1-u)*v*bl.x,
+            y:(1-u)*(1-v)*tl.y+u*(1-v)*tr.y+u*v*br.y+(1-u)*v*bl.y};
+  }
+  const g=(sx*dy2-dx2*sy)/den,h=(dx1*sy-sx*dy1)/den;
+  const a=tr.x-tl.x+g*tr.x,b=bl.x-tl.x+h*bl.x;
+  const d=tr.y-tl.y+g*tr.y,e=bl.y-tl.y+h*bl.y;
+  const w=g*u+h*v+1;
+  return {x:(a*u+b*v+tl.x)/w,y:(d*u+e*v+tl.y)/w};
 }
 export function stickerPoints(quad: Quad): Point[] {
   const result: Point[] = [];
@@ -72,12 +82,12 @@ export function sampleFace(img:PixelSource, quad:Quad):FaceScan {
   const pixels:RGB[] = [], noise:number[] = [];
   for(let row=0;row<3;row++)for(let col=0;col<3;col++){
     const pixelSamples:RGB[]=[];
-    for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++) {
+    for(let dy=-3;dy<=3;dy++)for(let dx=-3;dx<=3;dx++) {
       // +/- 0.12 of one sticker across width/height: sample inside colored square.
-      const p=pointOnFace(quad,(col+0.5 + dx*0.03)/3,(row+0.5 + dy*0.03)/3);
+      const p=pointOnFace(quad,(col+0.5 + dx*0.045)/3,(row+0.5 + dy*0.045)/3);
       pixelSamples.push(pixelAt(img,p.x*(img.width-1),p.y*(img.height-1)));
     }
-    const med = ([0,1,2] as const).map(k=>pixelSamples.map(c=>c[k]).sort((a,b)=>a-b)[12]) as RGB;
+    const med = ([0,1,2] as const).map(k=>pixelSamples.map(c=>c[k]).sort((a,b)=>a-b)[24]) as RGB;
     pixels.push(med);
     const deviation=pixelSamples.reduce((s,c)=>s+Math.hypot(...lab(c).map((v,i)=>v-lab(med)[i])),0)/pixelSamples.length;
     noise.push(deviation);
@@ -89,20 +99,16 @@ export function classifyTwoAngles(samples: Record<Face,FaceScan>):ScanResult {
   for(const face of FACES) if (!samples[face] || samples[face].pixels.length !== 9) throw new Error(`Thiếu 9 ô mặt ${face}.`);
   const centers=Object.fromEntries(FACES.map(f=>[f,lab(samples[f].pixels[4])])) as Record<Face,[number,number,number]>;
   const warnings:string[]=[], ambiguous:Array<{face:Face;cell:number}>=[];
-  const result:Record<Face,string> = {} as Record<Face,string>;
-  for(const face of FACES){
-    const letters=samples[face].pixels.map((pix,cell)=>{
-      if(cell===4)return face;
-      const p=lab(pix);
-      const ranked=FACES.map(f=>({f,d:Math.hypot(...p.map((v,i)=>v-centers[f][i]))})).sort((a,b)=>a.d-b.d);
-      if(ranked[0].d>30 || ranked[1].d-ranked[0].d<7 || samples[face].noise[cell]>18)
-        ambiguous.push({face,cell});
-      return ranked[0].f;
-    });
-    result[face]=letters.join('');
+  const positions=FACES.flatMap(face=>samples[face].pixels.map((pix,cell)=>({face,cell,lab:lab(pix),noise:samples[face].noise[cell]})).filter(p=>p.cell!==4));
+  const result:Record<Face,string[]> = Object.fromEntries(FACES.map(f=>[f,Array(9).fill(f)])) as Record<Face,string[]>;
+  const balanced=assignBalancedColors(positions,centers);
+  for(const c of balanced.assignments){
+    result[c.face][c.cell]=c.color;
+    if(c.uncertain)ambiguous.push({face:c.face,cell:c.cell});
   }
-  if(ambiguous.length)warnings.push(`${ambiguous.length} ô có màu chưa chắc chắn. Hãy kiểm tra/chỉnh trong bảng 54 ô trước khi giải.`);
-  return {samples,facelets:FACES.map(f=>result[f]).join(''),warnings,ambiguous};
+  if(ambiguous.length)warnings.push(`${ambiguous.length} ô màu có độ tin cậy thấp. Vui lòng đối chiếu với Rubik thật trước khi giải.`);
+  if(balanced.forced)warnings.push(`${balanced.forced} ô được cân bằng lại để đủ 9 ô/màu. Không nên tự động xác nhận kết quả.`);
+  return {samples,facelets:FACES.map(f=>result[f].join('')).join(''),warnings,ambiguous};
 }
 
 export function imgDataFromCanvas(canvas:HTMLCanvasElement):PixelSource{

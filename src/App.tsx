@@ -9,6 +9,7 @@ import TwoAngleScanner from './components/TwoAngleScanner';
 import Guide from './components/Guide';
 import LearnPage from './components/LearnPage';
 import PlayPage from './components/PlayPage';
+import {LanguageSwitch} from './i18n';
 
 type Stage='play'|'learn'|'home'|'source'|'scan'|'scan-two'|'analyzing'|'ready'|'guide';
 type InputMethod='scramble'|'facelets'|'scan';
@@ -41,9 +42,9 @@ export default function App(){
  const goBack=()=>{if(stage==='home')return;if(stage==='learn'||stage==='play'){setStage('home');return;}if(stage==='guide'){setStage('ready');return;}if(stage==='scan'||stage==='scan-two'){setStage('source');return;}setStage('home');};
  return <div className="app-shell">
    <div className="ambient ambient-one"/><div className="ambient ambient-two"/>
-   <header className="topbar"><button className="brand" onClick={()=>setStage('home')} aria-label="Trang chủ Rubik Studio"><span className="brand-icon"><Box size={21}/></span><span>rubik<span className="brand-accent">studio</span></span></button>
-     <div className="topbar-right"><button type="button" className="top-learn-link" onClick={()=>setStage('play')}><Gamepad2 size={17}/> Chơi 3D</button><button type="button" className="top-learn-link" onClick={()=>setStage('learn')}><BookOpen size={17}/> Học giải Rubik</button><span className="header-tag">3×3 SOLVER</span><button className="icon-header" onClick={()=>setShowTech(v=>!v)} title="Về công nghệ"><CircleHelp size={20}/></button></div></header>
-   {showTech&&<div className="tech-panel"><div><b>Rubik Studio · MVP 0.3</b><p>Ứng dụng chạy trên thiết bị: cubejs solver trong Worker, cubing.js 3D, điều khiển tiến độ riêng. Camera hoặc tải ảnh: 6 mặt và 2 góc đều có khung chỉnh thủ công, kiểm tra chất lượng cơ bản và xác minh Rubik. Quét 2 góc vẫn là beta, chưa tự tìm hình khối tự do.</p></div><button className="text-button" onClick={()=>setShowTech(false)}>Đóng</button></div>}
+   <header className="topbar"><button className="brand" onClick={()=>setStage('home')} aria-label="Trang chủ CubeMind"><span className="brand-icon"><Box size={21}/></span><span>Cube<span className="brand-accent">Mind</span></span></button>
+     <div className="topbar-right"><LanguageSwitch/><button type="button" className="top-learn-link" onClick={()=>setStage('play')}><Gamepad2 size={17}/> Chơi 3D</button><button type="button" className="top-learn-link" onClick={()=>setStage('learn')}><BookOpen size={17}/> Học giải Rubik</button><span className="header-tag">3×3 SOLVER</span><button className="icon-header" onClick={()=>setShowTech(v=>!v)} title="Về công nghệ"><CircleHelp size={20}/></button></div></header>
+   {showTech&&<div className="tech-panel"><div><b>CubeMind · MVP 0.4</b><p>Ứng dụng chạy trên thiết bị: cubejs solver trong Worker, cubing.js 3D, điều khiển tiến độ riêng. Camera hoặc tải ảnh: 6 mặt và 2 góc đều có khung chỉnh thủ công, kiểm tra chất lượng cơ bản và xác minh Rubik. Quét 2 góc vẫn là beta, chưa tự tìm hình khối tự do.</p></div><button className="text-button" onClick={()=>setShowTech(false)}>Đóng</button></div>}
    <main className="main">
    {stage==='home'&&<>
      <div className="hero"><div className="hero-copy"><span className="micro-badge"><Sparkles size={14}/> RUBIK GIẢI ĐƠN GIẢN HƠN</span><h1>Giải Rubik.<br/><span>Từng chuyển động.</span></h1><p>Tính lời giải chính xác, xem hoạt ảnh 3D và tự xoay Rubik thật theo từng bước — ngay trên điện thoại của bạn.</p>
@@ -73,8 +74,9 @@ export default function App(){
    {stage==='scan-two'&&<TwoAngleScanner onBack={()=>setStage('source')} onDone={(f,warnings)=>{
      setFacelets(f);setMethod('facelets');setScanWarnings(warnings);
      const errors=basicFaceletValidation(f);
-     if(errors.length||warnings.length){setError([...errors,'Hãy kiểm tra các ô màu và hướng các mặt trước khi giải.'].join('\n'));setStage('source');}
-     else{void startSolve({kind:'facelets',facelets:f});}
+     setError(errors.join('\n'));
+     setScanWarnings(['Quét hai góc: hãy đối chiếu 54 ô màu và hướng với khối thật trước khi bấm giải.',...warnings]);
+     setStage('source');
    }}/>}
    
    {stage==='analyzing'&&<div className="analyzing"><div className="loading-cube"><Box size={54}/></div><span className="eyebrow">BƯỚC 02 · KIỂM TRA</span><h1>Đang phân tích Rubik…</h1><p className="muted">{progress}</p><div className="loading-line"><span/></div><small>Đang tính trên thiết bị. Lần đầu có thể lâu hơn do tạo bảng solver.</small></div>}
@@ -87,6 +89,6 @@ export default function App(){
    </div>}
    {stage==='guide'&&session&&<Guide key={session.id} session={session} mode={selectedMode} onModeChange={setSelectedMode} onExit={()=>setStage('ready')} onRestart={newProject} onSession={onSession}/>}
    </main>
-   <footer className="footer"><div>© 2026 Rubik Studio · React + TypeScript · Play 3D</div><div><span><SlidersHorizontal size={14}/> Mobile-first</span><span><ClipboardList size={14}/> Theo đặc tả 1.0</span></div></footer>
+   <footer className="footer"><div>© 2026 CubeMind · React + TypeScript · Play 3D</div><div><span><SlidersHorizontal size={14}/> Mobile-first</span><span><ClipboardList size={14}/> Theo đặc tả 1.0</span></div></footer>
  </div>;
 }

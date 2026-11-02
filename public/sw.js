@@ -1,4 +1,4 @@
-const CACHE=`rubik-studio-v2:${self.registration.scope}`;
+const CACHE=`cubemind-i18n-v4:${self.registration.scope}`;
 const PRECACHE=['./','favicon.svg','manifest.webmanifest'].map(path=>new URL(path,self.registration.scope).href);
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(PRECACHE))));
 self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));
