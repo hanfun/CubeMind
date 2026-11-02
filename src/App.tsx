@@ -9,13 +9,14 @@ import TwoAngleScanner from './components/TwoAngleScanner';
 import Guide from './components/Guide';
 import LearnPage from './components/LearnPage';
 import PlayPage from './components/PlayPage';
-import {LanguageSwitch} from './i18n';
+import {LanguageSwitch,useI18n} from './i18n';
 
 type Stage='play'|'learn'|'home'|'source'|'scan'|'scan-two'|'analyzing'|'ready'|'guide';
 type InputMethod='scramble'|'facelets'|'scan';
 type SolveMode='manual'|'auto';
 const DEFAULT_SCRAMBLE="R U R' U' F2 D L2 B R U2 F' D2";
 export default function App(){
+ const {language}=useI18n();
  const [stage,setStage]=useState<Stage>('home'),[method,setMethod]=useState<InputMethod>('scramble');
  const [scramble,setScramble]=useState(DEFAULT_SCRAMBLE),[facelets,setFacelets]=useState(SOLVED);
  const [session,setSession]=useState<SolveSession|null>(null),[selectedMode,setSelectedMode]=useState<SolveMode>('manual');
@@ -89,6 +90,19 @@ export default function App(){
    </div>}
    {stage==='guide'&&session&&<Guide key={session.id} session={session} mode={selectedMode} onModeChange={setSelectedMode} onExit={()=>setStage('ready')} onRestart={newProject} onSession={onSession}/>}
    </main>
-   <footer className="footer"><div>© 2026 CubeMind · React + TypeScript · Play 3D</div><div><span><SlidersHorizontal size={14}/> Mobile-first</span><span><ClipboardList size={14}/> Theo đặc tả 1.0</span></div></footer>
+   <footer className="footer">
+     <div className="footer-meta">
+       <div className="footer-copyright">© 2026 CubeMind · React + TypeScript · Play 3D</div>
+       <div className="footer-author">
+         <span>{language==='vi'?'Sáng tạo & phát triển bởi':'Created & developed by'}</span>
+         <strong>Nguyễn Hoàng Phương</strong>
+         <span className="footer-author-role">· {language==='vi'?'Kỹ sư phần mềm cấp cao':'Senior Software Engineer'}</span>
+       </div>
+     </div>
+     <div className="footer-tech">
+       <span><SlidersHorizontal size={14}/> Mobile-first</span>
+       <span><ClipboardList size={14}/> {language==='vi'?'Theo đặc tả 1.0':'Specification 1.0'}</span>
+     </div>
+   </footer>
  </div>;
 }
