@@ -53,7 +53,7 @@ const en:Record<string,string>={
  'Đang mở camera…':'Starting camera…','Ảnh camera':'Camera image',
  'Căn khung 3×3':'Align the 3×3 frame','Kéo 4 điểm trắng đến góc ngoài của mặt. Kiểm tra 9 dấu chấm nằm tại tâm các ô màu. Hãy chọn ảnh khác nếu không thể căn.':'Drag the four white handles to the outside corners. Ensure all nine dots fall inside stickers. Choose another photo if necessary.',
  'Chụp lại':'Retake photo','Chọn ảnh khác':'Choose another photo','Đặt lại khung':'Reset frame',
- 'Ghép 54 ô và kiểm tra':'Combine and validate 54 stickers','Chụp mặt':'Capture face','Quay lại mặt trước':'Previous face',
+'Chụp mặt':'Capture face','Quay lại mặt trước':'Previous face',
  'Đã ghi nhận':'Captured','Kiểm tra định dạng/độ phân giải/độ sáng, cho chỉnh khung và lấy 9 màu/mặt; sau 6 mặt cần xác minh trạng thái và solver.':'Check image format, resolution and lighting; adjust the crop. Validate the complete state before solving.',
  'QUÉT NHANH HAI GÓC · BETA':'QUICK TWO-ANGLE SCAN · BETA','Ảnh':'Photo',
  'Góc 1: trắng trên, xanh lá trái, đỏ phải':'Angle 1: white top, green left, red right',
