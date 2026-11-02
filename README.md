@@ -9,7 +9,7 @@ npm install
 npm run dev
 ```
 
-Mở `http://localhost:5173`. Để thử camera trên **điện thoại thật**: deploy qua HTTPS, hoặc tạo HTTPS tunnel khi phát triển.
+Mở `http://localhost:5173/CubeMind/`. Để thử camera trên **điện thoại thật**: deploy qua HTTPS, hoặc tạo HTTPS tunnel khi phát triển.
 
 Build bản production:
 
@@ -23,6 +23,17 @@ Unit tests (core, không cần React):
 ```bash
 npm test
 ```
+
+## Demo trên GitHub Pages
+
+1. Trong repo `hanfun/CubeMind`, mở **Settings → Pages**.
+2. Trong **Build and deployment → Source**, chọn **GitHub Actions**.
+3. Commit và push cấu hình lên nhánh `main`. Workflow **Deploy CubeMind to GitHub Pages** sẽ cài dependencies, chạy tests, build và deploy thư mục `dist`.
+4. Theo dõi workflow trong tab **Actions**. Khi deploy thành công, mở `https://hanfun.github.io/CubeMind/`.
+
+Nếu cấu hình đã được push trước khi bật Pages, mở **Actions → Deploy CubeMind to GitHub Pages → Run workflow** để triển khai lại. Mỗi lần push lên `main` sau đó sẽ tự cập nhật demo.
+
+Với GitHub Free, repo cần là **Public** để dùng Pages. Không cần tạo nhánh `gh-pages` hoặc commit thư mục `dist`. Để xem build trên máy, chạy `npm run preview` và mở `http://localhost:4173/CubeMind/`.
 
 ## Chức năng đã tạo
 

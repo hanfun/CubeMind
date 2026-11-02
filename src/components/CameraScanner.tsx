@@ -2,7 +2,7 @@ import {useEffect,useMemo,useRef,useState,type PointerEvent} from 'react';
 import {ArrowLeft,Camera,Check,ChevronRight,ImagePlus,Move,RotateCcw,ShieldAlert,ShieldCheck} from 'lucide-react';
 import {FACES,FACE_NAMES,FACE_COLORS,type Face} from '../lib/cube';
 import {calibrateFaces,HEX_COLOR,lab,type RGB} from '../lib/color';
-import {captureSquare,isUsableQuad,sampleFace,stickerPoints,type Point,type Quad} from '../lib/twoAngle';
+import {captureSquare,isUsableQuad,sampleFace,stickerPoints,type Quad} from '../lib/twoAngle';
 import {photographQuality,readUploadedImage,type LoadedPhoto} from '../lib/imageInput';
 
 type Scan={pixels:RGB[];warnings:string[]};

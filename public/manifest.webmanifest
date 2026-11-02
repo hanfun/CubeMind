@@ -1,1 +1,1 @@
-{"name":"Rubik Studio — 3D Solver","short_name":"Rubik Studio","lang":"vi","start_url":"/","display":"standalone","background_color":"#091121","theme_color":"#091121","icons":[{"src":"/favicon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}
+{"name":"Rubik Studio — 3D Solver","short_name":"Rubik Studio","lang":"vi","start_url":"./","scope":"./","display":"standalone","background_color":"#091121","theme_color":"#091121","icons":[{"src":"favicon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}
