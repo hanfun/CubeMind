@@ -1,3 +1,5 @@
+> **Tiếp tục phát triển với AI:** [AGENTS.md](AGENTS.md) · [Bối cảnh dự án](docs/PROJECT_CONTEXT.md) · [Hướng dẫn ChatGPT Project](docs/CHATGPT_PROJECT_SETUP.md)
+
 > **Ngôn ngữ / Languages:** [Tiếng Việt](README.md) · [English](README.en.md) · [Đặc tả EN](SPEC.en.md)
 
 # CubeMind — Web App giải và học Rubik 3×3 (MVP 0.4)

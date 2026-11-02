@@ -1,3 +1,5 @@
+> **Continue with an AI agent:** [AGENTS.md](AGENTS.md) · [Project context](docs/PROJECT_CONTEXT.en.md) · [ChatGPT Project setup](docs/CHATGPT_PROJECT_SETUP.md)
+
 # CubeMind — Rubik 3×3 Scanner, Solver, 3D Playground
 
 **Languages:** [English](README.en.md) · [Tiếng Việt](README.md)
