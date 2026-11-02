@@ -1,14 +1,18 @@
 import {useState} from 'react';
 import {ArrowLeft,ArrowRight,BookOpen,CheckCircle2,Hand,Lightbulb,ShieldAlert} from 'lucide-react';
 import {LEARN_LESSONS,NOTATION,notationDescription} from '../lib/learn';
+import {EN_LESSONS} from '../lib/learn.en';
+import {useI18n} from '../i18n';
 import LearningCube from './LearningCube';
 
 type Props={onBack:()=>void;onStartSolve:()=>void};
 export default function LearnPage({onBack,onStartSolve}:Props){
+ const {language}=useI18n();
+ const lessons=language==='en'?EN_LESSONS:LEARN_LESSONS;
  const [tab,setTab]=useState<'notation'|'lessons'>('notation');
  const [lessonIndex,setLessonIndex]=useState(0);
  const [caseIndex,setCaseIndex]=useState(0);
- const lesson=LEARN_LESSONS[lessonIndex];
+ const lesson=lessons[lessonIndex];
  const sample=lesson.cases[caseIndex];
  const changeLesson=(idx:number)=>{setLessonIndex(idx);setCaseIndex(0);};
  return <div className="learning-page">
@@ -29,16 +33,16 @@ export default function LearnPage({onBack,onStartSolve}:Props){
      <div className="learning-symbol-demo"><div className="learning-section-heading"><h2>Xoay thử từng ký hiệu</h2><p>Chọn mặt và cách xoay, sau đó nhấn Xem toàn bộ hoặc Xoay 1 bước để xem minh họa.</p></div><NotationPractice/></div>
      <button className="btn btn-primary learning-next" onClick={()=>setTab('lessons')}>Bắt đầu 7 bước giải <ArrowRight size={18}/></button>
    </div>:<div className="learning-lessons">
-     <div className="learning-lesson-picker" aria-label="Chọn giai đoạn giải">{LEARN_LESSONS.map((l,i)=><button key={l.id} className={i===lessonIndex?'active':''} onClick={()=>changeLesson(i)} title={l.title}><span>{i+1}</span><b>{l.title}</b></button>)}</div>
+     <div className="learning-lesson-picker" aria-label="Chọn giai đoạn giải">{lessons.map((l,i)=><button key={l.id} className={i===lessonIndex?'active':''} onClick={()=>changeLesson(i)} title={l.title}><span>{i+1}</span><b>{l.title}</b></button>)}</div>
      <section className="learning-lesson-body">
-       <div className="learning-lesson-title"><span className="eyebrow">GIAI ĐOẠN {lessonIndex+1} / {LEARN_LESSONS.length} · {lesson.subtitle.toUpperCase()}</span><h2>{lesson.title}</h2><p>{lesson.goal}</p></div>
+       <div className="learning-lesson-title"><span className="eyebrow">GIAI ĐOẠN {lessonIndex+1} / {lessons.length} · {lesson.subtitle.toUpperCase()}</span><h2>{lesson.title}</h2><p>{lesson.goal}</p></div>
        <div className="learning-instructions"><h3>Thực hiện như thế nào?</h3><ol>{lesson.instructions.map(s=><li key={s}>{s}</li>)}</ol><div className="learning-check"><CheckCircle2 size={19}/><span><b>Đạt khi:</b> {lesson.check}</span></div></div>
        <div className="learning-case-header"><div><span className="eyebrow">TRƯỜNG HỢP MINH HỌA</span><h3>Chọn công thức để xem</h3></div><span className="learning-counter">{caseIndex+1}/{lesson.cases.length}</span></div>
        <div className="learning-case-picker">{lesson.cases.map((c,i)=><button key={c.id} className={i===caseIndex?'active':''} onClick={()=>setCaseIndex(i)}>{c.title}</button>)}</div>
        <div className="learning-case-description"><h3>{sample.title}</h3><p><b>Khi nào dùng:</b> {sample.when}</p><p><b>Cách hoạt động:</b> {sample.explanation}</p></div>
        <LearningCube key={sample.id} sample={sample}/>
        {sample.caution&&<div className="learning-notice warning"><ShieldAlert size={20}/><p>{sample.caution}</p></div>}
-       <div className="learning-lesson-navigation"><button className="btn btn-outline" disabled={lessonIndex===0} onClick={()=>changeLesson(lessonIndex-1)}><ArrowLeft size={16}/> Bước trước</button><button className="btn btn-primary" onClick={()=>{if(lessonIndex===LEARN_LESSONS.length-1){onStartSolve();}else changeLesson(lessonIndex+1);}}>{lessonIndex===LEARN_LESSONS.length-1?'Thử giải Rubik':'Bước tiếp theo'} <ArrowRight size={16}/></button></div>
+       <div className="learning-lesson-navigation"><button className="btn btn-outline" disabled={lessonIndex===0} onClick={()=>changeLesson(lessonIndex-1)}><ArrowLeft size={16}/> Bước trước</button><button className="btn btn-primary" onClick={()=>{if(lessonIndex===lessons.length-1){onStartSolve();}else changeLesson(lessonIndex+1);}}>{lessonIndex===lessons.length-1?'Thử giải Rubik':'Bước tiếp theo'} <ArrowRight size={16}/></button></div>
      </section>
    </div>}
  </div>;

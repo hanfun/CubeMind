@@ -32,8 +32,13 @@ export type MoveInfo = {face: Face; faceName:string;degrees:90|180;direction:str
 export function moveInfo(move:string):MoveInfo {
   if(!MOVE_RE.test(move))throw new Error(`Bước không hợp lệ: ${move}`);
   const face=move[0] as Face, degrees=move.endsWith('2')?180:90;
-  const direction=degrees===180?'180° (hướng nào cũng được)':move.endsWith("'")?'ngược chiều kim đồng hồ':'theo chiều kim đồng hồ';
-  return {face,faceName:FACE_NAMES[face],degrees,direction,description:`Xoay mặt ${FACE_NAMES[face].toLowerCase()} ${degrees}°${degrees===90?` ${direction}`:''} khi nhìn thẳng vào chính mặt đó.`};
+  const english=typeof document!=='undefined'&&document.documentElement.lang==='en';
+  const enNames:Record<Face,string>={U:'top',D:'bottom',L:'left',R:'right',F:'front',B:'back'};
+  const direction=degrees===180?(english?'180° either direction':'180° (hướng nào cũng được)'):move.endsWith("'")?(english?'counterclockwise':'ngược chiều kim đồng hồ'):(english?'clockwise':'theo chiều kim đồng hồ');
+  const faceName=english?enNames[face]:FACE_NAMES[face];
+  const description=english?`Turn the ${faceName} face ${degrees}°${degrees===90?` ${direction}`:''} while looking straight at that face.`:
+    `Xoay mặt ${faceName.toLowerCase()} ${degrees}°${degrees===90?` ${direction}`:''} khi nhìn thẳng vào chính mặt đó.`;
+  return {face,faceName,degrees,direction,description};
 }
 export function permParity(arr:number[]):number {let p=0;for(let i=0;i<arr.length;i++)for(let j=i+1;j<arr.length;j++)if(arr[i]>arr[j])p^=1;return p;}
 export type CubieState={cp:number[];co:number[];ep:number[];eo:number[]};
