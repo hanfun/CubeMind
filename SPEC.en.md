@@ -73,3 +73,7 @@ Process photos locally by default. Do not upload camera or cube data without exp
 ## Supplement — Formula steps and illustrations
 
 For every case in the seven beginner stages, show the complete algorithm, numbered and highlighted moves, an explicit face-oriented viewing instruction, and before/after diagrams of that face. Display the reference panel to the right of the 3D cube on desktop and beneath it on mobile. Animation must be user-initiated. The real-cube solving screen uses the same panel with verified solver snapshots and moves; watching a demo never commits physical progress. See [FORMULAS.en.md](FORMULAS.en.md) and [FORMULAS.md](FORMULAS.md).
+
+## Supplement — Two-photo scanner UX
+
+The mobile-first capture screen must show clean three-face center-color guides instead of 27 live sample markers. Only after capture should the selected face show its nine samples and four large draggable corner handles. Support per-face zoom (100%, 160%, 220%), 3×3 sampled-colour preview, uneven-colour warnings, per-face/all-face reset and retakes. A valid quadrilateral must not be labeled a verified cube recognition. Camera video `object-fit:cover` must match the square capture crop. Between shots rotate the whole cube without turning individual layers. Require the 54-facelet review after both photos.

@@ -114,3 +114,7 @@ React, Vite, Three.js, cubing.js and cubejs. Font families are available through
 Each of the seven lessons shows its full algorithm, a highlighted move list, before/after face diagrams and a clear viewing direction. The reference panel is **right of the 3D cube on desktop** and **below it on mobile**. Animation starts only on a user action. Real-cube guidance shows the actual solver-generated move sequence, without counting visual previews as physical confirmations.
 
 See the [English algorithm reference](FORMULAS.en.md) or [Vietnamese reference](FORMULAS.md).
+
+## Two-photo scanner usability upgrade
+
+Guided camera framing now shows three clean face outlines instead of overlaying all 27 sample dots. After capture, select one face (U/F/R or D/L/B), drag its four larger corner handles, zoom to 160%/220%, and inspect a 3×3 sampled colour preview. Reset one face or all three, or retake the shot. Between shots rotate only the **entire cube**, never individual layers. A final 54-sticker review is mandatory. Recognition remains beta and does not detect arbitrary cube poses automatically.

@@ -139,3 +139,7 @@ src/
 Tất cả 7 bài học đều hiển thị công thức đầy đủ, trình tự bước xoay, hình trước/sau và hướng nhìn đối với mỗi mặt. Giao diện PC đặt bảng bên phải mô hình 3D; trên mobile bảng nằm bên dưới. Mô phỏng chỉ chạy khi bấm nút. Trong chế độ giải Rubik thật, bảng hiển thị chuỗi lời giải tính từ trạng thái quét và **không tự xác nhận thao tác thật**.
 
 Xem [Sổ tay công thức tiếng Việt](FORMULAS.md) hoặc [English algorithm reference](FORMULAS.en.md).
+
+## Nâng cấp trải nghiệm quét 2 ảnh
+
+Màn hình quét hai góc có hướng dẫn ba mặt theo màu tâm, không che hình camera bằng 27 dấu lấy mẫu cùng lúc. Sau khi chụp, chọn từng mặt (U/F/R hoặc D/L/B), kéo 4 vòng tròn góc với vùng chạm lớn hơn, phóng to 160%/220% để căn chính xác và đối chiếu bản xem trước 9 ô màu. Có thể đặt lại riêng mặt đang chỉnh, đặt lại cả ba mặt hoặc chụp lại. Bước 2 chỉ xoay **toàn bộ khối Rubik**, không xoay các tầng. Luôn kiểm tra 54 ô màu sau hai ảnh. Nhận diện vẫn beta, chưa tự động phát hiện mọi tư thế Rubik.

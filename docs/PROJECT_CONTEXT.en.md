@@ -73,3 +73,7 @@ The current `package.json` metadata still says `rubik-solver-webapp` and `0.3.0`
 4. Create a Pull Request and review. Merge only after checks and the applicable approval.
 5. Confirm the GitHub Pages Deploy step completed successfully before announcing the live site.
 6. Never commit secrets, passwords, access tokens or private credentials.
+
+## Two-photo scan UX update
+
+The two-photo screen separates live capture (three face outlines only) from post-capture alignment (selected-face nine samples, large corner handles, face-centered zoom and a 3×3 colour preview). Live camera `object-fit:cover` matches square photo capture. Sample-variance warnings are advisory, not proof of cube recognition. Real iOS Safari/Android Chrome camera and touch QA remains necessary.
