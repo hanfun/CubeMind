@@ -4,6 +4,7 @@ import {LEARN_LESSONS,NOTATION,notationDescription} from '../lib/learn';
 import {EN_LESSONS} from '../lib/learn.en';
 import {useI18n} from '../i18n';
 import LearningCube from './LearningCube';
+import LessonCaseDiagram,{CaseThumbnail} from './LessonCaseDiagram';
 
 type Props={onBack:()=>void;onStartSolve:()=>void};
 export default function LearnPage({onBack,onStartSolve}:Props){
@@ -13,6 +14,7 @@ export default function LearnPage({onBack,onStartSolve}:Props){
  const [lessonIndex,setLessonIndex]=useState(0);
  const [caseIndex,setCaseIndex]=useState(0);
  const lesson=lessons[lessonIndex];
+ const en=language==='en';
  const sample=lesson.cases[caseIndex];
  const changeLesson=(idx:number)=>{setLessonIndex(idx);setCaseIndex(0);};
  return <div className="learning-page">
@@ -35,11 +37,31 @@ export default function LearnPage({onBack,onStartSolve}:Props){
    </div>:<div className="learning-lessons">
      <div className="learning-lesson-picker" aria-label="Chọn giai đoạn giải">{lessons.map((l,i)=><button key={l.id} className={i===lessonIndex?'active':''} onClick={()=>changeLesson(i)} title={l.title}><span>{i+1}</span><b>{l.title}</b></button>)}</div>
      <section className="learning-lesson-body">
-       <div className="learning-lesson-title"><span className="eyebrow">GIAI ĐOẠN {lessonIndex+1} / {lessons.length} · {lesson.subtitle.toUpperCase()}</span><h2>{lesson.title}</h2><p>{lesson.goal}</p></div>
-       <div className="learning-instructions"><h3>Thực hiện như thế nào?</h3><ol>{lesson.instructions.map(s=><li key={s}>{s}</li>)}</ol><div className="learning-check"><CheckCircle2 size={19}/><span><b>Đạt khi:</b> {lesson.check}</span></div></div>
-       <div className="learning-case-header"><div><span className="eyebrow">TRƯỜNG HỢP MINH HỌA</span><h3>Chọn công thức để xem</h3></div><span className="learning-counter">{caseIndex+1}/{lesson.cases.length}</span></div>
-       <div className="learning-case-picker">{lesson.cases.map((c,i)=><button key={c.id} className={i===caseIndex?'active':''} onClick={()=>setCaseIndex(i)}><strong>{c.title}</strong><code>{c.algorithm}</code></button>)}</div>
-       <div className="learning-case-description"><h3>{sample.title}</h3><p><b>Khi nào dùng:</b> {sample.when}</p><p><b>Cách hoạt động:</b> {sample.explanation}</p></div>
+       <div className="learning-lesson-title"><span className="eyebrow">{en?'STAGE':'GIAI ĐOẠN'} {lessonIndex+1} / {lessons.length} · {lesson.subtitle.toUpperCase()}</span><h2>{lesson.title}</h2><p>{lesson.goal}</p></div>
+       <div className="learning-instructions"><h3>{en?'How to solve this stage':'Thực hiện như thế nào?'}</h3><ol>{lesson.instructions.map(s=><li key={s}>{s}</li>)}</ol><div className="learning-check"><CheckCircle2 size={19}/><span><b>{en?'Done when:':'Đạt khi:'}</b> {lesson.check}</span></div></div>
+       <div className="learning-case-header"><div><span className="eyebrow">{en?'VISUAL CASE LIBRARY':'THƯ VIỆN TRƯỜNG HỢP'}</span>
+         <h3>{en?'Select the pattern that matches your cube':'Chọn hình giống khối Rubik của bạn'}</h3>
+       </div><span className="learning-counter">{caseIndex+1}/{lesson.cases.length}</span></div>
+       <p className="lesson-case-gallery-intro">{en
+          ?'Compare the top colour pattern AND the surrounding side colours. Select a case to see how to hold it and where each piece moves.'
+          :'So màu trên mặt U VÀ màu cạnh bên. Chọn một trường hợp để xem cách cầm và đường đi từng viên.'}</p>
+       <div className={`learning-case-picker lesson-case-gallery ${lessonIndex>=3?'has-diagrams':''}`}>
+         {lesson.cases.map((c,i)=><button key={c.id} type="button" className={i===caseIndex?'active':''}
+            onClick={()=>setCaseIndex(i)} aria-pressed={i===caseIndex}>
+           {lessonIndex>=3&&<CaseThumbnail sample={c} stageId={lesson.id}/>}
+           <strong>{c.title}</strong>
+           <code>{c.algorithm}</code>
+         </button>)}
+       </div>
+       <LessonCaseDiagram sample={sample} stageId={lesson.id}/>
+       <div className="learning-case-description"><h3>{en?'What the algorithm does':'Công thức này làm gì?'}</h3>
+         <p>{sample.explanation}</p>
+       </div>
+       <div className="learning-demo-heading"><div><span className="eyebrow">{en?'INTERACTIVE 3D PRACTICE':'THỰC HÀNH 3D'}</span>
+         <h3>{en?'Watch the pieces move, one turn at a time':'Xem từng lượt xoay và vị trí viên thay đổi'}</h3></div>
+         <p>{en?'The 3D cube shows exactly the case illustrated above. Animation plays only after you press a button.':
+           'Rubik 3D mô phỏng đúng trường hợp minh họa ở trên. Chỉ tự xoay khi bạn bấm nút.'}</p>
+       </div>
        <LearningCube key={sample.id} sample={sample}/>
        {sample.caution&&<div className="learning-notice warning"><ShieldAlert size={20}/><p>{sample.caution}</p></div>}
        <div className="learning-lesson-navigation"><button className="btn btn-outline" disabled={lessonIndex===0} onClick={()=>changeLesson(lessonIndex-1)}><ArrowLeft size={16}/> Bước trước</button><button className="btn btn-primary" onClick={()=>{if(lessonIndex===lessons.length-1){onStartSolve();}else changeLesson(lessonIndex+1);}}>{lessonIndex===lessons.length-1?'Thử giải Rubik':'Bước tiếp theo'} <ArrowRight size={16}/></button></div>

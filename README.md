@@ -143,3 +143,11 @@ Xem [Sổ tay công thức tiếng Việt](FORMULAS.md) hoặc [English algorith
 ## Nâng cấp trải nghiệm quét 2 ảnh
 
 Màn hình quét hai góc có hướng dẫn ba mặt theo màu tâm, không che hình camera bằng 27 dấu lấy mẫu cùng lúc. Sau khi chụp, chọn từng mặt (U/F/R hoặc D/L/B), kéo 4 vòng tròn góc với vùng chạm lớn hơn, phóng to 160%/220% để căn chính xác và đối chiếu bản xem trước 9 ô màu. Có thể đặt lại riêng mặt đang chỉnh, đặt lại cả ba mặt hoặc chụp lại. Bước 2 chỉ xoay **toàn bộ khối Rubik**, không xoay các tầng. Luôn kiểm tra 54 ô màu sau hai ảnh. Nhận diện vẫn beta, chưa tự động phát hiện mọi tư thế Rubik.
+
+## Bài giảng Rubik — bộ trường hợp và sơ đồ trực quan (11/2026)
+
+Bài học 7 bước đã được audit công thức và bổ sung thư viện trường hợp có ảnh **mặt U nhìn từ trên + dải màu bốn mặt bên**, mũi tên **viên xuất phát → vị trí đích**, cách cầm Rubik và kết quả cần đạt. Chọn đúng case rồi mới chạy mô phỏng 3D; vẫn có bảng công thức và hướng xoay từng bước.
+
+Đặc biệt, bước 6 thay công thức hoán vị góc cũ không giữ vàng bằng A-perm (cặp đèn pha phía sau) hoặc Y-perm (không có đèn pha). Bước 7 có Ua, Ub, H và Z. H/Z sử dụng hai vòng Ua với U đổi hướng để không cần ký hiệu lát giữa M. Với hướng cầm bài học: vàng U, trắng D, xanh dương F; **khác** hướng quét U trắng mặc định.
+
+Các ví dụ được tạo từ trạng thái hợp lệ và kiểm thử không phá hai tầng đã giải. Xem [Sổ tay VI](FORMULAS.md) / [Formula reference EN](FORMULAS.en.md).

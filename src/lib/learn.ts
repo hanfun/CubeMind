@@ -13,6 +13,10 @@ export type LearnCase = {
   algorithm:string;
   explanation:string;
   caution?:string;
+  /** Explicit physical orientation and pieces to observe, in the selected language. */
+  hold?:string;
+  expected?:string;
+  next?:string;
 };
 export type LearnLesson = {
   id:string;
@@ -72,49 +76,135 @@ export const LEARN_LESSONS:readonly LearnLesson[] = [
   },
   {
     id:'yellow-cross',title:'Tạo dấu cộng vàng',subtitle:'Tầng cuối · Định hướng cạnh',
-    goal:'Hướng bốn sticker màu vàng trên các viên cạnh quay lên mặt trên, tạm thời bỏ qua bốn góc.',
+    goal:'Đưa đúng bốn mặt vàng của các viên cạnh lên U; chưa cần khớp tâm bên và chưa cần góc vàng đúng.',
     instructions:[
-      'Nhìn mặt vàng phía trên: có dạng chấm, chữ L, vạch ngang hoặc chữ thập.',
-      'Giữ chữ L ở phía trên-trái theo hướng nhìn từ trên, hoặc vạch ngang từ trái sang phải.',
-      'Chạy công thức, quan sát lại và lặp từ góc thích hợp cho tới khi thành dấu cộng.',
+      'Nhìn từ trên, chỉ xem 4 ô cạnh của mặt vàng, không tính bốn góc.',
+      'Nhận dạng đường ngang, chữ L ở trên-trái, hoặc chỉ có một tâm vàng (dạng chấm).',
+      'Chọn đúng trường hợp; nhìn ảnh trước/sau và giữ nguyên cách cầm khi xoay công thức.'
     ],
-    check:'Bốn sticker cạnh trên màu vàng tạo dấu cộng quanh tâm vàng.',
-    cases:[{id:'yellow-cross-formula',title:'Công thức chữ thập vàng',when:'Có hình chữ L hoặc vạch ngang (cần định hướng đúng trước khi dùng).',algorithm:"F R U R' U' F'",explanation:'Xoay F, làm công thức tay phải, rồi trả F’.',caution:'Với hình chữ L và vạch ngang, hướng cầm khối trước khi thực hiện là quan trọng.'}],
+    check:'Bốn cạnh vàng hướng lên, tạo dấu cộng quanh tâm vàng.',
+    cases:[
+      {id:'yellow-line',title:'Đường ngang — 2 cạnh đã hướng đúng',
+       when:'Từ trên nhìn xuống: hai cạnh vàng nằm trái và phải tâm U.',
+       hold:'Giữ vạch vàng nằm ngang từ trái sang phải; vàng lên trên, trắng ở dưới.',
+       algorithm:"F R U R' U' F'",
+       explanation:'Xoay mặt trước, thao tác tay phải và trả mặt trước. Quan sát hai cạnh còn lại lật lên.',
+       expected:'Bốn cạnh trên cùng hướng vàng lên; góc vàng chưa cần hoàn chỉnh.'},
+      {id:'yellow-l',title:'Chữ L — hai cạnh kề nhau',
+       when:'Từ trên nhìn xuống: hai cạnh vàng kề nhau tạo chữ L ở ô trên và ô trái.',
+       hold:'Xoay toàn khối (không xoay tầng) để chữ L nằm ở phía trên-trái theo sơ đồ.',
+       algorithm:"F U R U' R' F'",
+       explanation:'Một biến thể phù hợp cho chữ L ở trên-trái, có hướng cầm cố định.',
+       expected:'Sau công thức, bốn cạnh sẽ hướng vàng lên.',
+       caution:'Đường ngang và chữ L không được cầm cùng hướng; chú ý hai hình mẫu trước khi thực hiện.'},
+      {id:'yellow-dot',title:'Dạng chấm — chưa cạnh nào hướng vàng',
+       when:'Chỉ thấy tâm vàng; cả bốn ô cạnh U đều không vàng.',
+       hold:'Giữ vàng ở trên. Đây là bài thực hành gồm hai công thức nối tiếp và đổi U ở giữa.',
+       algorithm:"F U R U' R' F' U F R U R' U' F' U'",
+       explanation:'Trường hợp chấm cần hai lần định hướng cạnh theo thứ tự thể hiện. Xem mỗi lần xoay trong 3D.',
+       expected:'Tạo dấu cộng vàng sau chuỗi kết hợp.',
+       caution:'Công thức dài chỉ minh họa một hướng cầm cụ thể; không tự chạy khi chưa so khớp với hình.'}
+    ],
   },
   {
     id:'yellow-face',title:'Hoàn thiện mặt vàng',subtitle:'Tầng cuối · Định hướng góc',
-    goal:'Hướng bốn sticker vàng của các viên góc lên mặt U, không cần đúng vị trí hoán vị ở bước này.',
+    goal:'Làm cả 4 góc trên quay màu vàng lên U trong khi giữ dấu cộng vàng. Chưa xét vị trí hoán vị góc.',
     instructions:[
-      'Quan sát số góc vàng đang hướng lên mặt trên và vị trí của chúng.',
-      'Chọn hướng cầm để công thức Sune tác động vào mẫu hiện tại.',
-      'Sau mỗi lần chạy hãy kiểm tra lại mẫu; không tự lặp vô hạn cùng một hướng.',
+      'Nhìn 4 ô góc U để đếm có 0, 1 hay 2 góc vàng đang hướng lên. 3 góc vàng hướng lên là không hợp lệ.',
+      'Với trường hợp chỉ 1 góc, phân biệt Sune và Anti-Sune bằng vị trí góc đó và màu ở cạnh bên.',
+      'Với 0 hoặc 2 góc, xem mẫu ghép hai công thức; xem lại vị trí sau từng lượt U nếu cầm khối thật.'
     ],
-    check:'Cả chín ô của mặt trên đều màu vàng.',
-    cases:[{id:'sune',title:'Công thức Sune (cá)',when:'Một dạng định hướng góc vàng phù hợp với mẫu Sune; hướng cầm phải đúng.',algorithm:"R U R' U R U2 R'",explanation:'Chuỗi 7 thao tác dùng để định hướng góc trên.',caution:'Không phải mọi mẫu mặt vàng đều giải bằng một lần Sune; cần nhìn đúng tình huống, xoay U hoặc đổi hướng cầm.'}],
-  },
-  {
-    id:'yellow-corners',title:'Đưa góc vàng đúng vị trí',subtitle:'Tầng cuối · Hoán vị góc',
-    goal:'Đổi vị trí các viên góc tầng cuối cho đúng bộ ba màu, sau khi đã hướng toàn bộ mặt vàng lên trên.',
-    instructions:[
-      'Tìm viên góc tầng trên nằm giữa đúng ba tâm màu (không xét hướng sticker).',
-      'Nếu có một góc đúng, đặt nó ở vị trí trên-trước-phải (UFR).',
-      'Thực hiện công thức đổi ba góc, rồi kiểm tra lại và lặp nếu cần.',
-    ],
-    check:'Bốn góc tầng trên nằm đúng vị trí theo màu tâm các mặt bên.',
-    cases:[{id:'corner-cycle',title:'Hoán vị ba góc',when:'Có một góc đúng tại UFR. Nếu chưa có góc nào đúng, thử công thức từ một hướng rồi kiểm tra lại.',algorithm:"U R U' L' U R' U' L",explanation:'Giữ một góc đúng ở vị trí trước-phải, đổi chỗ ba góc còn lại.',caution:'Đặt góc đúng tại UFR trước khi làm; nếu đặt nhầm, trạng thái có thể không tiến triển như mong đợi.'}],
-  },
-  {
-    id:'yellow-edges',title:'Hoàn thành các cạnh vàng',subtitle:'Tầng cuối · Hoán vị cạnh',
-    goal:'Di chuyển ba cạnh trên sai vị trí về đúng tâm mặt bên, không làm xáo trộn hai tầng dưới.',
-    instructions:[
-      'Tìm mặt bên có hàng trên đúng màu tâm; nếu có, giữ mặt đúng ở phía sau.',
-      'Xác định cạnh phía trước cần chuyển sang bên phải hay bên trái.',
-      'Chạy Ua hoặc Ub thích hợp, chỉnh U nếu cần để hoàn thành Rubik.',
-    ],
-    check:'Sáu mặt đều có chín ô cùng màu. Rubik đã hoàn chỉnh!',
+    check:'Toàn bộ 9 ô trên mặt U đều vàng; hai tầng dưới vẫn nguyên trạng.',
     cases:[
-      {id:'ua',title:'Ua — chuyển cạnh trước sang phải',when:'Có một cạnh trên đúng ở phía sau; cạnh trước cần chuyển về phía phải.',algorithm:"R U' R U R U R U' R' U' R2",explanation:'Hoán vị vòng ba viên cạnh tầng trên theo một chiều.'},
-      {id:'ub',title:'Ub — chuyển cạnh trước sang trái',when:'Có một cạnh trên đúng ở phía sau; cạnh trước cần chuyển về phía trái.',algorithm:"R2 U R U R' U' R' U' R' U R'",explanation:'Hoán vị ba viên cạnh tầng trên theo chiều ngược lại.'},
+      {id:'sune',title:'Sune — một góc vàng hướng lên',
+       when:'Một góc vàng hướng lên tại UFL trong hình mẫu; các góc còn lại lệch hướng.',
+       hold:'Giữ vàng trên; đưa góc vàng đang hướng lên về UFL (trước-trái) theo sơ đồ. Không xoay cả khối giữa công thức.',
+       algorithm:"R U R' U R U2 R'",
+       explanation:'Định hướng các góc bằng Sune; một trường hợp cơ bản để ghi nhớ.',
+       expected:'Bốn góc hướng vàng lên.'},
+      {id:'anti-sune',title:'Anti-Sune — dạng cá đối xứng',
+       when:'Một góc vàng hướng lên tại URB theo mẫu (đối xứng với Sune).',
+       hold:'Giữ vàng trên; xoay toàn khối để nhận ra đúng góc vàng theo ảnh rồi giữ nguyên.',
+       algorithm:"R U2 R' U' R U' R'",
+       explanation:'Biến thể đảo chiều của Sune, dùng khi mẫu góc có hướng ngược.',
+       expected:'Bốn góc hướng vàng lên.'},
+      {id:'two-yellow-corners',title:'Hai góc vàng hướng lên',
+       when:'Có đúng 2 trong 4 góc của U đang hướng vàng lên.',
+       hold:'Đặt góc theo hình mẫu trước; đây là một ví dụ hai công thức kết hợp với U ở giữa.',
+       algorithm:"R U R' U R U2 R' U R U2 R' U' R U' R' U'",
+       explanation:'Dùng Sune, thay đổi tầng U và Anti-Sune để hoàn thiện mẫu cụ thể này.',
+       expected:'Toàn bộ 9 ô U đều vàng.'},
+      {id:'zero-yellow-corners',title:'Không góc nào vàng hướng lên',
+       when:'Bốn ô góc U đều không vàng; dấu cộng vàng vẫn còn.',
+       hold:'So khớp màu bên ở hình mẫu. Đây là ví dụ gồm hai lần Sune từ một trạng thái hợp lệ.',
+       algorithm:"R U R' U R U2 R' R U R' U R U2 R'",
+       explanation:'Xem 3D sau lần Sune thứ nhất rồi tiếp tục với lần thứ hai.',
+       expected:'Toàn bộ 9 ô U đều vàng.',
+       caution:'Không có một góc cầm chung cho mọi cách sắp xếp bốn góc; nếu khác hình, hãy chọn ví dụ thích hợp hoặc chuyển bài nhận diện.'}
+    ],
+  },
+  {
+    id:'yellow-corners',title:'Hoán vị góc tầng cuối',subtitle:'Tầng cuối · Đặt góc đúng vị trí',
+    goal:'Đưa góc có ba màu về đúng ba mặt tâm; mặt vàng đã hướng lên từ bước trước phải được giữ nguyên.',
+    instructions:[
+      'Phân biệt: góc đúng hướng (vàng quay lên) và góc đúng vị trí (đúng bộ ba màu theo tâm). Hai điều này không giống nhau.',
+      'Nhìn hai sticker góc trên một mặt bên: nếu cùng màu gọi là cặp đèn pha (headlights). Xoay toàn khối để cặp đèn pha ở phía sau.',
+      'Nếu không thấy cặp đèn pha trên bất kỳ mặt nào, dùng Y-perm cho trường hợp đổi góc chéo. Sau đó kiểm tra lại.'
+    ],
+    check:'Mặt U vẫn vàng hoàn toàn và cả bốn góc tầng cuối ở đúng vị trí theo màu tâm; cạnh có thể chưa đúng.',
+    cases:[
+      {id:'aa-corner-cycle',title:'Cặp đèn pha phía sau — A-perm',
+       when:'Hai góc U ở cùng một mặt bên có sticker trùng nhau; mẫu này có cặp đèn pha ở phía sau.',
+       hold:'Giữ cặp đèn pha ở mặt sau (B); góc UFL là góc giữ nguyên trong công thức này.',
+       algorithm:"R' F R' B2 R F' R' B2 R2",
+       explanation:'A-perm đổi ba góc trên, giữ nguyên một góc. Công thức không phá mặt vàng đã hoàn thành.',
+       expected:'Cả bốn góc U đúng vị trí, các lớp dưới vẫn hoàn chỉnh.',
+       caution:'Công thức cũ dạng U R U’ L’… không giữ nguyên mặt vàng, nên đã được thay thế.'},
+      {id:'diagonal-corners',title:'Không có đèn pha — đổi góc chéo',
+       when:'Không có mặt bên nào với hai góc U cùng màu. Hai góc cần đổi chéo.',
+       hold:'Giữ vàng lên, trắng xuống và mặt trước khớp với hình; không cần tìm góc đúng UFR.',
+       algorithm:"F R U' R' U' R U R' F' R U R' U' R' F R F'",
+       explanation:'Y-perm xử lý hoán vị góc chéo; công thức cũng có thể đổi vị trí một số cạnh tầng cuối.',
+       expected:'Bốn góc trên về đúng vị trí. Nếu cạnh còn sai, tiếp tục bước 7.',
+       caution:'Đừng nhầm “không có đèn pha” với “không có góc đúng”; đó là hai cách kiểm tra khác nhau.'}
+    ],
+  },
+  {
+    id:'yellow-edges',title:'Hoán vị cạnh tầng cuối',subtitle:'Tầng cuối · Hoàn thành Rubik',
+    goal:'Hoán vị bốn cạnh trên cho khớp tâm mặt bên, giữ nguyên các góc và toàn bộ mặt vàng.',
+    instructions:[
+      'Tìm cạnh trên trùng màu tâm mặt bên. Nếu có đúng một cạnh đúng, đặt ở phía sau B.',
+      'Nếu không có cạnh đúng, xem đường đi của các viên: H đổi hai cặp đối diện, Z đổi hai cặp kề.',
+      'Chọn Ua, Ub, H hoặc Z. Các công thức H/Z dùng hai vòng Ua với thay đổi U ở giữa để không cần ký hiệu M.'
+    ],
+    check:'Tất cả sáu mặt đồng nhất và khối Rubik đã giải xong.',
+    cases:[
+      {id:'ua',title:'Ua — vòng ba cạnh theo một chiều',
+       when:'Có một cạnh đã đúng ở phía sau (UB), ba cạnh trước, phải, trái đi thành vòng.',
+       hold:'Giữ cạnh đúng ở phía sau B; mặt U vàng, tầng trắng D ở dưới.',
+       algorithm:"R U' R U R U R U' R' U' R2",
+       explanation:'Ba cạnh U còn lại luân phiên đổi vị trí; tất cả các góc giữ nguyên.',
+       expected:'Cả bốn cạnh U khớp màu tâm, Rubik hoàn chỉnh.'},
+      {id:'ub',title:'Ub — vòng ba cạnh chiều ngược lại',
+       when:'Có một cạnh đúng ở phía sau (UB), ba cạnh còn lại chạy theo vòng ngược Ua.',
+       hold:'Giữ cạnh đúng ở phía sau B và quan sát chiều mũi tên so với Ua.',
+       algorithm:"R2 U R U R' U' R' U' R' U R'",
+       explanation:'Ba cạnh U xoay vòng ngược chiều Ua.',
+       expected:'Bốn cạnh U đúng vị trí, Rubik hoàn chỉnh.'},
+      {id:'h-edges',title:'H-perm — hai cặp cạnh đối diện',
+       when:'Không có cạnh nào đúng: UF đổi với UB và UR đổi với UL (hai cặp đối diện).',
+       hold:'Giữ vàng trên; nhìn các mũi tên: trước ↔ sau và phải ↔ trái.',
+       algorithm:"R U' R U R U R U' R' U' R2 U R U' R U R U R U' R' U' R2 U'",
+       explanation:'Ghép hai chu kỳ Ua, có U và U’ để đổi hướng trung gian. Đây là ví dụ chỉ dùng ký hiệu sáu mặt.',
+       expected:'Hai cặp cạnh đối diện về đúng chỗ, Rubik hoàn chỉnh.',
+       caution:'Có cách H-perm ngắn hơn với ký hiệu M; bản này ưu tiên tương thích với 3D và bộ nhập hiện tại.'},
+      {id:'z-edges',title:'Z-perm — hai cặp cạnh kề',
+       when:'Không có cạnh nào đúng: UF đổi với UR và UB đổi với UL (hai cặp kề).',
+       hold:'Giữ vàng trên; nhìn hai mũi tên đổi cặp trước-phải và sau-trái.',
+       algorithm:"R U' R U R U R U' R' U' R2 U' R U' R U R U R U' R' U' R2 U",
+       explanation:'Hai chu kỳ Ua với đổi U ngược chiều H-perm; sau một vòng, tiếp tục vòng thứ hai.',
+       expected:'Hai cặp cạnh kề về đúng chỗ, Rubik hoàn chỉnh.',
+       caution:'Công thức dài để không dùng ký hiệu M; hãy tập Ua/Ub trước, sau đó học H/Z.'}
     ],
   },
 ];
