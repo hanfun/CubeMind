@@ -77,3 +77,14 @@ For every case in the seven beginner stages, show the complete algorithm, number
 ## Supplement — Two-photo scanner UX
 
 The mobile-first capture screen must show clean three-face center-color guides instead of 27 live sample markers. Only after capture should the selected face show its nine samples and four large draggable corner handles. Support per-face zoom (100%, 160%, 220%), 3×3 sampled-colour preview, uneven-colour warnings, per-face/all-face reset and retakes. A valid quadrilateral must not be labeled a verified cube recognition. Camera video `object-fit:cover` must match the square capture crop. Between shots rotate the whole cube without turning individual layers. Require the 54-facelet review after both photos.
+
+## Supplement — case atlas, verified last-layer algorithms and piece movements
+
+- Stage 4: show **dot / upper-left L / horizontal line** with the adjacent side colour strips and correct holding orientation.
+- Stage 5: show **Sune, Anti-Sune, zero and two yellow top corners**. Exactly three correctly oriented corners is impossible on a legal cube.
+- Stage 6: use **A-perm** for back headlights and **Y-perm** for no headlights, preserving the solved yellow U face and lower layers. Remove the former `U R U' L' U R' U' L` formula that breaks yellow orientation.
+- Stage 7: **Ua/Ub** with one fixed back edge, **H/Z** with no fixed edges. H/Z use two Ua cycles with U adjustments to avoid unsupported M-slice notation.
+- Derive case SVG top-and-side sticker colours from **cubejs-generated before/after cube states**. For corner/edge permutations, identify cubies by their colour sets and draw arrows from actual initial to final slots, not made-up arrow decorations.
+- All case holding instructions and captions have explicit VI/EN content. Mobile diagrams must be large and vertically stacked; lesson animations remain user-triggered.
+- Mandatory tests: cases are legal and preserve the solved first two layers, U remains all yellow for steps 6–7, patterns match dot/L/line and Sune counts, headlights/fixed corners/edges match labels, and H/Z arrows match the pair-swaps described.
+

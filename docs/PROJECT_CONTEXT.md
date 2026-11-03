@@ -85,3 +85,11 @@ npm run dev
 ## Cập nhật UX quét 2 ảnh
 
 Chế độ quét đã tách trạng thái chụp (chỉ hiện khung 3 mặt) và trạng thái căn ảnh (chọn một mặt, 9 điểm màu, 4 tay nắm lớn, phóng to theo mặt và xem trước 3×3). CSS live video dùng `object-fit:cover` giống ảnh camera crop vuông. Có cảnh báo độ đồng đều mẫu màu nhưng không coi kiểm tra ảnh/khung là bằng chứng nhận dạng chính xác. Cần QA thực tế trên Safari iOS, Chrome Android và nhiều ảnh ánh sáng khác nhau.
+
+## Cập nhật bài giảng trực quan và sửa công thức tầng cuối (11/2026)
+
+- Bổ sung `src/lib/lessonDiagrams.ts`, `src/components/LessonCaseDiagram.tsx` để hiển thị sticker trên U cùng 4 dải màu F/R/B/L, cảnh báo ô chưa đúng hướng, mũi tên chuyển vị trí viên thật tính từ cubejs, hình trước và sau.
+- Thư viện trường hợp bước 4–7 gồm chấm/L/vạch, Sune/Anti-Sune/0/2 góc vàng, A-perm/Y-perm (đèn pha/không đèn pha), Ua/Ub/H/Z. Mô phỏng 3D và bảng công thức hoạt động theo case đã chọn.
+- Thay thuật toán hoán vị góc cũ không bảo toàn mặt vàng bằng A/Y; H/Z dùng ghép Ua+U để chỉ cần 6 ký hiệu mặt. Kiểm thử trong `tests/lesson-cases.test.mjs` đối chiếu tính hợp lệ các trường hợp và đường đi vị trí viên.
+- Góc cầm khi học: U vàng, D trắng, F xanh dương; khi quét mặc định U trắng, F xanh lá. Không trộn hai quy ước.
+- Cần test browser thực tế trên thiết bị trước khi đánh giá trải nghiệm dạy học đã hoàn hảo.

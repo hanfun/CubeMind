@@ -287,3 +287,14 @@ Mỗi trường hợp trong 7 bài học cần hiển thị công thức đầy 
 ## Bổ sung — UX quét Rubik bằng 2 ảnh
 
 Trên mobile, hướng dẫn chụp phải hiện ba màu tâm và thứ tự mặt dễ nhìn, tránh đặt 27 dấu màu lên live camera. Sau khi chụp chỉ hiển thị 9 điểm màu trên mặt đang chọn và 4 tay nắm kéo lớn; cho phóng to từng mặt (100%, 160%, 220%), so sánh lưới 3×3 đã nhận diện, cảnh báo ô có màu không đồng đều, sửa khung từng mặt hoặc đặt lại. Không tuyên bố mặt đã nhận diện đúng chỉ vì khung tứ giác hợp lệ. Ảnh camera hiển thị bằng square `object-fit:cover` khớp với phép crop vuông khi chụp. Bước 2 yêu cầu xoay cả khối, giữ nguyên trạng thái các tầng. Xong hai ảnh vẫn phải xem lại 54 ô màu.
+
+## Bổ sung — thư viện trường hợp, công thức tầng cuối và đường đi viên
+
+- Bước 4: ba trạng thái mẫu **chấm / L trên-trái / vạch ngang**, kèm dải cạnh màu và hướng cầm tương ứng.
+- Bước 5: nhận biết **Sune / Anti-Sune / 0 góc / 2 góc vàng hướng lên**, có hình trạng thái hợp lệ và công thức ví dụ hoàn chỉnh. Không gợi ý 3 góc hướng lên là hợp lệ.
+- Bước 6: **A-perm** cặp đèn pha về phía sau; **Y-perm** không có đèn pha. Phải giữ mặt U vàng và hai tầng dưới hoàn chỉnh. Bỏ công thức cũ `U R U' L' U R' U' L` vì làm lệch màu mặt vàng.
+- Bước 7: **Ua/Ub** (một cạnh đã đúng phía sau); **H/Z** (không có cạnh đúng), minh họa hai cặp hoán đổi. Dùng các tổ hợp Ua + U để không thêm ký hiệu M chưa được hỗ trợ bởi 3D.
+- SVG case phải tính từ **trạng thái Rubik trước/sau do cubejs sinh ra**, không chỉ vẽ mũi tên tưởng tượng. Với bước 6/7 dùng ID bộ màu viên góc/cạnh để suy ra vị trí nguồn và đích. Thể hiện cả sticker dải F/R/B/L, chú thích góc nhìn B trên ảnh, F dưới ảnh.
+- Thông tin cầm Rubik và lời hướng dẫn phải có VI/EN; trên mobile hình lớn xếp dọc, tránh chữ quá nhỏ; không tự phát 3D khi mở bài.
+- Test bắt buộc: tính hợp lệ của ví dụ, giữ F2L sau bước 4–7, giữ U vàng cho bước 6–7, kiểm tra mặt U ở case chấm/L/line và Sune, các góc đúng, cặp đèn pha, số cạnh đúng, và hướng swap H/Z.
+

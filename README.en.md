@@ -118,3 +118,11 @@ See the [English algorithm reference](FORMULAS.en.md) or [Vietnamese reference](
 ## Two-photo scanner usability upgrade
 
 Guided camera framing now shows three clean face outlines instead of overlaying all 27 sample dots. After capture, select one face (U/F/R or D/L/B), drag its four larger corner handles, zoom to 160%/220%, and inspect a 3×3 sampled colour preview. Reset one face or all three, or retake the shot. Between shots rotate only the **entire cube**, never individual layers. A final 54-sticker review is mandatory. Recognition remains beta and does not detect arbitrary cube poses automatically.
+
+## Audited visual beginner lessons (November 2026)
+
+Seven-stage lessons now include a **case atlas** with actual top and side stickers, movement arrows for where each corner/edge travels, holding directions and expected results. The 3D cube and per-turn formula list illustrate the selected case; there is no autoplay on entry.
+
+Stage 6 replaces the former corner algorithm (which failed to preserve the yellow top face) with an A-perm/back-headlights and Y-perm/no-headlights example. Stage 7 covers Ua, Ub, H and Z, using face-turn-only combinations for H/Z instead of unsupported M slice notation. Teaching orientation is U yellow, D white, F blue; this is rotated from the scanner's default U white.
+
+Examples are created from legal cube states and checked to preserve solved lower layers. See [English formula reference](FORMULAS.en.md) / [Vietnamese reference](FORMULAS.md).

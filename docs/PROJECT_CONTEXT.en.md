@@ -77,3 +77,11 @@ The current `package.json` metadata still says `rubik-solver-webapp` and `0.3.0`
 ## Two-photo scan UX update
 
 The two-photo screen separates live capture (three face outlines only) from post-capture alignment (selected-face nine samples, large corner handles, face-centered zoom and a 3×3 colour preview). Live camera `object-fit:cover` matches square photo capture. Sample-variance warnings are advisory, not proof of cube recognition. Real iOS Safari/Android Chrome camera and touch QA remains necessary.
+
+## Visual beginner lessons and last-layer algorithm correction (November 2026)
+
+- `src/lib/lessonDiagrams.ts` and `src/components/LessonCaseDiagram.tsx` add actual cubejs-derived U-face/adjacent side colours, highlighted unoriented stickers, cubie movement arrows from before to after, and larger case diagrams.
+- Stages 4–7 offer dot/L/line, Sune/Anti-Sune/zero/two oriented corners, A/Y permutations (headlights/no-headlights), and Ua/Ub/H/Z edge permutations.
+- The former corner permutation sequence did not preserve yellow U; A/Y examples do. H/Z use two Ua cycles with U adjustments and no unsupported slice M.
+- `tests/lesson-cases.test.mjs` audits valid first-two-layer cases and their actual corner/edge destinations. Learning orientation U yellow, D white, F blue differs from the scanner default (U white, F green).
+- Browser and physical teaching QA are still required.
