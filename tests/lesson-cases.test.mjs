@@ -83,7 +83,9 @@ test('a lesson stops when its own goal is reached, not when the whole cube is so
 test('last four stages preserve two solved layers, while stage 6 keeps yellow up',()=>{
  for(const stage of LEARN_LESSONS.slice(3))for(const c of stage.cases){
   const states=lessonSnapshots(stage.id,c.algorithm);
-  assert.ok(states.every(twoLayersSolved),`lower layers broken in ${c.id}`);
+  // Commutators can temporarily open a solved slot while turning; only the
+  // start and end of the complete algorithm must preserve the solved F2L.
+  assert.ok(twoLayersSolved(states[0])&&twoLayersSolved(states.at(-1)),`lower layers broken in ${c.id}`);
   if(stage.id==='yellow-face')assert.equal(orientedTopCount(states[0],'edge'),4,`cross broken: ${c.id}`);
   if(['yellow-corners','yellow-edges'].includes(stage.id)){
    assert.equal(states[0].slice(0,9),'U'.repeat(9),`initial yellow top broken: ${c.id}`);
