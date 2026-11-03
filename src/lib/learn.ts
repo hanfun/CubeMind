@@ -1,4 +1,5 @@
 import {FACE_NAMES,invertMoves,parseMoves,type Face} from './cube.ts';
+import {lessonSetupMoves} from './lessonScenario.ts';
 
 /**
  * Curriculum in Vietnamese for a seven-stage beginner layer-by-layer method.
@@ -212,11 +213,11 @@ export const LEARN_LESSONS:readonly LearnLesson[] = [
 export function findLearnLesson(id:string):LearnLesson | undefined{return LEARN_LESSONS.find(l=>l.id===id);}
 export function getLearnCase(lessonId:string,caseId:string):LearnCase | undefined {return findLearnLesson(lessonId)?.cases.find(c=>c.id===caseId);}
 export function getLearnMoves(sample:LearnCase):string[]{return parseMoves(sample.algorithm);}
-export function sampleInitialSetup(sample:LearnCase):string{
-  // x2 rotates a solved cube for white-down/yellow-up teaching orientation.
-  // The reverse algorithm creates a *valid illustrative state* that will be
-  // solved when the sample moves are played. It does not detect a real case.
-  return ['x2',...invertMoves(getLearnMoves(sample))].join(' ');
+export function sampleInitialSetup(sample:LearnCase,stageId?:string):string{
+  // x2 is an orientation cue used by historical demos. The lesson's source state
+  // is built from a stage target, not from the fully solved cube.
+  const moves=stageId?lessonSetupMoves(stageId,sample.algorithm):invertMoves(getLearnMoves(sample));
+  return ['x2',...moves].join(' ');
 }
 export function notationDescription(move:string):string{
   const face=move[0] as Face;

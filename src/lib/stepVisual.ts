@@ -22,8 +22,10 @@ export function faceGrid(facelets:string,face:Face):Face[]{
  return facelets.slice(at,at+9).split('') as Face[];
 }
 
-/** Create exact 54-sticker before/after states for a lesson algorithm.
- * These are intentionally illustrative cases, not recognition of a user's cube. */
+/** Standalone notation demonstration only.
+ * Stage lessons MUST use lessonSnapshots(stageId, algorithm) from lessonScenario.ts
+ * so they stop at the current teaching milestone instead of solving the cube.
+ * This function remains for a single-move notation sandbox. */
 export function algorithmSnapshots(algorithm:string):string[]{
  const moves=parseMoves(algorithm);
  const cube=new Cube();

@@ -1,6 +1,6 @@
 import type {Face} from './cube.ts';
 import {FACES} from './cube.ts';
-import {algorithmSnapshots} from './stepVisual.ts';
+import {lessonSnapshots} from './lessonScenario.ts';
 import type {LearnCase} from './learn.ts';
 
 export type LayerPiece={name:string;indices:readonly number[];x:number;y:number};
@@ -43,8 +43,8 @@ export function movedTopPieces(before:string,after:string,kind:PieceKind):PieceP
    [{from:piece.name,to:dest.name,start:{x:piece.x,y:piece.y},end:{x:dest.x,y:dest.y}}]:[];
  });
 }
-export function lessonPattern(caseData:LearnCase):{before:string;after:string}{
- const snapshots=algorithmSnapshots(caseData.algorithm);
+export function lessonPattern(caseData:LearnCase,stageId:string):{before:string;after:string}{
+ const snapshots=lessonSnapshots(stageId,caseData.algorithm);
  return {before:snapshots[0],after:snapshots[snapshots.length-1]};
 }
 export function orientedTopCount(state:string,kind:PieceKind):number{

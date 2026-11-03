@@ -62,7 +62,7 @@ export default function LearnPage({onBack,onStartSolve}:Props){
          <p>{en?'The 3D cube shows exactly the case illustrated above. Animation plays only after you press a button.':
            'Rubik 3D mô phỏng đúng trường hợp minh họa ở trên. Chỉ tự xoay khi bạn bấm nút.'}</p>
        </div>
-       <LearningCube key={sample.id} sample={sample}/>
+       <LearningCube key={sample.id} sample={sample} stageId={lesson.id} stageGoal={lesson.check}/>
        {sample.caution&&<div className="learning-notice warning"><ShieldAlert size={20}/><p>{sample.caution}</p></div>}
        <div className="learning-lesson-navigation"><button className="btn btn-outline" disabled={lessonIndex===0} onClick={()=>changeLesson(lessonIndex-1)}><ArrowLeft size={16}/> Bước trước</button><button className="btn btn-primary" onClick={()=>{if(lessonIndex===lessons.length-1){onStartSolve();}else changeLesson(lessonIndex+1);}}>{lessonIndex===lessons.length-1?'Thử giải Rubik':'Bước tiếp theo'} <ArrowRight size={16}/></button></div>
      </section>

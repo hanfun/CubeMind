@@ -4,26 +4,31 @@ import {invertMoves} from '../lib/cube';
 import type {LearnCase} from '../lib/learn';
 import {getLearnMoves} from '../lib/learn';
 import {algorithmSnapshots} from '../lib/stepVisual';
+import {lessonSetupMoves,lessonSnapshots} from '../lib/lessonScenario';
 import {useI18n} from '../i18n';
 import PlayableCube3D,{type PlayableCubeHandle} from './PlayableCube3D';
 import FormulaSteps from './FormulaSteps';
 
-type Props={sample:LearnCase};
+type Props={sample:LearnCase;stageId?:string;stageGoal?:string};
 
 /**
  * 3D illustrations use the same Three.js viewer as the playable cube.
+ * Stage-scoped initial states preserve the incomplete later stages.
  * Never autoplay on mount; progress changes only after an actual animation finishes.
  * A viewer is reconstructed at an exact prefix when the learner seeks backward.
  */
-export default function LearningCube({sample}:Props){
+export default function LearningCube({sample,stageId,stageGoal}:Props){
  const {language}=useI18n(),en=language==='en';
  const cubeRef=useRef<PlayableCubeHandle>(null);
  const actionRef=useRef(false),generation=useRef(0);
  const [ready,setReady]=useState(false),[busy,setBusy]=useState(false),[step,setStep]=useState(0),[sceneKey,setSceneKey]=useState(0);
  const [speed,setSpeed]=useState(0.65),[error,setError]=useState('');
  const moves=useMemo(()=>getLearnMoves(sample),[sample.algorithm]);
- const snapshots=useMemo(()=>algorithmSnapshots(sample.algorithm),[sample.algorithm]);
- const setup=useMemo(()=>[...invertMoves(moves),...moves.slice(0,step)], [sample.algorithm,step]); // eslint-disable-line react-hooks/exhaustive-deps
+ const snapshots=useMemo(()=>stageId?lessonSnapshots(stageId,sample.algorithm):algorithmSnapshots(sample.algorithm),[stageId,sample.algorithm]);
+ const setup=useMemo(()=>[
+   ...(stageId?lessonSetupMoves(stageId,sample.algorithm):invertMoves(moves)),
+   ...moves.slice(0,step),
+ ],[stageId,sample.algorithm,step]); // eslint-disable-line react-hooks/exhaustive-deps
 
  const seek=(index:number)=>{
    if(actionRef.current)return;
@@ -82,9 +87,12 @@ export default function LearningCube({sample}:Props){
        </div>
        <p className="learning-step-status" aria-live="polite">
          {step===0?(en?'Ready. Click Play formula or One move.':'Sẵn sàng. Bấm Xem toàn bộ hoặc Xoay 1 bước.'):
-          step===moves.length?(en?'Example complete. Click Reset to start again.':'Đã xem hết công thức. Bấm Đặt lại để xem từ đầu.'):
+          step===moves.length?(stageId&&stageId!=='yellow-edges'?
+           (en?'This stage is complete. The cube is NOT fully solved; continue learning the next stage.':'Đã đạt mục tiêu giai đoạn này. Rubik CHƯA giải hoàn toàn; hãy tiếp tục giai đoạn sau.'):
+           (en?'Example complete. Click Reset to replay.':'Đã xem xong ví dụ. Bấm Đặt lại để xem từ đầu.')):
           (en?`Completed ${step}/${moves.length} moves.`:`Đã xem ${step}/${moves.length} bước.`)}
        </p>
+       {stageGoal&&<p className="learning-step-goal"><strong>{en?'Stage target:':'Mục tiêu giai đoạn:'}</strong> {stageGoal}</p>}
        <p className="learning-viewer-notice">{en
           ? 'Drag to change the view. The cube turns only when you click a play button. White is down and yellow is up in this lesson.'
           : 'Kéo để đổi góc nhìn. Rubik chỉ tự xoay khi bạn bấm nút. Bài học giữ trắng ở dưới và vàng ở trên.'}</p>
