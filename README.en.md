@@ -126,3 +126,17 @@ Seven-stage lessons now include a **case atlas** with actual top and side sticke
 Stage 6 replaces the former corner algorithm (which failed to preserve the yellow top face) with an A-perm/back-headlights and Y-perm/no-headlights example. Stage 7 covers Ua, Ub, H and Z, using face-turn-only combinations for H/Z instead of unsupported M slice notation. Teaching orientation is U yellow, D white, F blue; this is rotated from the scanner's default U white.
 
 Examples are created from legal cube states and checked to preserve solved lower layers. See [English formula reference](FORMULAS.en.md) / [Vietnamese reference](FORMULAS.md).
+
+## Stage-scoped 3D lesson examples
+
+Lesson examples no longer reconstruct their initial state from `fully solved + inverse(formula)`, because this accidentally finished the **entire cube** in every early-stage animation. Instead, the 3D model, SVG case diagrams and move list now use one shared **stage target state** from `src/lib/lessonScenario.ts`:
+
+- Stage 1: complete the white cross, leaving later pieces incomplete.
+- Stage 2: complete the white layer, keeping later layers unfinished.
+- Stage 3: finish both bottom layers, leaving the yellow top unsolved.
+- Stage 4: complete the yellow cross but not the yellow corners.
+- Stage 5: orient the yellow top, leaving last-layer permutation unfinished.
+- Stage 6: permute yellow corners, leaving some top edges misplaced.
+- **Stage 7:** only now finish the entire cube.
+
+The example 3D stops at the selected stage milestone. Regression tests verify these exact goals and consistency between 3D setup and the SVG before/after states. Standalone single-move notation practice remains a separate demo.

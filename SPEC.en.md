@@ -88,3 +88,11 @@ The mobile-first capture screen must show clean three-face center-color guides i
 - All case holding instructions and captions have explicit VI/EN content. Mobile diagrams must be large and vertically stacked; lesson animations remain user-triggered.
 - Mandatory tests: cases are legal and preserve the solved first two layers, U remains all yellow for steps 6–7, patterns match dot/L/line and Sune counts, headlights/fixed corners/edges match labels, and H/Z arrows match the pair-swaps described.
 
+
+## Supplement — learning animations must stop at their stage goal
+
+- **Previous defect:** every lesson sample was reconstructed as `fully solved + inverse(algorithm)`, so performing any formula finished the **entire cube** at every stage.
+- **Required behavior:** start from a valid example assembled as `stageTarget + inverse(lessonAlgorithm)`; replay the formula and stop at its own legal stage target, never the globally solved cube before stage 7.
+- Stage goals: 1 white cross; 2 white first layer; 3 first two layers; 4 yellow cross; 5 oriented yellow face; 6 correctly positioned yellow corners; 7 solved cube.
+- The same `lessonScenario.ts` snapshots are the source for the 3D initial setup, step-by-step playback, case thumbnails and SVG before/after diagrams. No autoplay.
+- Tests must assert the exact stage milestone, the incomplete global state for stages 1–6 and consistency across animation and diagrams. Intermediate turns may temporarily disturb previously solved pieces, provided the start and end of each full algorithm preserve prior-stage milestones.

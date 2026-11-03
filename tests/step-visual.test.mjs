@@ -4,6 +4,7 @@ import {LEARN_LESSONS} from '../src/lib/learn.ts';
 import {EN_LESSONS} from '../src/lib/learn.en.ts';
 import {algorithmSnapshots,faceGrid,viewForMove} from '../src/lib/stepVisual.ts';
 import {SOLVED,FACES,parseMoves} from '../src/lib/cube.ts';
+import {lessonSnapshots,stageTargetState} from '../src/lib/lessonScenario.ts';
 
 test('every translated lesson preserves exactly the same algorithms and case IDs',()=>{
  assert.equal(LEARN_LESSONS.length,EN_LESSONS.length);
@@ -17,15 +18,21 @@ test('every translated lesson preserves exactly the same algorithms and case IDs
    }
  }
 });
-test('all learning sequences have one exact 54-sticker snapshot per move and solve the sample',()=>{
+test('all learning sequences have one exact 54-sticker snapshot per move and stop at the stage target',()=>{
  for(const lesson of LEARN_LESSONS)for(const sample of lesson.cases){
    const moves=parseMoves(sample.algorithm);
-   const states=algorithmSnapshots(sample.algorithm);
+   const states=lessonSnapshots(lesson.id,sample.algorithm);
    assert.equal(states.length,moves.length+1,sample.id);
    assert.ok(states.every(f=>f.length===54),sample.id);
-   assert.equal(states.at(-1),SOLVED,sample.id);
+   assert.equal(states.at(-1),stageTargetState(lesson.id),sample.id);
+   assert.equal(states.at(-1)===SOLVED,lesson.id==='yellow-edges',sample.id);
    for(const face of FACES)assert.equal(faceGrid(states[0],face).length,9);
  }
+});
+test('standalone notation practice can still demonstrate a simple inverse-to-solved turn',()=>{
+ const states=algorithmSnapshots("R'");
+ assert.equal(states.length,2);
+ assert.equal(states[1],SOLVED);
 });
 test('illustrations use the correct viewing face and direction',()=>{
  assert.deepEqual([viewForMove('R').face,viewForMove('R').clockwise],['R',true]);

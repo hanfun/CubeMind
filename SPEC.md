@@ -298,3 +298,11 @@ Trên mobile, hướng dẫn chụp phải hiện ba màu tâm và thứ tự m�
 - Thông tin cầm Rubik và lời hướng dẫn phải có VI/EN; trên mobile hình lớn xếp dọc, tránh chữ quá nhỏ; không tự phát 3D khi mở bài.
 - Test bắt buộc: tính hợp lệ của ví dụ, giữ F2L sau bước 4–7, giữ U vàng cho bước 6–7, kiểm tra mặt U ở case chấm/L/line và Sune, các góc đúng, cặp đèn pha, số cạnh đúng, và hướng swap H/Z.
 
+
+## Bổ sung — mô phỏng bài học phải dừng ở đúng mục tiêu giai đoạn
+
+- **Lỗi cũ:** dựng trước công thức từ khối đã giải hoàn toàn bằng công thức đảo, làm cho bài học nào cũng tự giải hết khối sau khi phát ví dụ.
+- **Quy tắc bắt buộc:** mỗi giai đoạn có một **target hợp lệ nhưng chưa hoàn thành các bước sau**. Trạng thái mẫu ban đầu: `targetState + inverse(lessonAlgorithm)`; chạy công thức chỉ về `targetState`, không về Rubik đã giải (trừ bước 7).
+- Bước 1: dấu cộng trắng; 2: tầng trắng; 3: hai tầng dưới; 4: chữ thập vàng; 5: chín sticker mặt vàng U; 6: bốn góc U đúng vị trí; 7: khối Rubik hoàn chỉnh.
+- Bộ `lessonScenario.ts` cung cấp `lessonSetupMoves`, `lessonSnapshots`, `stageTargetState`; phải đồng bộ trạng thái giữa 3D, thumbnails, hình SVG trước/sau và hướng dẫn move. Chỉ phát hoạt ảnh khi nhấn nút.
+- Unit test bắt buộc xác nhận target trước/sau hợp lệ, đạt mục tiêu của giai đoạn, vẫn chưa giải hết với bước 1–6, và giữ nguyên phần hoàn thành ở giai đoạn trước. Công thức được phép tạm xáo trộn tầng đã giải **trong lúc xoay**, miễn đầu và cuối công thức đều đúng.

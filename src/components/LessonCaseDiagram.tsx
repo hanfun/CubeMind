@@ -76,7 +76,7 @@ function LayerMap({state,focus,paths=[],compact=false,caption}:{state:string;foc
 }
 
 export function CaseThumbnail({sample,stageId}:{sample:LearnCase;stageId:string}){
- const {before,after}=useMemo(()=>lessonPattern(sample),[sample.algorithm]);
+ const {before,after}=useMemo(()=>lessonPattern(sample,stageId),[sample.algorithm,stageId]);
  const focus=focusFor(stageId);
  const kind:PieceKind=focus==='corner-permutation'?'corner':'edge';
  const paths=useMemo(()=>focus.endsWith('permutation')?movedTopPieces(before,after,kind):[],[before,after,kind,focus]);
@@ -86,7 +86,7 @@ export function CaseThumbnail({sample,stageId}:{sample:LearnCase;stageId:string}
 export default function LessonCaseDiagram({sample,stageId}:{sample:LearnCase;stageId:string}){
  const {language}=useI18n(),en=language==='en';
  const focus=focusFor(stageId);
- const {before,after}=useMemo(()=>lessonPattern(sample),[sample.algorithm]);
+ const {before,after}=useMemo(()=>lessonPattern(sample,stageId),[sample.algorithm,stageId]);
  const kind:PieceKind=focus==='corner-permutation'?'corner':'edge';
  const arrows=useMemo(()=>focus.endsWith('permutation')?movedTopPieces(before,after,kind):[],[before,after,focus,kind]);
  const correctBefore=focus.endsWith('permutation')?correctTopPieces(before,kind):[];
