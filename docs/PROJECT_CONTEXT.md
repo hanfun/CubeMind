@@ -93,3 +93,7 @@ Chế độ quét đã tách trạng thái chụp (chỉ hiện khung 3 mặt) v
 - Thay thuật toán hoán vị góc cũ không bảo toàn mặt vàng bằng A/Y; H/Z dùng ghép Ua+U để chỉ cần 6 ký hiệu mặt. Kiểm thử trong `tests/lesson-cases.test.mjs` đối chiếu tính hợp lệ các trường hợp và đường đi vị trí viên.
 - Góc cầm khi học: U vàng, D trắng, F xanh dương; khi quét mặc định U trắng, F xanh lá. Không trộn hai quy ước.
 - Cần test browser thực tế trên thiết bị trước khi đánh giá trải nghiệm dạy học đã hoàn hảo.
+
+## Sửa lỗi 3D bài học giải hết Rubik ở mọi giai đoạn
+
+Đã tách trạng thái bài giảng khỏi `Rubik đã giải + công thức đảo`. `src/lib/lessonScenario.ts` định nghĩa target từng giai đoạn: 1 dấu cộng trắng, 2 tầng trắng, 3 hai tầng dưới, 4 dấu cộng vàng, 5 mặt vàng, 6 hoán vị góc vàng, 7 hoàn thành toàn bộ khối. `LearningCube.tsx` và `lessonDiagrams.ts` dùng chung target/snapshot để hình và 3D không lệch nhau. Trạng thái kết thúc bước 1–6 phải **chưa giải toàn bộ**. Test trong `tests/lesson-cases.test.mjs` và `tests/step-visual.test.mjs` là điều kiện không được phá vỡ.

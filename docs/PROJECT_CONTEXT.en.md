@@ -85,3 +85,7 @@ The two-photo screen separates live capture (three face outlines only) from post
 - The former corner permutation sequence did not preserve yellow U; A/Y examples do. H/Z use two Ua cycles with U adjustments and no unsupported slice M.
 - `tests/lesson-cases.test.mjs` audits valid first-two-layer cases and their actual corner/edge destinations. Learning orientation U yellow, D white, F blue differs from the scanner default (U white, F green).
 - Browser and physical teaching QA are still required.
+
+## Fixed: 3D lesson examples must not finish the whole cube early
+
+`src/lib/lessonScenario.ts` now defines one stage target per learning stage: white cross, white first layer, first two layers, yellow cross, yellow face, correctly permuted yellow corners, and full cube completion **only at stage 7**. `LearningCube.tsx`, `lessonDiagrams.ts`, per-turn steps and case SVGs share the same stage snapshots. The final cube must remain globally unsolved after stages 1–6. Do not regress this behavior; see `tests/lesson-cases.test.mjs` and `tests/step-visual.test.mjs`.

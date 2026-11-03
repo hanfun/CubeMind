@@ -151,3 +151,17 @@ Bài học 7 bước đã được audit công thức và bổ sung thư viện 
 Đặc biệt, bước 6 thay công thức hoán vị góc cũ không giữ vàng bằng A-perm (cặp đèn pha phía sau) hoặc Y-perm (không có đèn pha). Bước 7 có Ua, Ub, H và Z. H/Z sử dụng hai vòng Ua với U đổi hướng để không cần ký hiệu lát giữa M. Với hướng cầm bài học: vàng U, trắng D, xanh dương F; **khác** hướng quét U trắng mặc định.
 
 Các ví dụ được tạo từ trạng thái hợp lệ và kiểm thử không phá hai tầng đã giải. Xem [Sổ tay VI](FORMULAS.md) / [Formula reference EN](FORMULAS.en.md).
+
+## Mô phỏng bài học kết thúc theo đúng mục tiêu từng giai đoạn
+
+Trạng thái khởi đầu của mỗi công thức được dựng từ **trạng thái mục tiêu của chính giai đoạn đó**, không còn dùng `Rubik đã giải toàn bộ + công thức đảo ngược`. Khi xem hết công thức hoặc xoay từng bước:
+
+- Bước 1: dấu cộng trắng đúng, các góc/tầng khác vẫn cần giải.
+- Bước 2: hoàn thành tầng trắng, tầng giữa/tầng cuối còn sai.
+- Bước 3: hoàn thành hai tầng dưới, mặt vàng chưa giải.
+- Bước 4: dấu cộng vàng xuất hiện, góc vàng vẫn chưa đúng.
+- Bước 5: mặt U vàng hoàn chỉnh, vị trí các góc và cạnh cuối chưa giải xong.
+- Bước 6: góc U đúng vị trí nhưng vẫn còn cạnh U chưa đúng.
+- **Bước 7:** mới kết thúc bằng cả khối Rubik hoàn chỉnh.
+
+Module `src/lib/lessonScenario.ts` tạo các trạng thái này bằng `cubejs`; 3D, ảnh SVG và bảng công thức phải sử dụng chung chuỗi trạng thái. `tests/lesson-cases.test.mjs` kiểm tra giai đoạn 1–6 không được kết thúc tại Rubik hoàn chỉnh, bước 7 mới được phép.
