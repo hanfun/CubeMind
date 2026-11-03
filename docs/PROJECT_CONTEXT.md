@@ -81,3 +81,7 @@ npm run dev
 - Luôn lấy source mới nhất từ `main` → tạo branch `feature/*` hoặc `fix/*` → code + test + cập nhật tài liệu VI/EN → Pull Request → kiểm tra CI → merge → xác nhận GitHub Pages Deploy.
 - Không đưa secrets, token, mật khẩu vào tài liệu hoặc commit.
 - Trước yêu cầu mới, đọc `AGENTS.md` và file này, sau đó kiểm tra GitHub để xác nhận thay đổi mới nhất.
+
+## Cập nhật UX quét 2 ảnh
+
+Chế độ quét đã tách trạng thái chụp (chỉ hiện khung 3 mặt) và trạng thái căn ảnh (chọn một mặt, 9 điểm màu, 4 tay nắm lớn, phóng to theo mặt và xem trước 3×3). CSS live video dùng `object-fit:cover` giống ảnh camera crop vuông. Có cảnh báo độ đồng đều mẫu màu nhưng không coi kiểm tra ảnh/khung là bằng chứng nhận dạng chính xác. Cần QA thực tế trên Safari iOS, Chrome Android và nhiều ảnh ánh sáng khác nhau.

@@ -283,3 +283,7 @@ function confirmMove(s: SolveSession, moveIndex: number): SolveSession {
 ## Bổ sung — công thức và hình minh họa theo bước
 
 Mỗi trường hợp trong 7 bài học cần hiển thị công thức đầy đủ, danh sách các lượt xoay có đánh số, bước đang chạy được tô sáng, chú thích mặt nhìn trực diện và hình màu của mặt đó trước/sau lượt xoay. PC: bên phải mô hình 3D; mobile: dưới mô hình. Chỉ phát chuyển động khi người dùng bấm nút. Màn hình hướng dẫn giải Rubik thật sử dụng cùng bảng này nhưng lấy dữ liệu từ lời giải Solver và các snapshot đã xác minh; demo không cập nhật tiến độ thật. Xem [FORMULAS.md](FORMULAS.md) hoặc [FORMULAS.en.md](FORMULAS.en.md).
+
+## Bổ sung — UX quét Rubik bằng 2 ảnh
+
+Trên mobile, hướng dẫn chụp phải hiện ba màu tâm và thứ tự mặt dễ nhìn, tránh đặt 27 dấu màu lên live camera. Sau khi chụp chỉ hiển thị 9 điểm màu trên mặt đang chọn và 4 tay nắm kéo lớn; cho phóng to từng mặt (100%, 160%, 220%), so sánh lưới 3×3 đã nhận diện, cảnh báo ô có màu không đồng đều, sửa khung từng mặt hoặc đặt lại. Không tuyên bố mặt đã nhận diện đúng chỉ vì khung tứ giác hợp lệ. Ảnh camera hiển thị bằng square `object-fit:cover` khớp với phép crop vuông khi chụp. Bước 2 yêu cầu xoay cả khối, giữ nguyên trạng thái các tầng. Xong hai ảnh vẫn phải xem lại 54 ô màu.
