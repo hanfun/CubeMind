@@ -58,7 +58,7 @@ function LayerMap({state,focus,paths=[],compact=false,caption}:{state:string;foc
      <text x="262" y="151" textAnchor="middle">R</text>
      <text x="144" y="288" textAnchor="middle">{orientation?`${count}/4 ${focus==='edge-orientation'?'edges':'corners'} ↑`:'U / TOP'}</text>
    </g>
-   {!compact&&paths.map((path,i)=>{
+   {paths.map((path,i)=>{
      const a=pos(path.start.x,path.start.y),b=pos(path.end.x,path.end.y);
      const dx=b.x-a.x,dy=b.y-a.y;
      const cx=(a.x+b.x)/2+(-dy)*0.12+(i%2?5:-5);
@@ -76,8 +76,11 @@ function LayerMap({state,focus,paths=[],compact=false,caption}:{state:string;foc
 }
 
 export function CaseThumbnail({sample,stageId}:{sample:LearnCase;stageId:string}){
- const state=useMemo(()=>lessonPattern(sample).before,[sample.algorithm]);
- return <LayerMap state={state} compact focus={focusFor(stageId)} caption={sample.title}/>;
+ const {before,after}=useMemo(()=>lessonPattern(sample),[sample.algorithm]);
+ const focus=focusFor(stageId);
+ const kind:PieceKind=focus==='corner-permutation'?'corner':'edge';
+ const paths=useMemo(()=>focus.endsWith('permutation')?movedTopPieces(before,after,kind):[],[before,after,kind,focus]);
+ return <LayerMap state={before} compact focus={focus} paths={paths} caption={sample.title}/>;
 }
 
 export default function LessonCaseDiagram({sample,stageId}:{sample:LearnCase;stageId:string}){
