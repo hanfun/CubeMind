@@ -32,6 +32,9 @@
    - Name: **Nguyễn Hoàng Phương**
    - VI: **Kỹ sư phần mềm cấp cao**
    - EN: **Senior Software Engineer**
+   - Footer dedication (VI): **Dành tặng cho Nguyễn Võ Yến Ngọc và Nguyễn Võ Minh Ngọc**.
+   - Footer dedication (EN): **Dedicated to Nguyễn Võ Yến Ngọc and Nguyễn Võ Minh Ngọc**.
+   - Preserve Vietnamese spellings of both personal names across languages.
 8. Keep touch, mouse, WebGL, React lifecycle cleanup and mobile responsiveness safe.
 
 ## 4. Editing workflow / Quy trình sửa code

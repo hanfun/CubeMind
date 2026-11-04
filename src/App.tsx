@@ -98,6 +98,12 @@ export default function App(){
          <strong>Nguyễn Hoàng Phương</strong>
          <span className="footer-author-role">· {language==='vi'?'Kỹ sư phần mềm cấp cao':'Senior Software Engineer'}</span>
        </div>
+       <div className="footer-dedication">
+         <span>{language==='vi'?'Dành tặng cho':'Dedicated to'}</span>
+         <strong>Nguyễn Võ Yến Ngọc</strong>
+         <span>{language==='vi'?'và':'and'}</span>
+         <strong>Nguyễn Võ Minh Ngọc</strong>
+       </div>
      </div>
      <div className="footer-tech">
        <span><SlidersHorizontal size={14}/> Mobile-first</span>
