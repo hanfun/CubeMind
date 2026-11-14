@@ -1,5 +1,5 @@
 import {useCallback,useEffect,useState} from 'react';
-import {ArrowRight,Box,Camera,Check,ChevronRight,CircleHelp,ClipboardList,Clock3,Code2,FastForward,FileText,Hand,Gamepad2,BookOpen,Layers3,LockKeyhole,Play,Rotate3d,ScanLine,ShieldCheck,SlidersHorizontal,Sparkles,TriangleAlert,Zap} from 'lucide-react';
+import {ArrowRight,Box,Camera,Check,ChevronRight,CircleHelp,ClipboardList,Clock3,Code2,FastForward,FileText,Hand,Gamepad2,BookOpen,GraduationCap,Layers3,LockKeyhole,Play,Rotate3d,ScanLine,ShieldCheck,SlidersHorizontal,Sparkles,TriangleAlert,Zap} from 'lucide-react';
 import {basicFaceletValidation,SOLVED} from './lib/cube';
 import {clearSession,loadSession,saveSession,type SolveSession} from './lib/guide';
 import {solveInWorker,type SolverRequest} from './lib/solver';
@@ -10,6 +10,8 @@ import Guide from './components/Guide';
 import LearnPage from './components/LearnPage';
 import PlayPage from './components/PlayPage';
 import {LanguageSwitch,useI18n} from './i18n';
+import SolveMethodPicker from './components/SolveMethodPicker';
+import {getSolveMethod,loadSolveMethod,saveSolveMethod,type SolveMethodId} from './lib/solveMethods';
 
 type Stage='play'|'learn'|'home'|'source'|'scan'|'scan-two'|'analyzing'|'ready'|'guide';
 type InputMethod='scramble'|'facelets'|'scan';
@@ -22,6 +24,8 @@ export default function App(){
  const [session,setSession]=useState<SolveSession|null>(null),[selectedMode,setSelectedMode]=useState<SolveMode>('manual');
  const [error,setError]=useState(''),[progress,setProgress]=useState(''),[savedSession,setSavedSession]=useState<SolveSession|null>(null);
  const [showTech,setShowTech]=useState(false);
+ const [solveMethod,setSolveMethod]=useState<SolveMethodId>(loadSolveMethod);
+ const changeSolveMethod=(id:SolveMethodId)=>{setSolveMethod(id);saveSolveMethod(id);};
  const [scanWarnings,setScanWarnings]=useState<string[]>([]);
  useEffect(()=>{setSavedSession(loadSession());},[]);
  const startSolve=async(req:SolverRequest)=>{
@@ -49,7 +53,7 @@ export default function App(){
    <main className="main">
    {stage==='home'&&<>
      <div className="hero"><div className="hero-copy"><span className="micro-badge"><Sparkles size={14}/> RUBIK GIẢI ĐƠN GIẢN HƠN</span><h1>Giải Rubik.<br/><span>Từng chuyển động.</span></h1><p>Tính lời giải chính xác, xem hoạt ảnh 3D và tự xoay Rubik thật theo từng bước — ngay trên điện thoại của bạn.</p>
-       <div className="hero-actions"><button className="btn btn-primary" onClick={()=>setStage('source')}>Bắt đầu giải <ArrowRight size={19}/></button><button className="btn btn-outline" onClick={()=>setStage('play')}>Chơi Rubik 3D <Gamepad2 size={16}/></button><button className="btn btn-outline" onClick={()=>setStage('learn')}>Học giải Rubik <BookOpen size={16}/></button><button className="btn btn-ghost" onClick={()=>{setMethod('scramble');setStage('source');}}>Thử khối mẫu <Play size={16}/></button></div>
+       <div className="hero-actions"><button className="btn btn-primary" onClick={()=>setStage('source')}>Bắt đầu giải <ArrowRight size={19}/></button><button className="btn btn-outline" onClick={()=>setStage('play')}>Chơi Rubik 3D <Gamepad2 size={16}/></button><button className="btn btn-outline" onClick={()=>setStage('learn')}>Học giải Rubik <BookOpen size={16}/></button><button className="btn btn-outline" onClick={()=>setStage('learn')}>{language==='en'?'5 solving methods':'5 phương pháp giải'} <GraduationCap size={16}/></button><button className="btn btn-ghost" onClick={()=>{setMethod('scramble');setStage('source');}}>Thử khối mẫu <Play size={16}/></button></div>
        <div className="trust-row"><span><Check size={15}/> Không cần tài khoản</span><span><ShieldCheck size={15}/> Xử lý ngay trên máy</span></div>
      </div><div className="hero-visual" aria-hidden="true"><div className="halo-ring ring-1"/><div className="halo-ring ring-2"/><div className="cube-hero"><div className="cube-face hero-front">{Array.from({length:9},(_,i)=><span key={i} style={{background:['#30c99a','#30c99a','#3f8af1','#ffcb40','#30c99a','#ec536b','#30c99a','#ec536b','#30c99a'][i]}}/>)}</div><div className="cube-face hero-top">{Array.from({length:9},(_,i)=><span key={i} style={{background:['#fff','#ffcb40','#fff','#fff','#fff','#ffcb40','#ec536b','#fff','#fff'][i]}}/>)}</div><div className="cube-face hero-right">{Array.from({length:9},(_,i)=><span key={i} style={{background:['#ff914c','#4289ef','#4289ef','#ec536b','#ec536b','#ffcb40','#4289ef','#ff914c','#ec536b'][i]}}/>)}</div></div><div className="floating-label float-one"><span>↻</span> 3D Animation</div><div className="floating-label float-two"><Zap size={16}/> Step-by-step</div></div></div>
      {savedSession&&<button className="resume-banner" onClick={restore}><div className="resume-logo"><Clock3 size={22}/></div><span><b>Tiếp tục phiên trước</b><small>{savedSession.confirmedCount}/{savedSession.solution.length} bước đã xác nhận · Cần xác nhận trạng thái Rubik thật</small></span><ChevronRight size={19}/></button>}
@@ -58,8 +62,10 @@ export default function App(){
      <div className="bottom-tip"><LockKeyhole size={18}/><span>Không cần backend. Dữ liệu phiên được lưu cục bộ trong trình duyệt của bạn.</span></div>
    </>}
    {stage==='play'&&<PlayPage onBack={()=>setStage('home')}/>}
-   {stage==='learn'&&<LearnPage onBack={()=>setStage('home')} onStartSolve={()=>setStage('source')}/>}
-   {stage==='source'&&<div className="workspace"><button className="nav-back" onClick={goBack}>← Quay lại</button><span className="micro-badge">BƯỚC 01 · TRẠNG THÁI RUBIK</span><h1 className="page-title">Chuẩn bị khối Rubik</h1><p className="page-description">Chọn cách cung cấp trạng thái để hệ thống phân tích và tìm lời giải thật.</p>
+   {stage==='learn'&&<LearnPage onBack={()=>setStage('home')} onStartSolve={()=>setStage('source')} methodId={solveMethod} onMethodChange={changeSolveMethod}/>}
+   {stage==='source'&&<div className="workspace"><button className="nav-back" onClick={goBack}>← {language==='en'?'Back':'Quay lại'}</button><span className="micro-badge">{language==='en'?'STEP 01 · CUBE STATE':'BƯỚC 01 · TRẠNG THÁI RUBIK'}</span><h1 className="page-title">{language==='en'?'Prepare your Rubik cube':'Chuẩn bị khối Rubik'}</h1><p className="page-description">{language==='en'?'Choose a learning method, then enter the cube state for the validated Kociemba solver.':'Chọn phương pháp muốn học, sau đó nhập trạng thái Rubik cho bộ giải Kociemba đã xác minh.'}</p>
+    <SolveMethodPicker value={solveMethod} onChange={changeSolveMethod} compact engineNotice/>
+    <button type="button" className="btn btn-outline method-learn-shortcut" onClick={()=>setStage('learn')}><BookOpen size={18}/>{language==='en'?'Open method-specific lessons':'Học từng bước theo phương pháp đã chọn'} <ChevronRight size={16}/></button>
     <div className="method-grid"><button type="button" className={`method-card ${method==='scramble'?'active':''}`} onClick={()=>{setMethod('scramble');setError('');}}><Code2 size={24}/><b>Chuỗi trộn</b><small>Thử ngay với ký hiệu U R F…</small></button>
     <button type="button" className={`method-card ${method==='facelets'?'active':''}`} onClick={()=>{setMethod('facelets');setError('');}}><Layers3 size={24}/><b>54 ô màu</b><small>Nhập màu từng mặt</small></button>
     <button type="button" className={`method-card ${method==='scan'?'active':''}`} onClick={()=>{setMethod('scan');setError('');}}><Camera size={24}/><b>Quét / tải ảnh</b><small>2 ảnh nhanh / 6 ảnh</small></button></div>
@@ -84,11 +90,16 @@ export default function App(){
    {stage==='ready'&&session&&<div className="ready-screen"><button className="nav-back" onClick={goBack}>← Trang chủ</button><div className="success-icon"><ShieldCheck size={32}/></div><div className="eyebrow green-text">KIỂM TRA THÀNH CÔNG</div><h1 className="page-title">Sẵn sàng giải Rubik!</h1><p className="page-description">Dữ liệu hợp lệ và toàn bộ chuỗi thao tác đã được mô phỏng để xác minh.</p>
      <div className="result-stats"><div><strong>{session.solution.length}</strong><span>Bước giải</span></div><div><strong>54/54</strong><span>Ô màu</span></div><div><strong><Check size={26}/></strong><span>Hợp lệ</span></div></div>
      <div className="solution-preview"><span className="eyebrow">CHUỖI LỜI GIẢI</span><div>{session.solution.length?session.solution.map((m,i)=><span className="move-chip" key={i}>{m}</span>):<span className="muted">Rubik đã hoàn chỉnh, không cần thêm thao tác.</span>}</div></div>
-     <h2 className="choose-title">Bạn muốn giải theo cách nào?</h2><div className="solve-options"><button className={`solve-option ${selectedMode==='manual'?'selected':''}`} onClick={()=>setSelectedMode('manual')}><span className="option-icon"><Hand size={23}/></span><span><b>Tự giải từng bước</b><small>Nhìn 3D, xoay khối thật và xác nhận mỗi bước.</small></span><span className="radio-dot"/></button><button className={`solve-option ${selectedMode==='auto'?'selected':''}`} onClick={()=>setSelectedMode('auto')}><span className="option-icon"><FastForward size={24}/></span><span><b>Xem 3D tự động</b><small>Quan sát Rubik 3D xoay chậm theo lời giải.</small></span><span className="radio-dot"/></button></div>
+     <h2 className="choose-title">{language==='en'?'Your chosen learning method':'Phương pháp học bạn đã chọn'}</h2>
+     <SolveMethodPicker value={solveMethod} onChange={changeSolveMethod} compact engineNotice/>
+     <button type="button" className="btn btn-outline btn-wide" onClick={()=>setStage('learn')}>
+       <BookOpen size={18}/>{language==='en'?'Open the method stages':'Xem các bước giải của phương pháp'} · {getSolveMethod(solveMethod).name}
+     </button>
+     <h2 className="choose-title">{language==='en'?'How do you want to follow the Kociemba solution?':'Bạn muốn xem lời giải Kociemba theo chế độ nào?'}</h2><div className="solve-options"><button className={`solve-option ${selectedMode==='manual'?'selected':''}`} onClick={()=>setSelectedMode('manual')}><span className="option-icon"><Hand size={23}/></span><span><b>Tự giải từng bước</b><small>Nhìn 3D, xoay khối thật và xác nhận mỗi bước.</small></span><span className="radio-dot"/></button><button className={`solve-option ${selectedMode==='auto'?'selected':''}`} onClick={()=>setSelectedMode('auto')}><span className="option-icon"><FastForward size={24}/></span><span><b>Xem 3D tự động</b><small>Quan sát Rubik 3D xoay chậm theo lời giải.</small></span><span className="radio-dot"/></button></div>
      <button className="btn btn-primary btn-wide entry-submit" onClick={()=>setStage('guide')}>Bắt đầu {selectedMode==='auto'?'mô phỏng 3D':'hướng dẫn giải'} <ArrowRight size={19}/></button>
      <button className="btn btn-ghost btn-wide" onClick={newProject}>Nhập khối Rubik khác</button>
    </div>}
-   {stage==='guide'&&session&&<Guide key={session.id} session={session} mode={selectedMode} onModeChange={setSelectedMode} onExit={()=>setStage('ready')} onRestart={newProject} onSession={onSession}/>}
+   {stage==='guide'&&session&&<Guide key={session.id} session={session} mode={selectedMode} methodId={solveMethod} onLearnMethod={()=>setStage('learn')} onModeChange={setSelectedMode} onExit={()=>setStage('ready')} onRestart={newProject} onSession={onSession}/>}
    </main>
    <footer className="footer">
      <div className="footer-meta">

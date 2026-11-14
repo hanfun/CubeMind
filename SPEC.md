@@ -306,3 +306,15 @@ Trên mobile, hướng dẫn chụp phải hiện ba màu tâm và thứ tự m�
 - Bước 1: dấu cộng trắng; 2: tầng trắng; 3: hai tầng dưới; 4: chữ thập vàng; 5: chín sticker mặt vàng U; 6: bốn góc U đúng vị trí; 7: khối Rubik hoàn chỉnh.
 - Bộ `lessonScenario.ts` cung cấp `lessonSetupMoves`, `lessonSnapshots`, `stageTargetState`; phải đồng bộ trạng thái giữa 3D, thumbnails, hình SVG trước/sau và hướng dẫn move. Chỉ phát hoạt ảnh khi nhấn nút.
 - Unit test bắt buộc xác nhận target trước/sau hợp lệ, đạt mục tiêu của giai đoạn, vẫn chưa giải hết với bước 1–6, và giữ nguyên phần hoàn thành ở giai đoạn trước. Công thức được phép tạm xáo trộn tầng đã giải **trong lúc xoay**, miễn đầu và cuối công thức đều đúng.
+
+## Đặc tả bổ sung: đa phương pháp Rubik 3×3
+
+- Cho chọn phương pháp độc lập với cách nhập trạng thái (scramble/54 sticker/camera): **Beginner, CFOP 2-look, CFOP Full, Roux, ZZ**. Lưu trong `cubemind:solve-method-v1` (localStorage), giá trị không hợp lệ quay về `beginner`.
+- Trình bày chính xác tên, mô tả, cấp độ và **các chặng khác nhau**. Đừng hiển thị 7 bước LBL cho Roux hoặc ZZ. Trong giao diện học mở mặc định tab phương pháp; tab ký hiệu vẫn truy cập được.
+- Mỗi chặng gồm tiêu chí nhận diện, hướng cầm, thao tác, kết quả cần đạt; sơ đồ vùng giải chỉ là khái niệm (không giả là trạng thái Rubik nhận dạng). Case 3D chỉ dùng nếu liên kết tới ví dụ `LEARN_LESSONS` đã kiểm thử; cần hiện cảnh báo các trường hợp còn thiếu.
+- Người dùng có thể tự đánh dấu hoàn thành trên Rubik thật, nhưng **không gọi là đã kiểm chứng** và không tự tăng `SolveSession.confirmedCount`. Manual physical solver vẫn bắt buộc xác nhận từng move.
+- `src/lib/solveMethods.ts` chứa catalog và bản dịch VI/EN, `SolveMethodPicker.tsx` hiển thị, `MethodCurriculum.tsx` cho học theo chặng, `tests/solve-methods.test.mjs` kiểm tra cấu trúc và kết nối ví dụ.
+- **Giới hạn quan trọng:** không tạo lời giải CFOP/Roux/ZZ từ Kociemba rồi dán nhãn giả. Bộ giải `cubejs` hiện vẫn tạo và xác minh lời giải Kociemba cho mọi phương pháp chọn; giao diện kết quả và hướng dẫn phải giải thích rõ. Full CFOP cần 41 F2L, 57 OLL, 21 PLL; Roux cần CMLL và tầng M; ZZ cần EO/EOLine hợp lệ. Đây là phạm vi phát triển tiếp theo, không được quảng bá như đã có.
+- 3D học không tự chạy; hình và snapshot của các ví dụ phải khớp, và giai đoạn đầu không tự giải toàn bộ khối. Luôn giữ giao diện mobile và song ngữ.
+
+- Sơ đồ trước/sau của từng bài cần dùng hệ trục nhìn phù hợp: D dưới cho cạnh/góc trắng, F trực diện cho tầng giữa, U trên cho tầng cuối; dải F/R/B/L tuân theo thứ tự facelet URFDLB. Bài trắng phải tô rõ ô thay đổi, không còn ảnh mặt U gây nhầm. Test: `tests/lesson-face-view.test.mjs`.

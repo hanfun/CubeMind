@@ -140,3 +140,23 @@ Lesson examples no longer reconstruct their initial state from `fully solved + i
 - **Stage 7:** only now finish the entire cube.
 
 The example 3D stops at the selected stage milestone. Regression tests verify these exact goals and consistency between 3D setup and the SVG before/after states. Standalone single-move notation practice remains a separate demo.
+
+## Choose a 3×3 solving method: beginner to advanced (November 2026)
+
+CubeMind now offers **five selectable learning paths** from the **Prepare cube** and **Learn Rubik** screens. The selection persists locally in the browser.
+
+| Method | Curriculum | Current example coverage |
+|---|---|---|
+| **Beginner (layer by layer)** | White cross → white corners → middle layer → yellow cross → yellow face → last corners → last edges | Seven interactive stages with verified 3D examples, but not every physical case is covered |
+| **Two-look CFOP** | Cross → F2L → edge OLL → corner OLL → corner PLL → edge PLL | Reuses verified orient/permute examples; F2L examples currently show edge insertion only; full seven 2-look corner OLL cases are not present |
+| **Full CFOP** | Cross → F2L → 57 OLL → 21 PLL | Advanced roadmap with selected technique examples; **the full 41 F2L / 57 OLL / 21 PLL algorithm library is not implemented** |
+| **Roux** | First 1×2×3 block → second 1×2×3 block → CMLL → LSE | Stage recognition/holding/how-to roadmap; no Roux-specific engine or M-slice/CMLL 3D cases yet |
+| **ZZ** | EOLine → ZZF2L → last layer | Stage roadmap and conceptual target diagrams; no automatic ZZ solver yet |
+
+Each method stage provides **Recognize → Hold → Turn → Verify** instructions, a conceptual target diagram, example 3D playback where mathematically verified, and optional manual completion tracking. Completing a stage checkbox does **not** verify a physical cube using the camera. The user must compare their own cube against the illustrated case before executing any formula.
+
+**Important solver distinction:** the actual scan/scramble/54-facelet solver continues to produce **validated Kociemba moves via `cubejs`**, independent of the selected learning path. Selecting CFOP, Roux or ZZ **does not produce method-specific automatic solutions**. This update adds method choice and method-specific learning/practice, not five independent solvers. 3D lesson demos never mark a physical move as confirmed.
+
+References: [ZyO Beginner](https://zyorubik.com/blogs/huong-dan-nguoi-choi/huong-dan-xoay-rubik-3x3-don-gian-nhat-cho-nguoi-moi-bat-dau), [J Perm CFOP](https://www.jperm.net/3x3/cfop), [CubeTools Roux](https://bradleykh.github.io/CubeTools/tutorials/roux/), [Cuborithm ZZ](https://cuborithm.com/methods/zz). CubeMind's case illustrations and training UI are original.
+
+**Stage-specific lesson views:** White cross/corner diagrams now show **D from below** (F above the drawing); middle-layer edges show **F from the front**; last-layer cases show **U from above**. Adjacent side stickers and before/after highlights come from the same validated `cubejs` snapshots as the 3D example. See `tests/lesson-face-view.test.mjs`.

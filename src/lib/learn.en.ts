@@ -130,18 +130,18 @@ const dictionary:Record<string,LessonTranslation>={
   goal:'Place each three-colour corner in the right location relative to the side centers, while keeping the entire top yellow.',
   instructions:[
    'A corner correctly oriented (yellow up) is not necessarily correctly positioned (matching its three centers).',
-   'Check the two top corner stickers on each side. A matching pair is called headlights. Rotate the entire cube to hold the headlights at the back.',
-   'If no side has headlights, use the Y-perm diagonal example, then check the corners again.'
+   'Find corners that match all three face centres. A matching top-corner colour pair on one side is called headlights; hold the matching pair at LEFT (L) for the illustrated ZyO case.',
+   'If no appropriate headlights are visible, examine the diagonal-swap example. You may need an appropriate U setup turn or a second application after reassessing the case.'
   ],
   check:'The U face remains entirely yellow and all four corners are correctly positioned. Edges may remain unsolved.',
   cases:{
    'aa-corner-cycle':{
-    title:'Headlights at the back — A-perm',
-    when:'Two top corner stickers on one side match. In this case the headlights are at the back.',
-    hold:'Keep the headlight pair on the B face; the UFL corner stays fixed in this algorithm.',
-    explanation:'A-perm cycles three corners without undoing the yellow face.',
-    expected:'All four top corners reach their correct positions and the lower layers remain solved.',
-    caution:'The former U R U’ L’… sequence did not preserve the yellow top face and has been replaced.'
+    title:'Headlights on the left — ZyO adjacent-corner swap',
+    when:'Two U-corner side stickers match on the LEFT (L) face, while the front-right and back-right top corners must swap.',
+    hold:'Keep yellow U on top and white D below; position the matching headlights on the LEFT L face. Compare all side sticker colours before turning.',
+    explanation:'The ZyO beginner algorithm swaps corners UFR ↔ URB and edges UF ↔ UR, with no B-face moves. Remaining incorrect edges are solved in stage 7.',
+    expected:'All last-layer corners match their three face centres. Yellow U and both lower layers remain solved; some top edges may remain wrong.',
+    caution:'Only use this exact example orientation. If the real cube does not match, identify the correct case rather than applying the formula blindly.'
    },
    'diagonal-corners':{
     title:'No headlights — diagonal corner swap',

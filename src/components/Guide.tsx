@@ -1,14 +1,16 @@
 import {useEffect,useReducer,useRef,useState} from 'react';
-import {ArrowLeft,Check,CheckCircle2,ChevronRight,Eye,HelpCircle,Pause,Play,RotateCcw,ShieldAlert,SkipBack,Undo2,X} from 'lucide-react';
+import {ArrowLeft,BookOpen,Check,CheckCircle2,ChevronRight,Eye,HelpCircle,Pause,Play,RotateCcw,ShieldAlert,SkipBack,Undo2,X} from 'lucide-react';
 import {FACE_COLORS,moveInfo,inverseMove} from '../lib/cube';
 import {guideReducer,saveSession,type SolveSession} from '../lib/guide';
 import TwistyCube from './TwistyCube';
 import FormulaSteps from './FormulaSteps';
 import {useI18n} from '../i18n';
+import {getSolveMethod,type SolveMethodId} from '../lib/solveMethods';
 
-type Props={session:SolveSession;mode:'manual'|'auto';onModeChange:(mode:'manual'|'auto')=>void;onExit:()=>void;onRestart:()=>void;onSession:(s:SolveSession)=>void;};
-export default function Guide({session:initial,mode,onModeChange,onExit,onRestart,onSession}:Props){
+type Props={session:SolveSession;mode:'manual'|'auto';methodId:SolveMethodId;onLearnMethod:()=>void;onModeChange:(mode:'manual'|'auto')=>void;onExit:()=>void;onRestart:()=>void;onSession:(s:SolveSession)=>void;};
+export default function Guide({session:initial,mode,methodId,onLearnMethod,onModeChange,onExit,onRestart,onSession}:Props){
  const {language}=useI18n();const en=language==='en';
+ const method=getSolveMethod(methodId);
  const [session,dispatch]=useReducer(guideReducer,initial);
  const [autoViewedStep,setAutoViewedStep]=useState(0);
  const [speed,setSpeed]=useState(0.5),[paused,setPaused]=useState(false),[autoPlaying,setAutoPlaying]=useState(false),[dialog,setDialog]=useState<'none'|'recovery'|'undo'|'reset'|'resume'>('none');
@@ -37,6 +39,7 @@ export default function Guide({session:initial,mode,onModeChange,onExit,onRestar
  const needsResume=dialog==='resume';
  if(session.status==='COMPLETED'&&mode==='manual')return <div className="guide-screen">
    <div className="section-header"><button className="circle-btn" onClick={onExit}><ArrowLeft size={18}/></button><div className="eyebrow">HOÀN THÀNH THEO XÁC NHẬN</div></div>
+   <div className="guide-method-banner"><div><strong>{en?'Automatic solution engine: Kociemba':'Bộ giải tự động: Kociemba'}</strong><p>{en?'This validated move sequence does not follow a specific teaching method. Your chosen curriculum is: ':'Dãy xoay đã xác minh này không phải lời giải riêng theo phương pháp bạn chọn. Lộ trình học đang chọn: '}{method.name}</p></div><button type="button" className="btn btn-outline btn-small" onClick={onLearnMethod}><BookOpen size={16}/>{en?'Learn the method':'Học phương pháp'}</button></div>
    <div className="finish-icon"><CheckCircle2 size={58}/></div><h1 className="center-text">Tuyệt vời!</h1><p className="center-text muted">{en?`You confirmed all ${total} moves. The 3D cube is solved.`:`Bạn đã xác nhận thực hiện đầy đủ ${total} bước. Mô hình 3D đã được giải xong.`}</p>
    <div className="guide-visual-layout">
      <TwistyCube solution={session.solution} confirmedCount={total} mode="manual" demo={false} speed={speed}/>
@@ -48,6 +51,10 @@ export default function Guide({session:initial,mode,onModeChange,onExit,onRestar
  </div>;
  return <div className="guide-screen">
   <div className="guide-top"><button className="circle-btn" onClick={onExit} aria-label="Quay lại"><ArrowLeft size={20}/></button><div className="guide-title"><div className="eyebrow">RUBIK 3×3 · {mode==='auto'?'MÔ PHỎNG':'TỰ GIẢI'}</div><strong>{mode==='auto'?(en?'Watch the cube solve itself':'Xem Rubik tự giải'):(en?`Move ${Math.min(k+1,total)} / ${total}`:`Bước ${Math.min(k+1,total)} / ${total}`)}</strong></div><button className="circle-btn" onClick={()=>setDialog('recovery')} aria-label="Trợ giúp"><HelpCircle size={20}/></button></div>
+  <div className="guide-method-banner"><div><strong>{en?'Validated Kociemba moves':'Lời giải Kociemba đã xác minh'}</strong>
+    <p>{en?`Learning method: ${method.name}. These moves come from Kociemba, not from that method's dedicated solver.`:
+      `Phương pháp đang học: ${method.name}. Dãy xoay bên dưới do Kociemba tính, không phải bộ giải riêng theo phương pháp này.`}</p>
+   </div><button type="button" className="btn btn-outline btn-small" onClick={onLearnMethod}><BookOpen size={16}/>{en?'Method stages':'Các chặng học'}</button></div>
   <div className="progress-summary"><span><b>{k}</b> / {total} {en?'confirmed moves':'bước đã xác nhận'}</span><span>{progress}%</span></div><div className="progress"><div style={{width:`${progress}%`}}/></div>
   <div className="guide-visual-layout">
     <TwistyCube solution={session.solution} confirmedCount={reviewIndex??k} mode={mode}

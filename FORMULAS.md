@@ -61,3 +61,17 @@ Khi bấm **Xoay 1 bước**, công thức đang chạy được tô sáng. Mỗ
 Ở màn hình **Tự giải Rubik thật**, bên cạnh mô hình 3D là **chuỗi lời giải thực sự do Solver tính cho khối đang quét**; không được gọi nhầm đó là công thức của một trường hợp bài học. Tiến độ Rubik thật chỉ được tăng khi bấm xác nhận đã xoay.
 
 > **Lưu ý:** Hình trước/sau được dựng từ trạng thái minh họa chính xác của thuật toán. Chúng **không xác nhận** người dùng đã xoay đúng khối thật.
+
+## Các phương pháp giải khác và thứ tự học
+
+| Phương pháp | Trình tự chính | Tình trạng công thức CubeMind |
+|---|---|---|
+| Beginner | Dấu cộng trắng → góc trắng → tầng giữa → dấu cộng vàng → mặt vàng → hoán vị góc → cạnh | Bảy bài mẫu với 3D và công thức đã kiểm chứng, chưa phủ mọi tình huống |
+| CFOP 2-look | Cross → F2L → OLL hai lượt (cạnh + góc) → PLL hai lượt (góc + cạnh) | Có các case luyện OLL/PLL liên quan; thiếu nhiều trường hợp F2L và OLL đầy đủ |
+| CFOP Full | Cross → F2L → OLL 57 trường hợp → PLL 21 trường hợp | Mới là lộ trình, chưa có đủ bộ thuật toán |
+| Roux | Hai khối 1×2×3 → CMLL → LSE dùng M/U | Lộ trình hướng dẫn, chưa có công thức/3D Roux đầy đủ |
+| ZZ | EOLine → ZZF2L → tầng cuối | Lộ trình hướng dẫn, chưa có engine EO/EOLine và 3D riêng |
+
+**Không trộn thuật toán:** 3D giải tự động vẫn lấy dãy move tối ưu từ `cubejs` Kociemba, **không phải** lời giải theo CFOP/Roux/ZZ. Ví dụ 3D trong từng chặng được tái sử dụng khi có cùng kỹ thuật và đã xác minh, không được hiểu là một lời giải hoàn chỉnh cho mọi trạng thái.
+
+Tài liệu tham khảo: [J Perm CFOP](https://www.jperm.net/3x3/cfop), [Roux](https://bradleykh.github.io/CubeTools/tutorials/roux/), [ZZ](https://cuborithm.com/methods/zz).

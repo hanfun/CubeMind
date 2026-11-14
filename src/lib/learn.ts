@@ -149,18 +149,18 @@ export const LEARN_LESSONS:readonly LearnLesson[] = [
     goal:'Đưa góc có ba màu về đúng ba mặt tâm; mặt vàng đã hướng lên từ bước trước phải được giữ nguyên.',
     instructions:[
       'Phân biệt: góc đúng hướng (vàng quay lên) và góc đúng vị trí (đúng bộ ba màu theo tâm). Hai điều này không giống nhau.',
-      'Nhìn hai sticker góc trên một mặt bên: nếu cùng màu gọi là cặp đèn pha (headlights). Xoay toàn khối để cặp đèn pha ở phía sau.',
-      'Nếu không thấy cặp đèn pha trên bất kỳ mặt nào, dùng Y-perm cho trường hợp đổi góc chéo. Sau đó kiểm tra lại.'
+      'Tìm hai góc đã đúng vị trí theo bộ ba màu. Nếu có cặp hai góc cùng màu trên một mặt bên (đèn pha), so ảnh và cầm sao cho cặp đó ở phía trái L trong ví dụ ZyO.',
+      'Nếu không có cặp đèn pha phù hợp, xem trường hợp đổi góc chéo. Có thể phải điều chỉnh U hoặc thực hiện công thức thêm một lần sau khi đối chiếu lại.'
     ],
     check:'Mặt U vẫn vàng hoàn toàn và cả bốn góc tầng cuối ở đúng vị trí theo màu tâm; cạnh có thể chưa đúng.',
     cases:[
-      {id:'aa-corner-cycle',title:'Cặp đèn pha phía sau — A-perm',
-       when:'Hai góc U ở cùng một mặt bên có sticker trùng nhau; mẫu này có cặp đèn pha ở phía sau.',
-       hold:'Giữ cặp đèn pha ở mặt sau (B); góc UFL là góc giữ nguyên trong công thức này.',
-       algorithm:"R' F R' B2 R F' R' B2 R2",
-       explanation:'A-perm đổi ba góc trên, giữ nguyên một góc. Công thức không phá mặt vàng đã hoàn thành.',
-       expected:'Cả bốn góc U đúng vị trí, các lớp dưới vẫn hoàn chỉnh.',
-       caution:'Công thức cũ dạng U R U’ L’… không giữ nguyên mặt vàng, nên đã được thay thế.'},
+      {id:'aa-corner-cycle',title:'Đèn pha bên trái — đổi hai góc theo ZyO',
+       when:'Hai sticker góc U cùng màu trên mặt bên trái L (đèn pha), còn hai góc UFR/URB đang cần hoán vị.',
+       hold:'Giữ vàng ở trên U, trắng ở dưới D; đặt cặp đèn pha sang mặt trái L. Đối chiếu cả màu của các mặt bên trước khi xoay.',
+       algorithm:"R U R' F' R U R' U' R' F R2 U' R' U'",
+       explanation:'Công thức dùng trong bài ZyO đổi vị trí hai góc UFR ↔ URB và hai cạnh UF ↔ UR; không xoay mặt B. Các cạnh sai sẽ được xử lý ở bài 7.',
+       expected:'Bốn góc tầng cuối trở về đúng bộ ba màu, mặt vàng và hai tầng dưới giữ nguyên. Cạnh tầng cuối có thể còn sai.',
+       caution:'Đây là một ví dụ đúng hướng cầm. Nếu hai góc/cạnh của Rubik thật không khớp sơ đồ, không áp dụng công thức này; hãy nhận diện lại.'},
       {id:'diagonal-corners',title:'Không có đèn pha — đổi góc chéo',
        when:'Không có mặt bên nào với hai góc U cùng màu. Hai góc cần đổi chéo.',
        hold:'Giữ vàng lên, trắng xuống và mặt trước khớp với hình; không cần tìm góc đúng UFR.',

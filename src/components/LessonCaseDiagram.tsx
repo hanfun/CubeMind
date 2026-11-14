@@ -2,30 +2,33 @@ import {useId,useMemo} from 'react';
 import {ArrowRight,Hand,ScanEye} from 'lucide-react';
 import {FACE_COLORS,type Face} from '../lib/cube';
 import type {LearnCase} from '../lib/learn';
-import {lessonPattern,movedTopPieces,TOP_SIDE_RING,orientedTopCount,correctTopPieces,headlights,type PieceKind,type PiecePath} from '../lib/lessonDiagrams';
+import {lessonPattern,movedTopPieces,correctTopPieces,headlights,type PieceKind,type PiecePath} from '../lib/lessonDiagrams';
 import {useI18n} from '../i18n';
+import {stageFaceView,mainStickers,focusedStickerCount} from '../lib/lessonFaceView';
 
 const lessonPalette:Record<Face,string>={
  U:FACE_COLORS.D.hex,D:FACE_COLORS.U.hex,
  F:FACE_COLORS.B.hex,B:FACE_COLORS.F.hex,
  R:FACE_COLORS.R.hex,L:FACE_COLORS.L.hex
 };
-type Focus='edge-orientation'|'corner-orientation'|'corner-permutation'|'edge-permutation'|'other';
+type Focus='white-edge'|'white-corner'|'middle-edge'|'edge-orientation'|'corner-orientation'|'corner-permutation'|'edge-permutation'|'other';
 const focusFor=(stageId:string):Focus=>({
+ 'white-cross':'white-edge','white-corners':'white-corner','middle-edges':'middle-edge',
  'yellow-cross':'edge-orientation','yellow-face':'corner-orientation',
  'yellow-corners':'corner-permutation','yellow-edges':'edge-permutation',
 }[stageId] as Focus|undefined)??'other';
 
-function LayerMap({state,focus,paths=[],compact=false,caption}:{state:string;focus:Focus;paths?:PiecePath[];compact?:boolean;caption?:string}){
+function LayerMap({state,stageId,paths=[],compact=false,caption,comparison}:{state:string;stageId:string;paths?:PiecePath[];compact?:boolean;caption?:string;comparison?:string}){
  const marker=useId().replace(/:/g,'');
- const edges=focus==='edge-orientation'||focus==='edge-permutation';
- const corners=focus==='corner-orientation'||focus==='corner-permutation';
- const orientation=focus.endsWith('orientation');
- const count=orientation?orientedTopCount(state,edges?'edge':'corner'):0;
- const focusIndices=edges?[1,3,5,7]:corners?[0,2,6,8]:[];
+ const {language}=useI18n();
+ const view=stageFaceView(stageId),main=mainStickers(state,stageId);
+ const compare=comparison?mainStickers(comparison,stageId):null;
+ const count=focusedStickerCount(state,stageId);
  const pos=(x:number,y:number)=>({x:72+x*48+24,y:72+y*48+24});
- return <svg className={compact?'case-top-svg compact':'case-top-svg'} viewBox="0 0 288 294"
-   role="img" aria-label={caption??'Top view of cube and adjacent side stickers'}>
+ const side=(orientation:'top'|'right'|'bottom'|'left')=>view.sideStrips.find(item=>item.orientation===orientation)?.face??'';
+ const highlightDifference=stageId==='white-cross'||stageId==='white-corners'||stageId==='middle-edges';
+ return <svg className={compact?'case-top-svg compact':'case-top-svg'} viewBox="0 0 288 306"
+   role="img" aria-label={caption??view.label[language]}>
    <defs>
      <marker id={marker} markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto" markerUnits="strokeWidth">
        <path d="M0,0 L7,3.5 L0,7 Z" fill="#49f9ce"/>
@@ -33,30 +36,32 @@ function LayerMap({state,focus,paths=[],compact=false,caption}:{state:string;foc
    </defs>
    <rect x="41" y="41" width="205" height="205" rx="10" fill="#081420" stroke="#507089" strokeWidth="2"/>
    {Array.from({length:9},(_,i)=>{
-     const col=i%3,row=Math.floor(i/3),c=state[i] as Face;
-     const flagged=orientation&&focusIndices.includes(i)&&state[i]!=='U';
+     const col=i%3,row=Math.floor(i/3),c=main[i] as Face;
+     const flagged=view.focusColor!==null&&view.focusIndices.includes(i)&&c!==view.focusColor;
+     const changed=highlightDifference&&compare!==null&&compare[i]!==main[i];
      const x=72+col*48,y=72+row*48;
      return <g key={i}>
        <rect x={x} y={y} width="44" height="44" rx="5" fill={lessonPalette[c]}
-         stroke={flagged?'#ffffff':'#0c1d2c'} strokeWidth={flagged?4:2}/>
+         stroke={changed?'#ffd06f':flagged?'#ffffff':'#0c1d2c'} strokeWidth={changed?4:flagged?3.5:2}/>
        {flagged&&<circle cx={x+22} cy={y+22} r="6" fill="#082030" stroke="#ffffff" strokeWidth="2"/>}
      </g>;
    })}
-   {TOP_SIDE_RING.map(side=>side.indices.map((index,i)=>{
+   {view.sideStrips.map(strip=>strip.indices.map((index,i)=>{
      let x=0,y=0,w=0,h=0;
-     if(side.orientation==='top'){x=72+48*i;y=47;w=44;h=20;}
-     if(side.orientation==='bottom'){x=72+48*i;y=219;w=44;h=20;}
-     if(side.orientation==='left'){x=47;y=72+48*i;w=20;h=44;}
-     if(side.orientation==='right'){x=219;y=72+48*i;w=20;h=44;}
-     return <rect key={side.face+i} x={x} y={y} width={w} height={h} rx="3"
+     if(strip.orientation==='top'){x=72+48*i;y=47;w=44;h=20;}
+     if(strip.orientation==='bottom'){x=72+48*i;y=219;w=44;h=20;}
+     if(strip.orientation==='left'){x=47;y=72+48*i;w=20;h=44;}
+     if(strip.orientation==='right'){x=219;y=72+48*i;w=20;h=44;}
+     return <rect key={strip.face+i} x={x} y={y} width={w} height={h} rx="3"
        fill={lessonPalette[state[index] as Face]} stroke="#08202d" strokeWidth="2"/>;
    }))}
    <g className="case-map-labels">
-     <text x="144" y="36" textAnchor="middle">B</text>
-     <text x="144" y="258" textAnchor="middle">F ↓</text>
-     <text x="28" y="151" textAnchor="middle">L</text>
-     <text x="262" y="151" textAnchor="middle">R</text>
-     <text x="144" y="288" textAnchor="middle">{orientation?`${count}/4 ${focus==='edge-orientation'?'edges':'corners'} ↑`:'U / TOP'}</text>
+     <text x="144" y="36" textAnchor="middle">{side('top')}</text>
+     <text x="144" y="258" textAnchor="middle">{side('bottom')}</text>
+     <text x="28" y="151" textAnchor="middle">{side('left')}</text>
+     <text x="262" y="151" textAnchor="middle">{side('right')}</text>
+     <text x="144" y="282" textAnchor="middle">{view.label[language]}</text>
+     <text x="144" y="301" textAnchor="middle">{view.focusColor!==null?`${count}/${view.focusIndices.length} ${view.countLabel[language]}`:''}</text>
    </g>
    {paths.map((path,i)=>{
      const a=pos(path.start.x,path.start.y),b=pos(path.end.x,path.end.y);
@@ -80,7 +85,7 @@ export function CaseThumbnail({sample,stageId}:{sample:LearnCase;stageId:string}
  const focus=focusFor(stageId);
  const kind:PieceKind=focus==='corner-permutation'?'corner':'edge';
  const paths=useMemo(()=>focus.endsWith('permutation')?movedTopPieces(before,after,kind):[],[before,after,kind,focus]);
- return <LayerMap state={before} compact focus={focus} paths={paths} caption={sample.title}/>;
+ return <LayerMap state={before} stageId={stageId} compact paths={paths} caption={sample.title}/>;
 }
 
 export default function LessonCaseDiagram({sample,stageId}:{sample:LearnCase;stageId:string}){
@@ -103,12 +108,12 @@ export default function LessonCaseDiagram({sample,stageId}:{sample:LearnCase;sta
    <div className="lesson-case-diagram-pair">
      <div className="lesson-case-diagram-card">
        <span className="lesson-diagram-label">{en?'BEFORE':'TRƯỚC'}</span>
-       <LayerMap state={before} focus={focus} paths={arrows} caption={en?'Before algorithm':'Trước công thức'}/>
+       <LayerMap state={before} stageId={stageId} comparison={after} paths={arrows} caption={en?'Before algorithm':'Trước công thức'}/>
      </div>
      <div className="lesson-case-direction"><ArrowRight size={26}/><span>{en?'Apply the algorithm':'Làm công thức'}</span></div>
      <div className="lesson-case-diagram-card">
        <span className="lesson-diagram-label">{en?'AFTER':'SAU'}</span>
-       <LayerMap state={after} focus={focus} caption={en?'After algorithm':'Sau công thức'}/>
+       <LayerMap state={after} stageId={stageId} comparison={before} caption={en?'After algorithm':'Sau công thức'}/>
      </div>
    </div>
    <div className="lesson-case-explainer">
@@ -129,7 +134,13 @@ export default function LessonCaseDiagram({sample,stageId}:{sample:LearnCase;sta
        </div>:
        <div>
          <strong>{en?'Which stickers to inspect':'Nhìn vào những ô màu nào?'}</strong>
-         <p>{focus==='edge-orientation'
+         <p>{focus==='white-edge'
+           ?(en?'This diagram is the WHITE bottom face D, viewed from below. The side strips show adjacent sticker colours; gold outlines highlight changed stickers.':'Đây là mặt D màu TRẮNG, nhìn từ dưới lên. Dải bên cạnh cho biết màu sát mép; viền vàng đánh dấu ô thay đổi.')
+           :focus==='white-corner'
+           ?(en?'Look at the four bottom D corners and compare all their adjacent side colours with the centres.':'Hãy nhìn bốn góc mặt dưới D và so đủ màu bên cạnh với các tâm.')
+           :focus==='middle-edge'
+           ?(en?'This view looks directly at the FRONT F face, not U. Compare the middle-left/right stickers and adjacent side strips.':'Hình nhìn thẳng MẶT TRƯỚC F, không phải mặt U. So hai cạnh giữa và dải màu kề bên.')
+           :focus==='edge-orientation'
            ?(en?'Watch only the four U-edge stickers (top, right, bottom, left). White dots mark edges that still need yellow oriented upward.':'Chỉ nhìn bốn ô cạnh trên U (trên, phải, dưới, trái). Dấu chấm trắng đánh dấu cạnh cần đưa vàng lên.')
            :focus==='corner-orientation'
            ?(en?'Watch only the four top corner stickers. The white circles mark corners not yet pointing yellow upward.':'Chỉ nhìn bốn ô góc của U. Vòng tròn trắng là góc còn chưa hướng vàng lên.')

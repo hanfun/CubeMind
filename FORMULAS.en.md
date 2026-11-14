@@ -61,3 +61,17 @@ Each move displays a **Before / After** diagram of its turning face, a direction
 In **Solve a real cube**, the right-side panel displays the unique solution computed for the currently scanned cube. Those solver moves are distinct from the named beginner algorithms. Watching a 3D preview must never count as physically turning a cube.
 
 > **Note:** Before/after illustrations are based on mathematically valid sample states. They do **not** verify the physical cube in your hands.
+
+## Other solving methods and learning order
+
+| Method | Stages | CubeMind algorithm coverage |
+|---|---|---|
+| Beginner | White cross → corners → middle layer → yellow cross → yellow face → corner/edge permutation | Seven stage examples with validated 3D, not every real-world case |
+| Two-look CFOP | Cross → F2L → 2-look OLL → 2-look PLL | Related verified examples; incomplete F2L and 2-look corner OLL case coverage |
+| Full CFOP | Cross → F2L → 57 OLL → 21 PLL | Roadmap only; full advanced algorithms are not implemented |
+| Roux | Two 1×2×3 blocks → CMLL → M/U-based LSE | Learning roadmap, no full Roux 3D/algorithm library |
+| ZZ | EOLine → ZZF2L → last layer | Learning roadmap, no EO/EOLine automatic solver yet |
+
+**Do not confuse engines:** automatic 3D solutions are verified `cubejs` Kociemba move sequences, **not** CFOP/Roux/ZZ method-specific solutions. Technique examples are stage-scoped practice exercises, never an automatically computed full solve for the chosen method.
+
+References: [J Perm CFOP](https://www.jperm.net/3x3/cfop), [Roux](https://bradleykh.github.io/CubeTools/tutorials/roux/), [ZZ](https://cuborithm.com/methods/zz).

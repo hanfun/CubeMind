@@ -97,3 +97,12 @@ Chế độ quét đã tách trạng thái chụp (chỉ hiện khung 3 mặt) v
 ## Sửa lỗi 3D bài học giải hết Rubik ở mọi giai đoạn
 
 Đã tách trạng thái bài giảng khỏi `Rubik đã giải + công thức đảo`. `src/lib/lessonScenario.ts` định nghĩa target từng giai đoạn: 1 dấu cộng trắng, 2 tầng trắng, 3 hai tầng dưới, 4 dấu cộng vàng, 5 mặt vàng, 6 hoán vị góc vàng, 7 hoàn thành toàn bộ khối. `LearningCube.tsx` và `lessonDiagrams.ts` dùng chung target/snapshot để hình và 3D không lệch nhau. Trạng thái kết thúc bước 1–6 phải **chưa giải toàn bộ**. Test trong `tests/lesson-cases.test.mjs` và `tests/step-visual.test.mjs` là điều kiện không được phá vỡ.
+
+## Mở rộng phương pháp giải (11/2026)
+
+- Catalog: `src/lib/solveMethods.ts` (Beginner, CFOP 2-look, CFOP Full, Roux, ZZ), có mô tả/tên/nhận diện/tư thế/tiêu chí VI/EN, lưu lựa chọn `cubemind:solve-method-v1` trên trình duyệt.
+- Giao diện: `SolveMethodPicker.tsx` (chọn phương pháp ở bước nhập/kết quả/học), `MethodCurriculum.tsx` (chặng riêng, sơ đồ vùng khái niệm, ví dụ 3D liên kết nguồn đã kiểm tra, nút hoàn thành tự xác nhận), `LearnPage.tsx` vẫn giữ mô hình 7 bài Beginner.
+- **Chưa có engine giải riêng CFOP, Roux, ZZ.** Mọi dãy xoay giải tự động ở `solver.worker.ts` vẫn là Kociemba được kiểm tra. Hướng dẫn Kociemba hiển thị rõ không phải dãy move riêng theo phương pháp chọn. Đừng tự áp danh sách checkpoint học lên dãy move Kociemba. Roux/ZZ hiện ở dạng hướng dẫn kiến thức và tự thực hành; CFOP chỉ có một phần ví dụ 3D. Các giới hạn phải hiện trên UI.
+- Kiểm thử catalog trong `tests/solve-methods.test.mjs`. Không để bước học đánh dấu tự động tăng confirmedCount của Rubik thật.
+
+- `src/lib/lessonFaceView.ts` chỉ định góc nhìn D/F/U đúng giai đoạn và các dải màu bên của sơ đồ `LessonCaseDiagram.tsx`; kiểm thử `tests/lesson-face-view.test.mjs` đảm bảo không tái sử dụng nhầm mặt U cho bài tầng trắng và tầng giữa.
