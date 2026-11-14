@@ -96,3 +96,5 @@ The two-photo screen separates live capture (three face outlines only) from post
 - `SolveMethodPicker.tsx` exposes method choice in source/ready/learn screens; `MethodCurriculum.tsx` renders method-specific goals, recognition, holding, stage activities, conceptual highlighting, verified related 3D case examples and self-reported practice completion. Beginner retains its seven-stage 3D lessons.
 - **No actual method-specific CFOP/Roux/ZZ solver yet.** The scan/scramble solution remains the validated Kociemba output in `solver.worker.ts`; clearly distinguish this in the UI and never map arbitrary Kociemba turns to falsely named CFOP/Roux/ZZ stages. Roux and ZZ are roadmap/manual-practice curricula; CFOP has partial example coverage only.
 - Tests: `tests/solve-methods.test.mjs`. Learning stage completion never changes physical confirmedCount. Preserve bilingual UI and stage-scoped 3D behavior.
+
+- `src/lib/lessonFaceView.ts` supplies physically consistent D/F/U diagrams and adjacent facelet strips for `LessonCaseDiagram.tsx`; `tests/lesson-face-view.test.mjs` prevents incorrectly showing U for the white cross, white corners or middle layer.

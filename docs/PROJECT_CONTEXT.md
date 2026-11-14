@@ -104,3 +104,5 @@ Chế độ quét đã tách trạng thái chụp (chỉ hiện khung 3 mặt) v
 - Giao diện: `SolveMethodPicker.tsx` (chọn phương pháp ở bước nhập/kết quả/học), `MethodCurriculum.tsx` (chặng riêng, sơ đồ vùng khái niệm, ví dụ 3D liên kết nguồn đã kiểm tra, nút hoàn thành tự xác nhận), `LearnPage.tsx` vẫn giữ mô hình 7 bài Beginner.
 - **Chưa có engine giải riêng CFOP, Roux, ZZ.** Mọi dãy xoay giải tự động ở `solver.worker.ts` vẫn là Kociemba được kiểm tra. Hướng dẫn Kociemba hiển thị rõ không phải dãy move riêng theo phương pháp chọn. Đừng tự áp danh sách checkpoint học lên dãy move Kociemba. Roux/ZZ hiện ở dạng hướng dẫn kiến thức và tự thực hành; CFOP chỉ có một phần ví dụ 3D. Các giới hạn phải hiện trên UI.
 - Kiểm thử catalog trong `tests/solve-methods.test.mjs`. Không để bước học đánh dấu tự động tăng confirmedCount của Rubik thật.
+
+- `src/lib/lessonFaceView.ts` chỉ định góc nhìn D/F/U đúng giai đoạn và các dải màu bên của sơ đồ `LessonCaseDiagram.tsx`; kiểm thử `tests/lesson-face-view.test.mjs` đảm bảo không tái sử dụng nhầm mặt U cho bài tầng trắng và tầng giữa.

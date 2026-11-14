@@ -316,3 +316,5 @@ Trên mobile, hướng dẫn chụp phải hiện ba màu tâm và thứ tự m�
 - `src/lib/solveMethods.ts` chứa catalog và bản dịch VI/EN, `SolveMethodPicker.tsx` hiển thị, `MethodCurriculum.tsx` cho học theo chặng, `tests/solve-methods.test.mjs` kiểm tra cấu trúc và kết nối ví dụ.
 - **Giới hạn quan trọng:** không tạo lời giải CFOP/Roux/ZZ từ Kociemba rồi dán nhãn giả. Bộ giải `cubejs` hiện vẫn tạo và xác minh lời giải Kociemba cho mọi phương pháp chọn; giao diện kết quả và hướng dẫn phải giải thích rõ. Full CFOP cần 41 F2L, 57 OLL, 21 PLL; Roux cần CMLL và tầng M; ZZ cần EO/EOLine hợp lệ. Đây là phạm vi phát triển tiếp theo, không được quảng bá như đã có.
 - 3D học không tự chạy; hình và snapshot của các ví dụ phải khớp, và giai đoạn đầu không tự giải toàn bộ khối. Luôn giữ giao diện mobile và song ngữ.
+
+- Sơ đồ trước/sau của từng bài cần dùng hệ trục nhìn phù hợp: D dưới cho cạnh/góc trắng, F trực diện cho tầng giữa, U trên cho tầng cuối; dải F/R/B/L tuân theo thứ tự facelet URFDLB. Bài trắng phải tô rõ ô thay đổi, không còn ảnh mặt U gây nhầm. Test: `tests/lesson-face-view.test.mjs`.

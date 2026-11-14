@@ -106,3 +106,5 @@ The mobile-first capture screen must show clean three-face center-color guides i
 - `src/lib/solveMethods.ts` holds the bilingual catalog; `SolveMethodPicker.tsx`, `MethodCurriculum.tsx`, and `tests/solve-methods.test.mjs` implement presentation and validations.
 - **Solver limitation:** never falsely re-label Kociemba output as CFOP/Roux/ZZ. The verified `cubejs` Kociemba solution remains independent of learning selection, stated in both the result and 3D guide. Full 41 F2L/57 OLL/21 PLL, Roux CMLL/M-slice support and actual ZZ EOLine solving remain future engineering work.
 - Preserve user-triggered lesson 3D, correct stage-scoped end states, responsive layout and complete VI/EN text.
+
+- Lesson before/after diagrams must use a correct viewing face per stage: D from below for white edges/corners, F head-on for the middle layer, U from above for the last layer. Adjacent sticker strips must use correct URFDLB facelet offsets. Highlight changed stickers for early stages. Test: `tests/lesson-face-view.test.mjs`.
