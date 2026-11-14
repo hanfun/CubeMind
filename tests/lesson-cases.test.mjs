@@ -107,12 +107,19 @@ test('yellow corner orientation includes 0, 1 and 2 upward-facing yellow corners
  assert.equal(orientedTopCount(before('two-yellow-corners'),'corner'),2);
  assert.equal(orientedTopCount(before('zero-yellow-corners'),'corner'),0);
 });
-test('corner cases preserve headlights and correctly cycle/diagonally swap corners',()=>{
- const a=before('aa-corner-cycle'),y=before('diagonal-corners');
- assert.deepEqual(headlights(a),['B']);
+test('ZyO adjacent-corner example uses no B turns and matches its LEFT headlights',()=>{
+ const c=example('aa-corner-cycle');
+ assert.equal(c.algorithm,"R U R' F' R U R' U' R' F R2 U' R' U'");
+ assert.equal(parseMoves(c.algorithm).filter(move=>move[0]==='B').length,0);
+ const a=before('aa-corner-cycle'),target=after('aa-corner-cycle');
+ assert.deepEqual(headlights(a),['L']);
+ assert.deepEqual(correctTopPieces(a,'corner'),['UBL','ULF']);
+ assert.deepEqual(movedTopPieces(a,target,'corner').map(p=>[p.from,p.to]).sort(),
+   [['UFR','URB'],['URB','UFR']]);
+ assert.deepEqual(movedTopPieces(a,target,'edge').map(p=>[p.from,p.to]).sort(),
+   [['UF','UR'],['UR','UF']]);
+ const y=before('diagonal-corners');
  assert.deepEqual(headlights(y),[]);
- assert.deepEqual(correctTopPieces(a,'corner'),['ULF']);
- assert.equal(movedTopPieces(a,after('aa-corner-cycle'),'corner').length,3);
  assert.equal(movedTopPieces(y,after('diagonal-corners'),'corner').length,2);
 });
 test('edge cases have correct fixed edge and H/Z pair swap path',()=>{

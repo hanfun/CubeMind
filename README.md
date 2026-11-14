@@ -165,3 +165,21 @@ Trạng thái khởi đầu của mỗi công thức được dựng từ **tr�
 - **Bước 7:** mới kết thúc bằng cả khối Rubik hoàn chỉnh.
 
 Module `src/lib/lessonScenario.ts` tạo các trạng thái này bằng `cubejs`; 3D, ảnh SVG và bảng công thức phải sử dụng chung chuỗi trạng thái. `tests/lesson-cases.test.mjs` kiểm tra giai đoạn 1–6 không được kết thúc tại Rubik hoàn chỉnh, bước 7 mới được phép.
+
+## Chọn phương pháp giải Rubik 3×3: cơ bản đến nâng cao (11/2026)
+
+CubeMind hỗ trợ chọn **5 lộ trình học** trong màn **Chuẩn bị khối Rubik** và **Học giải Rubik**. Lựa chọn được lưu cục bộ theo trình duyệt, có thể đổi bất kỳ lúc nào.
+
+| Phương pháp | Các chặng học | Tình trạng bài tập |
+|---|---|---|
+| **Beginner / Layer-by-Layer** | Dấu cộng trắng → góc trắng → tầng giữa → dấu cộng vàng → mặt vàng → góc cuối → cạnh cuối | 7 bài có ví dụ 3D trước/sau và công thức; chưa bao quát mọi tình huống thực tế |
+| **CFOP 2-look** | Cross → F2L → OLL cạnh → OLL góc → PLL góc → PLL cạnh | Các case 3D định hướng/hoán vị lấy từ bài Beginner đã kiểm thử. F2L chỉ có ví dụ thao tác chèn cạnh, chưa có bộ ghép cặp chuẩn; OLL góc cũng chưa đủ 7 case |
+| **CFOP Full** | Cross → F2L → OLL (57) → PLL (21) | Lộ trình nâng cao và một số ví dụ tham khảo; **chưa triển khai đủ 41 F2L / 57 OLL / 21 PLL** |
+| **Roux** | Khối 1×2×3 thứ nhất → khối 1×2×3 thứ hai → CMLL → LSE | Lộ trình nhận diện/cầm khối/tập luyện; chưa có engine và hoạt ảnh riêng cho M-slice/CMLL |
+| **ZZ** | EOLine → ZZF2L → tầng cuối (OCLL/PLL) | Lộ trình và sơ đồ vùng cần giải; chưa có engine giải ZZ tự động |
+
+Mỗi chặng có **4 mục riêng: Nhận diện → Cách cầm → Thực hiện → Kiểm tra**, có sơ đồ vùng mục tiêu, ví dụ 3D khi đã kiểm chứng, nhắc giới hạn và nút tự đánh dấu hoàn thành (không phải camera xác minh). Dòng nguyên tắc trên trang hướng dẫn nhấn mạnh không áp dụng công thức nếu trạng thái Rubik thật không khớp hình.
+
+**Phân biệt quan trọng:** Chế độ **Giải tự động/Tự xác nhận từng move** vẫn dùng lời giải **Kociemba từ `cubejs`**, có kiểm tra tính hợp lệ và chạy lại trạng thái giải. **Chọn CFOP, Roux hay ZZ không làm Kociemba tạo ra lời giải đúng phương pháp đó.** Đây là chức năng học/giải thủ công theo lộ trình, không phải 5 bộ solver riêng. Không tự ghi nhận tiến độ Rubik thật từ hoạt ảnh hay từ nút xem ví dụ.
+
+Tham khảo: [Beginner ZyO](https://zyorubik.com/blogs/huong-dan-nguoi-choi/huong-dan-xoay-rubik-3x3-don-gian-nhat-cho-nguoi-moi-bat-dau), [CFOP J Perm](https://www.jperm.net/3x3/cfop), [Roux CubeTools](https://bradleykh.github.io/CubeTools/tutorials/roux/), [ZZ Cuborithm](https://cuborithm.com/methods/zz). Hình chỉ dẫn và dữ liệu case là nội dung riêng của CubeMind.

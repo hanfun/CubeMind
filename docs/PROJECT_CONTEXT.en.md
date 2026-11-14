@@ -89,3 +89,10 @@ The two-photo screen separates live capture (three face outlines only) from post
 ## Fixed: 3D lesson examples must not finish the whole cube early
 
 `src/lib/lessonScenario.ts` now defines one stage target per learning stage: white cross, white first layer, first two layers, yellow cross, yellow face, correctly permuted yellow corners, and full cube completion **only at stage 7**. `LearningCube.tsx`, `lessonDiagrams.ts`, per-turn steps and case SVGs share the same stage snapshots. The final cube must remain globally unsolved after stages 1–6. Do not regress this behavior; see `tests/lesson-cases.test.mjs` and `tests/step-visual.test.mjs`.
+
+## Multiple solving methods (November 2026)
+
+- `src/lib/solveMethods.ts` defines the bilingual Beginner, two-look CFOP, full CFOP, Roux and ZZ learning paths and persists the chosen method in `cubemind:solve-method-v1`.
+- `SolveMethodPicker.tsx` exposes method choice in source/ready/learn screens; `MethodCurriculum.tsx` renders method-specific goals, recognition, holding, stage activities, conceptual highlighting, verified related 3D case examples and self-reported practice completion. Beginner retains its seven-stage 3D lessons.
+- **No actual method-specific CFOP/Roux/ZZ solver yet.** The scan/scramble solution remains the validated Kociemba output in `solver.worker.ts`; clearly distinguish this in the UI and never map arbitrary Kociemba turns to falsely named CFOP/Roux/ZZ stages. Roux and ZZ are roadmap/manual-practice curricula; CFOP has partial example coverage only.
+- Tests: `tests/solve-methods.test.mjs`. Learning stage completion never changes physical confirmedCount. Preserve bilingual UI and stage-scoped 3D behavior.

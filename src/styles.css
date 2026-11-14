@@ -493,3 +493,125 @@ button.formula-move:focus-visible{outline:2px solid #70efc5;outline-offset:2px}
 .footer-dedication strong{font-weight:700;color:#bdeedc}
 @media(max-width:860px){.footer-dedication{justify-content:center}}
 @media(max-width:580px){.footer-dedication{font-size:11px}}
+
+
+/* Multi-method solving school: Beginner / CFOP 2-look / Full CFOP / Roux / ZZ. */
+.solve-method-picker{margin:22px 0 24px}
+.solve-method-heading{margin-bottom:16px}
+.solve-method-heading .eyebrow,.method-curriculum-heading .eyebrow{display:flex;align-items:center;gap:8px;color:#73ecc4;font-weight:800;font-size:11px}
+.solve-method-heading h2{font-size:clamp(21px,2.6vw,29px);margin:8px 0}
+.solve-method-heading p,.method-curriculum-heading p{font-size:13px;line-height:1.75;color:#aec5d7}
+.solve-method-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.solve-method-tile{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0;min-height:124px;padding:15px 13px;border:1px solid #36506a;border-radius:15px;background:#101e31;color:#e9f6ff;text-align:left;transition:background .15s,border-color .15s,transform .15s}
+.solve-method-tile:hover{border-color:#7bdabe;background:#173348;transform:translateY(-1px)}
+.solve-method-tile.active{border:2px solid #5fe6bd;background:#143a34;box-shadow:0 0 0 2px #5fe6bd1b}
+.solve-method-tile-top{display:flex;justify-content:space-between;align-items:flex-start;gap:6px;width:100%}
+.solve-method-tile-top strong{font-size:14px;line-height:1.45;font-weight:800;overflow-wrap:anywhere}
+.solve-method-tile-top svg{flex-shrink:0;color:#78f8cf}
+.solve-method-tier{color:#7bd3b7;font-size:11px;font-weight:750}
+.solve-method-short{color:#a5c1d5;font-size:11px;line-height:1.65}
+.solve-method-selection{margin-top:12px;border:1px solid #36566c;border-radius:13px;background:#0c1d30;padding:16px}
+.solve-method-selection-heading{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.solve-method-selection-heading>span:first-child{display:flex;align-items:center;gap:8px;color:#d7f9e9}
+.solve-method-selection-heading>span:last-child{color:#92bfac;font-size:11px}
+.solve-method-selection p{font-size:12px;color:#a6bed2;line-height:1.7;margin:10px 0}
+.solve-method-trail{display:flex;flex-wrap:wrap;gap:5px 10px}
+.solve-method-trail>span{display:inline-flex;align-items:center;gap:3px;color:#aacbd9;font-size:11px;line-height:1.7}
+.solve-method-trail b{color:#76edc4}
+.solve-method-trail svg{color:#4c7f79;margin-left:5px}
+.solve-method-idea{display:flex;align-items:flex-start;gap:8px;border-top:1px solid #2a4857;color:#a8e3cd;font-size:12px;line-height:1.6;padding-top:12px;margin-top:12px}
+.solve-method-idea svg{flex-shrink:0}
+.solve-method-engine-note{margin-top:11px;border-left:3px solid #82cae5;padding:11px 12px;background:#19344a;color:#c5e0ef;font-size:11px;line-height:1.8;border-radius:0 9px 9px 0}
+.method-learn-shortcut{margin:0 0 22px;width:100%;justify-content:center}
+.ready-screen>.solve-method-picker{margin:16px 0 15px}
+.solve-method-picker.compact .solve-method-grid{gap:7px}
+.solve-method-picker.compact .solve-method-tile{min-height:105px;padding:12px}
+.solve-method-picker.compact .solve-method-tile-top strong{font-size:12px}
+.solve-method-picker.compact .solve-method-selection{padding:13px}
+.guide-method-banner{display:flex;align-items:center;justify-content:space-between;gap:15px;margin:12px 0 18px;background:#132f39;border:1px solid #3f806e;border-radius:13px;padding:14px 17px}
+.guide-method-banner>div{flex:1;min-width:0}
+.guide-method-banner strong{color:#aaf7d9;font-size:13px}
+.guide-method-banner p{font-size:12px;color:#aecfd7;line-height:1.7;margin-top:5px}
+.guide-method-banner button{flex-shrink:0}
+.method-curriculum{margin-top:26px}
+.method-curriculum-heading h2{font-size:clamp(23px,3.5vw,35px);color:#e9fff6;margin:10px 0 7px}
+.method-curriculum-progress{margin:18px 0;padding:15px;background:#112439;border:1px solid #365169;border-radius:13px}
+.method-curriculum-progress b{font-size:12px;color:#caeedd}
+.method-curriculum-progress .progress{margin:10px 0}
+.method-curriculum-progress small{font-size:11px;color:#98b7ce}
+.method-curriculum-nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-bottom:18px}
+.method-curriculum-nav button{display:flex;align-items:center;gap:9px;text-align:left;background:#101e32;border:1px solid #36516c;color:#c4dbee;border-radius:12px;padding:11px;min-height:65px;font-size:12px;line-height:1.5}
+.method-curriculum-nav button.active{border-color:#66e7be;background:#173d36;color:#eefff6}
+.method-stage-index{display:grid;place-items:center;flex:0 0 28px;width:28px;height:28px;border-radius:9px;color:#0e271e;font-weight:800;background:#6fdbba}
+.method-curriculum-nav button:not(.active) .method-stage-index{background:#26485a;color:#b3e5eb}
+.method-stage-content{border:1px solid #35546d;border-radius:18px;background:#0e1c2e;overflow:hidden}
+.method-stage-heading{background:linear-gradient(115deg,#153936,#142538);padding:25px}
+.method-stage-heading>span{color:#84e8c4;font-size:11px;font-weight:800;letter-spacing:.09em}
+.method-stage-heading h3{font-size:clamp(21px,2.9vw,30px);margin:9px 0;color:#f0fff8}
+.method-stage-heading p{color:#b8dfdc;font-size:13px;line-height:1.8}
+.method-stage-guidance{padding:20px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.method-instruction{display:flex;align-items:flex-start;gap:11px;padding:16px;border-radius:13px;background:#15283c;border:1px solid #324e65}
+.method-instruction>svg{color:#86ebce;flex-shrink:0;margin-top:3px}
+.method-instruction strong{font-size:13px;color:#edfaff}
+.method-instruction p,.method-instruction li{font-size:12px;color:#b6cfe0;line-height:1.8;margin-top:7px}
+.method-instruction ol{padding-left:18px;margin:4px 0}
+.method-stage-limit{display:flex;align-items:flex-start;gap:10px;margin:0 20px 15px;padding:12px 14px;background:#3c352a;border:1px solid #79653c;border-radius:10px;color:#f0d7ac;font-size:12px;line-height:1.75}
+.method-stage-limit>svg{flex-shrink:0;margin-top:2px}
+.method-concept{display:flex;align-items:center;justify-content:center;gap:25px;margin:5px 20px 20px;border:1px dashed #426276;border-radius:14px;background:#0b1929;padding:15px}
+.method-concept svg{width:min(100%,280px);height:auto;display:block;flex:0 0 auto}
+.method-concept p{font-size:11px;line-height:1.8;color:#98b9c9;max-width:290px}
+.method-concept b{color:#d2e7e8}
+.method-example-header{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:20px 22px 12px}
+.method-example-header h3{margin-top:8px;font-size:19px;color:#eafaf1}
+.method-example-header small{color:#8ebdb2;font-size:11px}
+.method-example-gallery{margin:0 20px}
+.method-example-gallery button{min-width:0}
+.method-stage-content>.lesson-case-visual{margin:17px 20px}
+.method-stage-content>.learning-viewer-shell{margin:20px}
+.method-example-note{display:flex;align-items:flex-start;gap:10px;color:#e3cba3;background:#473b292e;border:1px solid #6d5c3b;border-radius:10px;margin:15px 20px;padding:13px;font-size:11px;line-height:1.8}
+.method-example-note svg{flex-shrink:0}
+.method-stage-unavailable{display:flex;align-items:flex-start;gap:12px;margin:18px 20px 22px;padding:17px;background:#183045;border:1px solid #49718c;border-radius:12px}
+.method-stage-unavailable svg{color:#85b8e1;flex-shrink:0}
+.method-stage-unavailable b{color:#daecf4;font-size:12px}
+.method-stage-unavailable p{color:#a8c3d5;font-size:12px;line-height:1.8;margin-top:5px}
+.method-stage-footer{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:20px;border-top:1px solid #31516a}
+.method-stage-footer button{min-height:42px;font-size:12px}
+.method-stage-move-nav{display:flex;gap:8px;flex-wrap:wrap}
+.method-learn-footer{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;margin:18px 0 32px}
+.method-learn-footer a{font-size:13px;color:#8aead1;text-decoration:underline}
+@media(max-width:960px){
+ .solve-method-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .method-concept{gap:10px}
+}
+@media(max-width:670px){
+ .solve-method-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+ .solve-method-tile,.solve-method-picker.compact .solve-method-tile{min-height:112px;padding:10px}
+ .solve-method-tile-top strong{font-size:12px}
+ .solve-method-tier{font-size:10px}
+ .solve-method-short{font-size:10px}
+ .solve-method-selection{padding:12px}
+ .method-stage-guidance{grid-template-columns:minmax(0,1fr);padding:12px}
+ .method-stage-heading{padding:17px}
+ .method-concept{flex-direction:column;gap:7px;margin:3px 12px 14px}
+ .method-concept svg{width:min(100%,235px)}
+ .method-concept p{max-width:100%}
+ .method-stage-limit{margin:0 12px 13px}
+ .method-example-header{margin:15px 12px 11px}
+ .method-example-gallery{margin:0 12px}
+ .method-stage-content>.lesson-case-visual{margin:16px 12px}
+ .method-stage-content>.learning-viewer-shell{margin:12px}
+ .method-example-note{margin:12px}
+ .method-stage-unavailable{margin:14px 12px}
+ .method-stage-footer{padding:12px}
+ .method-stage-footer>button{width:100%}
+ .method-stage-move-nav{width:100%;justify-content:space-between}
+ .guide-method-banner{flex-direction:column;align-items:stretch}
+ .guide-method-banner button{align-self:flex-start}
+}
+@media(max-width:400px){
+ .solve-method-grid{grid-template-columns:minmax(0,1fr)}
+ .solve-method-tile,.solve-method-picker.compact .solve-method-tile{min-height:75px}
+ .solve-method-tile-top strong{font-size:13px}
+ .solve-method-selection-heading{align-items:flex-start}
+ .method-curriculum-nav{grid-template-columns:minmax(0,1fr)}
+}

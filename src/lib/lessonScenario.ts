@@ -20,7 +20,7 @@ export const STAGE_TARGET_SCRAMBLE:Readonly<Record<string,string>>={
  'white-corners':"U R U' R' U' F' U F",
  'middle-edges':"F R U R' U' F'",
  'yellow-cross':"R U R' U R U2 R'",
- 'yellow-face':"R' F R' B2 R F' R' B2 R2",
+ 'yellow-face':"R U R' F' R U R' U' R' F R2 U' R' U'",
  'yellow-corners':"R U' R U R U R U' R' U' R2",
  'yellow-edges':'',
 };

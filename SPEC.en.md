@@ -96,3 +96,13 @@ The mobile-first capture screen must show clean three-face center-color guides i
 - Stage goals: 1 white cross; 2 white first layer; 3 first two layers; 4 yellow cross; 5 oriented yellow face; 6 correctly positioned yellow corners; 7 solved cube.
 - The same `lessonScenario.ts` snapshots are the source for the 3D initial setup, step-by-step playback, case thumbnails and SVG before/after diagrams. No autoplay.
 - Tests must assert the exact stage milestone, the incomplete global state for stages 1–6 and consistency across animation and diagrams. Intermediate turns may temporarily disturb previously solved pieces, provided the start and end of each full algorithm preserve prior-stage milestones.
+
+## Addendum: multiple 3×3 solving methods
+
+- Add a method choice separate from input acquisition: **Beginner, two-look CFOP, Full CFOP, Roux and ZZ**. Persist in `cubemind:solve-method-v1`, falling back to `beginner` for invalid values.
+- Show each method's **actual stage sequence**. Do not reuse the seven beginner stages as though they were Roux or ZZ. The learning area initially opens the method selection, with notation remaining available.
+- Each method stage needs recognition, holding orientation, practical actions, expected result and a clearly labeled **conceptual target diagram**, not a fake detection of the physical cube. Render interactive 3D only when the stage links to an existing validated `LEARN_LESSONS` case; label gaps and coverage limits explicitly.
+- Allow users to mark practice stages done, but do **not** treat those marks as camera verification or as confirmed physical moves in `SolveSession`. The real-cube guide still requires explicit confirmation for every move.
+- `src/lib/solveMethods.ts` holds the bilingual catalog; `SolveMethodPicker.tsx`, `MethodCurriculum.tsx`, and `tests/solve-methods.test.mjs` implement presentation and validations.
+- **Solver limitation:** never falsely re-label Kociemba output as CFOP/Roux/ZZ. The verified `cubejs` Kociemba solution remains independent of learning selection, stated in both the result and 3D guide. Full 41 F2L/57 OLL/21 PLL, Roux CMLL/M-slice support and actual ZZ EOLine solving remain future engineering work.
+- Preserve user-triggered lesson 3D, correct stage-scoped end states, responsive layout and complete VI/EN text.
